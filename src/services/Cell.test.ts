@@ -12,7 +12,7 @@ describe("Cell", function () {
         expect(isLive).toEqual(false);
     });
 
-    it("should expose isLive=true after calling cell.born()", function () {
+    it("should return true for cell.isLive() after calling cell.born()", function () {
         // given
         let cell = new Cell();
 
@@ -22,5 +22,18 @@ describe("Cell", function () {
 
         // then
         expect(isLive).toEqual(true);
+    });
+
+    it("should return false for cell.isLive() after calling cell.born() and then followed by cell.die()", function () {
+        // given
+        let cell = new Cell();
+
+        // when
+        cell.born();
+        cell.die();
+        let isLive = cell.isLive();
+
+        // then
+        expect(isLive).toEqual(false);
     });
 });

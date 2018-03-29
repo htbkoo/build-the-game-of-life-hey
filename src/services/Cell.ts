@@ -8,4 +8,8 @@ export default class Cell {
     born(): void {
         this._isLive = true;
     }
+
+    die() {
+        this._isLive = false;
+    }
 }
