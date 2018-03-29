@@ -17,11 +17,10 @@ describe("Cell", function () {
         let cell = new Cell();
 
         // when
-        let canBorn = cell.born();
+        cell.born();
         let isLive = cell.isLive();
 
         // then
-        expect(canBorn).toEqual(true);
         expect(isLive).toEqual(true);
     });
 });

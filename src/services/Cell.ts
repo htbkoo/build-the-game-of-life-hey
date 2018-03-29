@@ -5,8 +5,7 @@ export default class Cell {
         return this._isLive;
     }
 
-    born() {
+    born(): void {
         this._isLive = true;
-        return true;
     }
 }
