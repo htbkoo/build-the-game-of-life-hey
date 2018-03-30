@@ -6,6 +6,7 @@ export default class Board {
 
     constructor({width, height}: { width: number; height: number }) {
         checkArgument(isPositve(width), `Width (${width}) must be be positive`);
+        checkArgument(isPositve(height), `Height (${height}) must be be positive`);
 
         this._width = width;
         this._height = height;

@@ -23,16 +23,27 @@ describe("Board", function () {
         });
 
         describe('Error cases', function () {
-        it(`should throw Error when creating a new board with negative width`, function () {
-            // given
-            const negativeWidth = -10, height = 20;
+            it(`should throw Error when creating a new board with negative width`, function () {
+                // given
+                const negativeWidth = -10, height = 20;
 
-            // when
-            let invalidBoardConstruction = () => new Board({width: negativeWidth, height});
+                // when
+                let invalidBoardConstruction = () => new Board({width: negativeWidth, height});
 
-            // then
-            expect(invalidBoardConstruction).toThrow(`Width (${negativeWidth}) must be be positive`);
+                // then
+                expect(invalidBoardConstruction).toThrow(`Width (${negativeWidth}) must be be positive`);
+            });
+
+            it(`should throw Error when creating a new board with negative height`, function () {
+                // given
+                const width = 20, negativeHeight = -10;
+
+                // when
+                let invalidBoardConstruction = () => new Board({width, height: negativeHeight});
+
+                // then
+                expect(invalidBoardConstruction).toThrow(`Height (${negativeHeight}) must be be positive`);
+            });
         });
-    });
     });
 });
