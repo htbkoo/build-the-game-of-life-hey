@@ -1,9 +1,9 @@
 import {checkArgument} from "precond";
-import Cell from "./Cell";
 
 export default class Board {
     private _width: number;
     private _height: number;
+    private _isLive: boolean = false;
 
     constructor({width, height}: { width: number; height: number }) {
         checkArgument(isPositive(width), `Width (${width}) must be be positive`);
@@ -21,8 +21,13 @@ export default class Board {
         return this._height;
     }
 
-    isLiveAt({x, y}: { x: number; y: number }):boolean {
-        return false;
+    isLiveAt({x, y}: { x: number; y: number }): boolean {
+        return this._isLive;
+    }
+
+    setLiveAt(isLive: boolean) {
+        this._isLive = isLive;
+
     }
 }
 

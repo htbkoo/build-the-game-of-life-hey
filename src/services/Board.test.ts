@@ -69,8 +69,8 @@ describe("Board", function () {
         });
     });
 
-    describe('getCell', function () {
-        it('should have a board of cells and expose board.getCell({x, y})', function () {
+    describe('isLiveAt', function () {
+        it('should expose board.isLiveAt({x, y})', function () {
             // given
             const width = 1, height = 1;
             let board = new Board({width, height});
@@ -80,6 +80,22 @@ describe("Board", function () {
 
             // then
             expect(isLive).toEqual(false);
+        });
+    });
+
+    describe('setLiveAt', function () {
+        it('should be able to set the cell to live by board.setLiveAt({x, y})', function () {
+            // given
+            const width = 1, height = 1;
+            const expectedIsLive = true;
+            let board = new Board({width, height});
+
+            // when
+            board.setLiveAt(expectedIsLive);
+            let isLive = board.isLiveAt({x: 0, y: 0});
+
+            // then
+            expect(isLive).toEqual(expectedIsLive);
         });
     });
 });
