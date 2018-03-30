@@ -68,4 +68,18 @@ describe("Board", function () {
             });
         });
     });
+
+    describe('getCell', function () {
+        it('should have a board of cells and expose board.getCell({x, y})', function () {
+            // given
+            const width = 1, height = 1;
+            let board = new Board({width, height});
+
+            // when
+            let isLive = board.isLiveAt({x: 0, y: 0});
+
+            // then
+            expect(isLive).toEqual(false);
+        });
+    });
 });

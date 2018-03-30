@@ -1,4 +1,5 @@
 import {checkArgument} from "precond";
+import Cell from "./Cell";
 
 export default class Board {
     private _width: number;
@@ -18,6 +19,10 @@ export default class Board {
 
     getHeight() {
         return this._height;
+    }
+
+    isLiveAt({x, y}: { x: number; y: number }):boolean {
+        return false;
     }
 }
 
