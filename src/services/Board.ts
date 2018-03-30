@@ -5,8 +5,8 @@ export default class Board {
     private _height: number;
 
     constructor({width, height}: { width: number; height: number }) {
-        checkArgument(isPositve(width), `Width (${width}) must be be positive`);
-        checkArgument(isPositve(height), `Height (${height}) must be be positive`);
+        checkArgument(isPositive(width), `Width (${width}) must be be positive`);
+        checkArgument(isPositive(height), `Height (${height}) must be be positive`);
 
         this._width = width;
         this._height = height;
@@ -21,6 +21,6 @@ export default class Board {
     }
 }
 
-function isPositve(num: number): boolean {
+function isPositive(num: number): boolean {
     return num > 0;
 }
