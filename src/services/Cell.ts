@@ -1,15 +1,11 @@
 export default class Cell {
-    private _isLive: boolean = false;
+    private _isLive: boolean;
+
+    constructor({isLive}: { isLive: boolean }) {
+        this._isLive = isLive;
+    }
 
     isLive() {
         return this._isLive;
-    }
-
-    born(): void {
-        this._isLive = true;
-    }
-
-    die() {
-        this._isLive = false;
     }
 }
