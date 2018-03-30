@@ -1,15 +1,20 @@
 import Cell from './Cell';
 
 describe("Cell", function () {
-    it("should expose cell.isLive=false for new Cell({isLive: false})", function () {
-        // given
-        const expectedIsLive = false;
-        let cell = new Cell({isLive: expectedIsLive});
+    [
+        true,
+        false
+    ].forEach(isLive =>
+        it(`should expose cell.isLive=${isLive} for new Cell({isLive: ${isLive}})`, function () {
+            // given
+            const expectedIsLive = false;
+            let cell = new Cell({isLive: expectedIsLive});
 
-        // when
-        let actualIsLive = cell.isLive();
+            // when
+            let actualIsLive = cell.isLive();
 
-        // then
-        expect(actualIsLive).toEqual(expectedIsLive);
-    });
+            // then
+            expect(actualIsLive).toEqual(expectedIsLive);
+        })
+    );
 });
