@@ -1,9 +1,11 @@
 import {checkArgument} from "precond";
+import Cell from "./Cell";
 
 export default class Board {
     private _width: number;
     private _height: number;
-    private _isLive: boolean = false;
+    // cell representation: upper-left = (0,0), first number is x which corresponds to the width
+    private _cells: Array<Array<Cell>>;
 
     constructor({width, height}: { width: number; height: number }) {
         checkArgument(isPositive(width), `Width (${width}) must be be positive`);
@@ -11,6 +13,10 @@ export default class Board {
 
         this._width = width;
         this._height = height;
+
+        this._cells = new Array(width).fill(0).map(() =>
+            new Array(height).fill(0).map(() => new Cell())
+        );
     }
 
     getWidth() {
@@ -22,12 +28,15 @@ export default class Board {
     }
 
     isLiveAt({x, y}: { x: number; y: number }): boolean {
-        return this._isLive;
+        return this._cells[x][y].isLive();
     }
 
-    setLiveAt(isLive: boolean) {
-        this._isLive = isLive;
-
+    setLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }) {
+        if (isLive) {
+            this._cells[x][y].born();
+        } else {
+            this._cells[x][y].die();
+        }
     }
 }
 

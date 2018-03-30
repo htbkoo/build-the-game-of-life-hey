@@ -87,15 +87,30 @@ describe("Board", function () {
         it('should be able to set the cell to live by board.setLiveAt({x, y})', function () {
             // given
             const width = 1, height = 1;
+            const x = 0, y = 0;
             const expectedIsLive = true;
             let board = new Board({width, height});
 
             // when
-            board.setLiveAt(expectedIsLive);
-            let isLive = board.isLiveAt({x: 0, y: 0});
+            board.setLiveAt({x, y, isLive: expectedIsLive});
+            let isLive = board.isLiveAt({x, y});
 
             // then
             expect(isLive).toEqual(expectedIsLive);
+        });
+
+        it('should not affect other cells by setting only one cell', function () {
+            // given
+            const width = 2, height = 1;
+            const x = 0, y = 0, isLive = true;
+            let board = new Board({width, height});
+
+            // when
+            board.setLiveAt({x, y, isLive});
+
+            // then
+            expect(board.isLiveAt({x: 0, y: 0})).toEqual(isLive);
+            expect(board.isLiveAt({x: 1, y: 0})).toEqual(false);
         });
     });
 });
