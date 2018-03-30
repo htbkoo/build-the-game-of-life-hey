@@ -15,7 +15,7 @@ export default class Board {
         this._height = height;
 
         this._cells = new Array(width).fill(0).map(() =>
-            new Array(height).fill(0).map(() => new Cell())
+            new Array(height).fill(0).map(() => new Cell({isLive: false}))
         );
     }
 
@@ -32,11 +32,7 @@ export default class Board {
     }
 
     setLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }) {
-        if (isLive) {
-            this._cells[x][y].born();
-        } else {
-            this._cells[x][y].die();
-        }
+        this._cells[x][y] = new Cell({isLive});
     }
 }
 
