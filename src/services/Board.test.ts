@@ -2,7 +2,8 @@ import Board from './Board';
 
 describe("Board", function () {
     [
-        {width: 10, height: 20}
+        {width: 10, height: 20},
+        {width: 20, height: 10},
     ].forEach(({width, height}) =>
         it(`should create a new board with width=${width} and height=${height}`, function () {
             // given
