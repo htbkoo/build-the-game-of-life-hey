@@ -34,6 +34,17 @@ describe("Board", function () {
                 expect(invalidBoardConstruction).toThrow(`Width (${negativeWidth}) must be be positive`);
             });
 
+            it(`should throw Error when creating a new board with zero width`, function () {
+                // given
+                const zeroWidth = 0, height = 20;
+
+                // when
+                let invalidBoardConstruction = () => new Board({width: zeroWidth, height});
+
+                // then
+                expect(invalidBoardConstruction).toThrow(`Width (${zeroWidth}) must be be positive`);
+            });
+
             it(`should throw Error when creating a new board with negative height`, function () {
                 // given
                 const width = 20, negativeHeight = -10;
@@ -43,6 +54,17 @@ describe("Board", function () {
 
                 // then
                 expect(invalidBoardConstruction).toThrow(`Height (${negativeHeight}) must be be positive`);
+            });
+
+            it(`should throw Error when creating a new board with zero height`, function () {
+                // given
+                const width = 20, zeroHeight = 0;
+
+                // when
+                let invalidBoardConstruction = () => new Board({width, height: zeroHeight});
+
+                // then
+                expect(invalidBoardConstruction).toThrow(`Height (${zeroHeight}) must be be positive`);
             });
         });
     });
