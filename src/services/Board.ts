@@ -14,9 +14,7 @@ export default class Board {
         this._width = width;
         this._height = height;
 
-        this._cells = new Array(width).fill(0).map(() =>
-            new Array(height).fill(0).map(() => new Cell({isLive: false}))
-        );
+        this._cells = createCells(width, height);
     }
 
     getWidth() {
@@ -38,4 +36,10 @@ export default class Board {
 
 function isPositive(num: number): boolean {
     return num > 0;
+}
+
+function createCells(width: number, height: number) {
+    return new Array(width).fill(0).map(() =>
+        new Array(height).fill(0).map(() => new Cell({isLive: false}))
+    );
 }
