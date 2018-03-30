@@ -32,6 +32,10 @@ export default class Board {
     setLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }) {
         this._cells[x][y] = new Cell({isLive});
     }
+
+    getNumOfLivingNeighboursAt({x, y}: { x: number; y: number }) {
+        return 0;
+    }
 }
 
 function isPositive(num: number): boolean {
