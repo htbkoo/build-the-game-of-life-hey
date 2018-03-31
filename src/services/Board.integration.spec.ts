@@ -52,6 +52,7 @@ describe("Board (Integration)", function () {
     });
 
     function asResourcePath(fileName: string) {
-        return path.normalize(`${__dirname}/test-resources/board/${fileName}`);
+        const folderName = "board";
+        return path.normalize(`${__dirname}/test-resources/${folderName}/${fileName}`);
     }
 });
