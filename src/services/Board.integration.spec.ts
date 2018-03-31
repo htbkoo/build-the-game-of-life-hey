@@ -18,18 +18,40 @@ describe("Board (Integration)", function () {
             expect(numOfLivingNeighbours).toEqual(0);
         });
 
-        it(`should, for "board_neighbour_3x3_1.txt", return 1 for board.getNumOfLivingNeighboursAt({x: 1, y: 1})`, function () {
+        [
+            {x: 1, y: 1, testCaseFileName: "board_neighbour_3x3_1.txt", expectedNum: 1},
+            {x: 1, y: 1, testCaseFileName: "board_neighbour_3x3_1b.txt", expectedNum: 1},
+            {x: 1, y: 1, testCaseFileName: "board_neighbour_3x3_2.txt", expectedNum: 2},
+            {x: 1, y: 1, testCaseFileName: "board_neighbour_3x3_8.txt", expectedNum: 8},
+            {x: 1, y: 1, testCaseFileName: "board_neighbour_3x3_8b.txt", expectedNum: 8},
+        ].forEach(({x, y, testCaseFileName, expectedNum}) =>
+            it(`should, for "${testCaseFileName}", return ${expectedNum} for board.getNumOfLivingNeighboursAt({x: ${x}, y: ${y}})`, function () {
+                // given
+                let board = boardBuilder.buildFromFile(asResourcePath(testCaseFileName));
+
+                // when
+                let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt({x, y});
+
+                // then
+                expect(numOfLivingNeighbours).toEqual(expectedNum);
+            }));
+
+        it("should compute all numOfLivingNeighboursAt correctly for board_neighbour_full case", function () {
             // given
-            let x = 1, y = 1, resFileName = "board_neighbour_3x3_1.txt";
-            let expectedNum = 1;
-            let board = boardBuilder.buildFromFile(path.normalize(`${__dirname}/test-resources/${resFileName}`));
+            let board = boardBuilder.buildFromFile(asResourcePath("board_neighbour_full.txt"));
+            let expectedNumbers = boardBuilder.readFileToLines(asResourcePath("board_neighbour_full_expected.txt"));
 
             // when
-            let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt({x, y});
+            let actualNumbers = new Array(board.getHeight()).fill(0).map((_, y) =>
+                new Array(board.getWidth()).fill(0).map((_, x) => board.getNumOfLivingNeighboursAt({x, y})).join("")
+            );
 
             // then
-            expect(numOfLivingNeighbours).toEqual(expectedNum);
-
+            expect(actualNumbers).toEqual(expectedNumbers);
         });
     });
+
+    function asResourcePath(fileName: string) {
+        return path.normalize(`${__dirname}/test-resources/board/${fileName}`);
+    }
 });
