@@ -27,7 +27,7 @@ describe("Board (Integration)", function () {
         ].forEach(({x, y, testCaseFileName, expectedNum}) =>
             it(`should, for "${testCaseFileName}", return ${expectedNum} for board.getNumOfLivingNeighboursAt({x: ${x}, y: ${y}})`, function () {
                 // given
-                let board = boardBuilder.buildFromFile(path.normalize(`${__dirname}/test-resources/board/${testCaseFileName}`));
+                let board = boardBuilder.buildFromFile(asResourcePath(testCaseFileName));
 
                 // when
                 let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt({x, y});
@@ -38,8 +38,8 @@ describe("Board (Integration)", function () {
 
         it("should compute all numOfLivingNeighboursAt correctly for board_neighbour_full case", function () {
             // given
-            let board = boardBuilder.buildFromFile(path.normalize(`${__dirname}/test-resources/board/board_neighbour_full.txt`));
-            let expectedNumbers = boardBuilder.readFileToLines(path.normalize(`${__dirname}/test-resources/board/board_neighbour_full_expected.txt`));
+            let board = boardBuilder.buildFromFile(asResourcePath("board_neighbour_full.txt"));
+            let expectedNumbers = boardBuilder.readFileToLines(asResourcePath("board_neighbour_full_expected.txt"));
 
             // when
             let actualNumbers = new Array(board.getHeight()).fill(0).map((_, y) =>
@@ -50,4 +50,8 @@ describe("Board (Integration)", function () {
             expect(actualNumbers).toEqual(expectedNumbers);
         });
     });
+
+    function asResourcePath(fileName: string) {
+        return path.normalize(`${__dirname}/test-resources/board/${fileName}`);
+    }
 });
