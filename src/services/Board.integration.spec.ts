@@ -2,7 +2,6 @@ import * as path from "path";
 
 import Board from './Board';
 import boardBuilder from "./test-utils/boardBuilder";
-import * as fs from "fs";
 
 describe("Board (Integration)", function () {
     describe('getNumOfLivingNeighboursAt', function () {
@@ -40,7 +39,7 @@ describe("Board (Integration)", function () {
         it("should compute all numOfLivingNeighboursAt correctly for board_neighbour_full case", function () {
             // given
             let board = boardBuilder.buildFromFile(path.normalize(`${__dirname}/test-resources/board/board_neighbour_full.txt`));
-            let expectedNumbers = fs.readFileSync(path.normalize(`${__dirname}/test-resources/board/board_neighbour_full_expected.txt`)).toString().split(/[\r\n]+/);
+            let expectedNumbers = boardBuilder.readFileToLines(path.normalize(`${__dirname}/test-resources/board/board_neighbour_full_expected.txt`));
 
             // when
             let actualNumbers = new Array(board.getHeight()).fill(0).map((_, y) =>

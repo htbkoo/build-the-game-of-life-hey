@@ -8,11 +8,14 @@ const CHAR_LIVE = 'l';
 // IntelliJ bug - definitely in use in Board.integration.spec.ts
 // noinspection JSUnusedGlobalSymbols
 export default {
-    buildFromFile(filename: string): Board {
+    readFileToLines(filename: string): Array<string>{
         let str = fs.readFileSync(filename).toString();
-        return this.buildFromString(str.split(/[\r\n]+/));
+        return str.split(/[\r\n]+/);
     },
-    buildFromString(lines: Array<string>): Board {
+    buildFromFile(filename: string): Board {
+        return this.buildFromLines(this.readFileToLines(filename));
+    },
+    buildFromLines(lines: Array<string>): Board {
         let height = lines.length;
         checkArgument(height > 0, "lines cannot be empty");
 
