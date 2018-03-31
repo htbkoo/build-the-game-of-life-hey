@@ -18,18 +18,19 @@ describe("Board (Integration)", function () {
             expect(numOfLivingNeighbours).toEqual(0);
         });
 
-        it(`should, for "board_neighbour_3x3_1.txt", return 1 for board.getNumOfLivingNeighboursAt({x: 1, y: 1})`, function () {
-            // given
-            let x = 1, y = 1, resFileName = "board_neighbour_3x3_1.txt";
-            let expectedNum = 1;
-            let board = boardBuilder.buildFromFile(path.normalize(`${__dirname}/test-resources/${resFileName}`));
+        [
+            {x: 1, y: 1, testCaseFileName: "board_neighbour_3x3_1.txt", expectedNum: 1}
+        ].forEach(({x, y, testCaseFileName, expectedNum}) =>
+            it(`should, for "${testCaseFileName}", return ${expectedNum} for board.getNumOfLivingNeighboursAt({x: ${x}, y: ${y}})`, function () {
+                // given
+                let board = boardBuilder.buildFromFile(path.normalize(`${__dirname}/test-resources/board/${testCaseFileName}`));
 
-            // when
-            let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt({x, y});
+                // when
+                let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt({x, y});
 
-            // then
-            expect(numOfLivingNeighbours).toEqual(expectedNum);
+                // then
+                expect(numOfLivingNeighbours).toEqual(expectedNum);
 
-        });
+            }));
     });
 });
