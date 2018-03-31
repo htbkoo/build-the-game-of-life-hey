@@ -22,6 +22,9 @@ describe("Board (Integration)", function () {
             {x: 1, y: 1, testCaseFileName: "board_neighbour_3x3_1.txt", expectedNum: 1},
             {x: 1, y: 1, testCaseFileName: "board_neighbour_3x3_1b.txt", expectedNum: 1},
             {x: 1, y: 1, testCaseFileName: "board_neighbour_3x3_2.txt", expectedNum: 2},
+            {x: 1, y: 1, testCaseFileName: "board_neighbour_3x3_8.txt", expectedNum: 8},
+            {x: 1, y: 1, testCaseFileName: "board_neighbour_3x3_8b.txt", expectedNum: 8},
+            {x: 1, y: 1, testCaseFileName: "board_neighbour_4x3_0.txt", expectedNum: 0},
         ].forEach(({x, y, testCaseFileName, expectedNum}) =>
             it(`should, for "${testCaseFileName}", return ${expectedNum} for board.getNumOfLivingNeighboursAt({x: ${x}, y: ${y}})`, function () {
                 // given
