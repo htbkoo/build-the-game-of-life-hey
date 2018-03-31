@@ -49,6 +49,36 @@ export default class Board {
 
         return count;
     }
+
+    evolve(): Board {
+        let newBoard = new Board({width: this.getWidth(), height: this.getHeight()});
+
+        for (let y = 0; y < this.getHeight(); y++) {
+            for (let x = 0; x < this.getWidth(); x++) {
+                newBoard.setLiveAt({x, y, isLive: this.willBeLive({x, y})});
+            }
+        }
+
+        return newBoard;
+    }
+
+    private willBeLive(coors: { x: number; y: number }): boolean {
+        let numOfLivingNeighbours = this.getNumOfLivingNeighboursAt(coors);
+        if (this.isLiveAt(coors)) {
+            return shouldKeepLiving();
+        } else {
+            return shouldReproduce();
+        }
+
+        function shouldKeepLiving() {
+            return numOfLivingNeighbours >= 2 && numOfLivingNeighbours <= 2;
+        }
+
+        function shouldReproduce() {
+            return numOfLivingNeighbours === 3;
+        }
+    }
+
 }
 
 function isPositive(num: number): boolean {

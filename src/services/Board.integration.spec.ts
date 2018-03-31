@@ -51,6 +51,45 @@ describe("Board (Integration)", function () {
         });
     });
 
+    describe("evolve", function () {
+        const prevStateFileName = "board_evolve_blinker_5x5_1.txt",
+            nextStateFileName = "board_evolve_blinker_5x5_2.txt";
+
+        it(`should evolve from ${prevStateFileName} to ${nextStateFileName} and get new Board `, function () {
+            // given
+            let board = boardBuilder.buildFromFile(asResourcePath(prevStateFileName));
+
+            // when
+            let newBoard = board.evolve();
+
+            // then
+            // TODO: refactor - this duplicate with the code in Board.integration.spec.ts "should compute all numOfLivingNeighboursAt correctly for board_neighbour_full case" test
+            let actualCells = new Array(newBoard.getHeight()).fill(0).map((_, y) =>
+                new Array(newBoard.getWidth()).fill(0).map((_, x) => newBoard.isLiveAt({x, y}) ? 'l' : 'd').join("")
+            );
+            let expectedCells = boardBuilder.readFileToLines(asResourcePath(nextStateFileName));
+
+            expect(actualCells).toEqual(expectedCells);
+        });
+    
+        it(`should not impact original board by board.evolve()`, function () {
+            // given
+            let board = boardBuilder.buildFromFile(asResourcePath(prevStateFileName));
+
+            // when
+            board.evolve();
+
+            // then
+            // TODO: refactor - this duplicate with the code in Board.integration.spec.ts "should compute all numOfLivingNeighboursAt correctly for board_neighbour_full case" test
+            let actualCells = new Array(board.getHeight()).fill(0).map((_, y) =>
+                new Array(board.getWidth()).fill(0).map((_, x) => board.isLiveAt({x, y}) ? 'l' : 'd').join("")
+            );
+            let expectedCells = boardBuilder.readFileToLines(asResourcePath(prevStateFileName));
+
+            expect(actualCells).toEqual(expectedCells);
+        });
+    });
+
     function asResourcePath(fileName: string) {
         return path.normalize(`${__dirname}/test-resources/board/${fileName}`);
     }
