@@ -49,6 +49,10 @@ export default class Board {
 
         return count;
     }
+
+    evolve(): Board {
+        return new Board({width: this.getWidth(), height: this.getHeight()});
+    }
 }
 
 function isPositive(num: number): boolean {
