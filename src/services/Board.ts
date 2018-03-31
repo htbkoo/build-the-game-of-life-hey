@@ -14,9 +14,7 @@ export default class Board {
         this._width = width;
         this._height = height;
 
-        this._cells = new Array(width).fill(0).map(() =>
-            new Array(height).fill(0).map(() => new Cell({isLive: false}))
-        );
+        this._cells = createCells(width, height);
     }
 
     getWidth() {
@@ -34,8 +32,40 @@ export default class Board {
     setLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }) {
         this._cells[x][y] = new Cell({isLive});
     }
+
+    getNumOfLivingNeighboursAt({x, y}: { x: number; y: number }) {
+        let count = 0;
+        for (let dx = -1; dx <= 1; dx++) {
+            for (let dy = -1; dy <= 1; dy++) {
+                if (dx === 0 && dy === 0) {
+                    continue;
+                }
+
+                if (this._cells[wrapCoordinate(x + dx, this._width)][wrapCoordinate(y + dy, this._height)].isLive()) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
 }
 
 function isPositive(num: number): boolean {
     return num > 0;
+}
+
+function createCells(width: number, height: number) {
+    return new Array(width).fill(0).map(() =>
+        new Array(height).fill(0).map(() => new Cell({isLive: false}))
+    );
+}
+
+function wrapCoordinate(coordinate: number, size: number): number {
+    if (coordinate < 0) {
+        return size - 1;
+    } else if (coordinate >= size) {
+        return 0;
+    }
+    return coordinate;
 }
