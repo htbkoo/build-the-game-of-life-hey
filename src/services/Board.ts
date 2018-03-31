@@ -34,7 +34,20 @@ export default class Board {
     }
 
     getNumOfLivingNeighboursAt({x, y}: { x: number; y: number }) {
-        return 0;
+        let count = 0;
+        for (let dx = -1; dx <= 1; dx++) {
+            for (let dy = -1; dy <= 1; dy++) {
+                if (dx === 0 && dy === 0) {
+                    continue;
+                }
+
+                if (this._cells[wrapCoordinate(x + dx, this._width)][wrapCoordinate(y + dy, this._height)].isLive()) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
     }
 }
 
@@ -46,4 +59,13 @@ function createCells(width: number, height: number) {
     return new Array(width).fill(0).map(() =>
         new Array(height).fill(0).map(() => new Cell({isLive: false}))
     );
+}
+
+function wrapCoordinate(coordinate: number, size: number): number {
+    if (coordinate < 0) {
+        return size - 1;
+    } else if (coordinate >= size) {
+        return 0;
+    }
+    return coordinate;
 }
