@@ -31,18 +31,19 @@ describe("Game", function () {
     });
 
     describe("toggleLiveAt", function () {
-        // given
-        const width = 20, height = 30, x = 5, y = 7;
-        let game = new Game({width, height});
-        expect(game.isLiveAt({x, y})).toEqual(false);
+        it("should be able to toogle isLive by toggleLiveAt", function () {
+            // given
+            const width = 20, height = 30, x = 5, y = 7;
+            let game = new Game({width, height});
+            expect(game.isLiveAt({x, y})).toEqual(false);
 
-        // when
-        let isLiveAfterToggle = game.toggleLiveAt({x, y});
+            // when
+            let isLiveAfterToggle = game.toggleLiveAt({x, y});
 
-        // then
-        const expectedIsLiveAfterToggle = true;
-        expect(isLiveAfterToggle).toEqual(expectedIsLiveAfterToggle);
-        expect(game.isLiveAt({x, y})).toEqual(expectedIsLiveAfterToggle);
-
+            // then
+            const expectedIsLiveAfterToggle = true;
+            expect(isLiveAfterToggle).toEqual(expectedIsLiveAfterToggle);
+            expect(game.isLiveAt({x, y})).toEqual(expectedIsLiveAfterToggle);
+        });
     });
 });
