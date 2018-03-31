@@ -17,4 +17,9 @@ export default class Game {
         this._board.setLiveAt({...coors, isLive: toggledIsLive});
         return toggledIsLive;
     }
+
+    reset() {
+        let width = this._board.getWidth(),  height = this._board.getHeight();
+        this._board = new Board({width, height});
+    }
 }
