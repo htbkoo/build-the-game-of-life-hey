@@ -9,7 +9,7 @@ describe("Game", function () {
         let game = new Game({width, height});
 
         // then
-        expect(game._board.getWidth()).toEqual(width);
-        expect(game._board.getHeight()).toEqual(height);
+        expect(game["_board"].getWidth()).toEqual(width);
+        expect(game["_board"].getHeight()).toEqual(height);
     });
 });
