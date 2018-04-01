@@ -1,0 +1,16 @@
+td div{
+    min-height: 20px;
+    min-width: 20px;
+}
+
+td{
+    border: 1px solid black;
+}
+
+.isLive{
+    background: yellow;
+}
+
+table {
+    border-collapse: collapse;
+}
