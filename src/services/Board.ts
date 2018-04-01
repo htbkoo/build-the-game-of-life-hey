@@ -71,7 +71,7 @@ export default class Board {
         }
 
         function shouldKeepLiving() {
-            return numOfLivingNeighbours >= 2 && numOfLivingNeighbours <= 2;
+            return numOfLivingNeighbours >= 2 && numOfLivingNeighbours <= 3;
         }
 
         function shouldReproduce() {
