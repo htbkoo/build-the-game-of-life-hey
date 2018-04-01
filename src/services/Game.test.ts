@@ -38,16 +38,11 @@ describe("Game", function () {
         it("should set game._board to board.evolve() upon game.proceed()", function () {
             // given
             const mockNewBoard = Symbol("mockNewBoard");
-            // let game = sinon.createStubInstance(Game);
-            let game = new Game({width: 1, height: 1});
-            let mockBoardEvolve = jest.fn();
-            mockBoardEvolve.mockReturnValue(mockNewBoard);
-            // Object.defineProperty(game, "_board", {"evolve": mockBoardEvolve});
-            // game["_board"] = {"evolve": mockBoardEvolve};
+            const mockBoard = sinon.createStubInstance(Board);
+            mockBoard.evolve = sinon.stub().returns(mockNewBoard);
 
-            let board = sinon.createStubInstance(Board);
-            board.evolve = sinon.stub().returns(mockNewBoard);
-            game["_board"] = board;
+            let game = new Game({width: 1, height: 1});
+            game["_board"] = mockBoard;
 
             // when
             game.proceed();
