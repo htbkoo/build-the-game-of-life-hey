@@ -22,4 +22,8 @@ export default class Game {
         let width = this._board.getWidth(),  height = this._board.getHeight();
         this._board = new Board({width, height});
     }
+
+    proceed(){
+        this._board = this._board.evolve();
+    }
 }
