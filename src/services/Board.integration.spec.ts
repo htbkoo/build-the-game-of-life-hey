@@ -56,7 +56,11 @@ describe("Board (Integration)", function () {
                 {
                     prevStateFileName: "board_evolve_blinker_5x5_1.txt",
                     nextStateFileName: "board_evolve_blinker_5x5_2.txt"
-                }
+                },
+                {
+                    prevStateFileName: "board_evolve_beacon_6x6_1.txt",
+                    nextStateFileName: "board_evolve_beacon_6x6_2.txt"
+                },
             ].forEach(({prevStateFileName, nextStateFileName})=>{
                 it(`should evolve from ${prevStateFileName} to ${nextStateFileName} and get new Board `, function () {
                     // given
