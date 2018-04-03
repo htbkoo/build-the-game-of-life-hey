@@ -9,14 +9,17 @@ export default class Board {
     // cell representation: upper-left = (0,0), first number is x which corresponds to the width
     private readonly _cells: Cells;
 
-    constructor({width, height, cells}: { width: number; height: number, cells?: Cells }) {
+    private constructor({width, height, cells}: { width: number; height: number, cells: Cells }) {
+        this._width = width;
+        this._height = height;
+        this._cells = cells;
+    }
+
+    static newBlank({width, height}: { width: number; height: number }): Board {
         checkArgument(isPositive(width), `Width (${width}) must be be positive`);
         checkArgument(isPositive(height), `Height (${height}) must be be positive`);
 
-        this._width = width;
-        this._height = height;
-
-        this._cells = cells ? cells : createCells(width, height);
+        return new Board({width, height, cells: createCells(width, height)});
     }
 
     getWidth() {
@@ -53,7 +56,7 @@ export default class Board {
     }
 
     evolve(): Board {
-        let newBoard = new Board({width: this.getWidth(), height: this.getHeight()});
+        let newBoard = Board.newBlank({width: this.getWidth(), height: this.getHeight()});
 
         for (let y = 0; y < this.getHeight(); y++) {
             for (let x = 0; x < this.getWidth(); x++) {

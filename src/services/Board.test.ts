@@ -9,7 +9,7 @@ describe("Board", function () {
             ].forEach(({width, height}) =>
                 it(`should create a new board with width=${width} and height=${height}`, function () {
                     // given
-                    let board = new Board({width, height});
+                    let board = Board.newBlank({width, height});
 
                     // when
                     let board_width = board.getWidth();
@@ -28,7 +28,7 @@ describe("Board", function () {
                 const negativeWidth = -10, height = 20;
 
                 // when
-                let invalidBoardConstruction = () => new Board({width: negativeWidth, height});
+                let invalidBoardConstruction = () => Board.newBlank({width: negativeWidth, height});
 
                 // then
                 expect(invalidBoardConstruction).toThrow(`Width (${negativeWidth}) must be be positive`);
@@ -39,7 +39,7 @@ describe("Board", function () {
                 const zeroWidth = 0, height = 20;
 
                 // when
-                let invalidBoardConstruction = () => new Board({width: zeroWidth, height});
+                let invalidBoardConstruction = () => Board.newBlank({width: zeroWidth, height});
 
                 // then
                 expect(invalidBoardConstruction).toThrow(`Width (${zeroWidth}) must be be positive`);
@@ -50,7 +50,7 @@ describe("Board", function () {
                 const width = 20, negativeHeight = -10;
 
                 // when
-                let invalidBoardConstruction = () => new Board({width, height: negativeHeight});
+                let invalidBoardConstruction = () => Board.newBlank({width, height: negativeHeight});
 
                 // then
                 expect(invalidBoardConstruction).toThrow(`Height (${negativeHeight}) must be be positive`);
@@ -61,7 +61,7 @@ describe("Board", function () {
                 const width = 20, zeroHeight = 0;
 
                 // when
-                let invalidBoardConstruction = () => new Board({width, height: zeroHeight});
+                let invalidBoardConstruction = () => Board.newBlank({width, height: zeroHeight});
 
                 // then
                 expect(invalidBoardConstruction).toThrow(`Height (${zeroHeight}) must be be positive`);
@@ -73,7 +73,7 @@ describe("Board", function () {
         it('should expose board.isLiveAt({x, y})', function () {
             // given
             const width = 1, height = 1;
-            let board = new Board({width, height});
+            let board = Board.newBlank({width, height});
 
             // when
             let isLive = board.isLiveAt({x: 0, y: 0});
@@ -89,7 +89,7 @@ describe("Board", function () {
             const width = 1, height = 1;
             const x = 0, y = 0;
             const expectedIsLive = true;
-            let board = new Board({width, height});
+            let board = Board.newBlank({width, height});
 
             // when
             board.setLiveAt({x, y, isLive: expectedIsLive});
@@ -103,7 +103,7 @@ describe("Board", function () {
             // given
             const width = 2, height = 1;
             const x = 0, y = 0, isLive = true;
-            let board = new Board({width, height});
+            let board = Board.newBlank({width, height});
 
             // when
             board.setLiveAt({x, y, isLive});

@@ -9,7 +9,7 @@ describe("Board (Integration)", function () {
             // given
             const width = 5, height = 4;
             const x = 2, y = 2;
-            let board = new Board({width, height});
+            let board = Board.newBlank({width, height});
 
             // when
             let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt({x, y});
