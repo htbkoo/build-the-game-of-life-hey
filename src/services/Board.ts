@@ -2,10 +2,10 @@ import {checkArgument} from "precond";
 import Cell from "./Cell";
 
 export default class Board {
-    private _width: number;
-    private _height: number;
+    private readonly _width: number;
+    private readonly _height: number;
     // cell representation: upper-left = (0,0), first number is x which corresponds to the width
-    private _cells: Array<Array<Cell>>;
+    private readonly _cells: Array<Array<Cell>>;
 
     constructor({width, height}: { width: number; height: number }) {
         checkArgument(isPositive(width), `Width (${width}) must be be positive`);
