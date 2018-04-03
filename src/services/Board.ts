@@ -1,20 +1,22 @@
 import {checkArgument} from "precond";
 import Cell from "./Cell";
 
+type Cells = Array<Array<Cell>>;
+
 export default class Board {
     private readonly _width: number;
     private readonly _height: number;
     // cell representation: upper-left = (0,0), first number is x which corresponds to the width
-    private readonly _cells: Array<Array<Cell>>;
+    private readonly _cells: Cells;
 
-    constructor({width, height}: { width: number; height: number }) {
+    constructor({width, height, cells}: { width: number; height: number, cells?: Cells }) {
         checkArgument(isPositive(width), `Width (${width}) must be be positive`);
         checkArgument(isPositive(height), `Height (${height}) must be be positive`);
 
         this._width = width;
         this._height = height;
 
-        this._cells = createCells(width, height);
+        this._cells = cells ? cells : createCells(width, height);
     }
 
     getWidth() {
