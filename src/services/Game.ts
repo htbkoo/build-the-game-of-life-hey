@@ -7,7 +7,6 @@ export default class Game {
         this._board = new Board(dimension);
     }
 
-
     isLiveAt(coors: { x: number; y: number }): boolean {
         return this._board.isLiveAt(coors);
     }
