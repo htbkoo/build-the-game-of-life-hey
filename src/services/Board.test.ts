@@ -86,6 +86,19 @@ describe("Board", function () {
                     expect(board.isLiveAt({x: 0, y: 0})).toEqual(true);
                 });
             });
+
+            describe('Error cases', function () {
+                it(`should throw Error when creating a new board from empty array`, function () {
+                    // given
+                    const cells: Array<Array<Cell>> = [];
+
+                    // when
+                    let invalidBoardConstruction = () => Board.newFrom({cells});
+
+                    // then
+                    expect(invalidBoardConstruction).toThrow(`Cells (${JSON.stringify(cells)}) must not be empty`);
+                });
+            });
         });
     });
 
