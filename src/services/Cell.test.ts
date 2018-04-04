@@ -8,7 +8,7 @@ describe("Cell", function () {
         it(`should expose cell.isLive=${isLive} for new Cell({isLive: ${isLive}})`, function () {
             // given
             const expectedIsLive = false;
-            let cell = new Cell({isLive: expectedIsLive});
+            let cell = Cell.of({isLive: expectedIsLive});
 
             // when
             let actualIsLive = cell.isLive();

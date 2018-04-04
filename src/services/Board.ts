@@ -44,7 +44,7 @@ export default class Board {
     }
 
     setLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }) {
-        this._cells[y][x] = new Cell({isLive});
+        this._cells[y][x] = Cell.of({isLive});
     }
 
     getNumOfLivingNeighboursAt({x, y}: BoardCoordinates) {
@@ -111,12 +111,12 @@ function isNotEmpty(cells: Cells): boolean {
 }
 
 function haveNonEmptyRows(cells: Cells): boolean {
-    return cells.some(row=>row.length>0);
+    return cells.some(row => row.length > 0);
 }
 
 function createCells(width: number, height: number) {
     return new Array(height).fill(0).map(() =>
-        new Array(width).fill(0).map(() => new Cell({isLive: false}))
+        new Array(width).fill(0).map(() => Cell.DEAD)
     );
 }
 
