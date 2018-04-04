@@ -1,4 +1,4 @@
-import Board from './Board';
+import Board, {Cells} from './Board';
 import Cell from "./Cell";
 
 describe("Board", function () {
@@ -75,7 +75,7 @@ describe("Board", function () {
             describe('Valid cases', function () {
                 it(`should be able to create a board from cells`, function () {
                     // given
-                    const cells: Array<Array<Cell>> = [[new Cell({isLive: true})]];
+                    const cells: Cells = [[new Cell({isLive: true})]];
 
                     // when
                     let board: Board = Board.newFrom({cells});
@@ -90,7 +90,7 @@ describe("Board", function () {
             describe('Error cases', function () {
                 it(`should throw Error when creating a new board from empty array`, function () {
                     // given
-                    const cells: Array<Array<Cell>> = [];
+                    const cells: Cells = [];
 
                     // when
                     let invalidBoardConstruction = () => Board.newFrom({cells});

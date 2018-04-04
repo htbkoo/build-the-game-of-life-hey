@@ -1,7 +1,7 @@
 import {checkArgument} from "precond";
 import Cell from "./Cell";
 
-type Cells = Array<Array<Cell>>;
+export type Cells = Array<Array<Cell>>;
 
 export default class Board {
     private readonly _width: number;
