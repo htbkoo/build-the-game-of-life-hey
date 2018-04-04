@@ -37,8 +37,8 @@ export default class Board {
         return this._height;
     }
 
-    isLiveAt({x, y}: { x: number; y: number }): boolean {
-        return this._cells[x][y].isLive();
+    isLiveAt(coors: { x: number; y: number }): boolean {
+        return this.getCell(coors).isLive();
     }
 
     setLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }) {
@@ -53,7 +53,11 @@ export default class Board {
                     continue;
                 }
 
-                if (this._cells[wrapCoordinate(x + dx, this._width)][wrapCoordinate(y + dy, this._height)].isLive()) {
+                let targetCoors = {
+                    x: wrapCoordinate(x + dx, this._width),
+                    y: wrapCoordinate(y + dy, this._height)
+                };
+                if (this.getCell(targetCoors).isLive()) {
                     count++;
                 }
             }
@@ -91,6 +95,9 @@ export default class Board {
         }
     }
 
+    private getCell({x, y}: { x: number; y: number }) {
+        return this._cells[x][y];
+    }
 }
 
 function isPositive(num: number): boolean {
