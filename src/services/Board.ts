@@ -22,7 +22,7 @@ export default class Board {
         return new Board({width, height, cells: createCells(width, height)});
     }
 
-    static newFrom({cells}: { cells: Array<Array<Cell>> }): Board {
+    static newFrom({cells}: { cells: Cells }): Board {
         checkArgument(isNotEmpty(cells), `Cells (${JSON.stringify(cells)}) must not be empty`);
 
         let width = cells.length, height = cells[0].length;
