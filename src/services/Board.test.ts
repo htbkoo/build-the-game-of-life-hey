@@ -1,4 +1,5 @@
 import Board from './Board';
+import Cell from "./Cell";
 
 describe("Board", function () {
     describe('factory methods', function () {
@@ -66,6 +67,23 @@ describe("Board", function () {
 
                     // then
                     expect(invalidBoardConstruction).toThrow(`Height (${zeroHeight}) must be be positive`);
+                });
+            });
+        });
+
+        describe('newFrom', function () {
+            describe('Valid cases', function () {
+                it(`should be able to create a board from cells`, function () {
+                    // given
+                    const cells: Array<Array<Cell>> = [[new Cell({isLive: true})]];
+
+                    // when
+                    let board: Board = Board.newFrom({cells});
+
+                    // then
+                    expect(board.getWidth()).toEqual(1);
+                    expect(board.getHeight()).toEqual(1);
+                    expect(board.isLiveAt({x: 0, y: 0})).toEqual(true);
                 });
             });
         });

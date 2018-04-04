@@ -22,6 +22,11 @@ export default class Board {
         return new Board({width, height, cells: createCells(width, height)});
     }
 
+    static newFrom({cells}: { cells: Array<Array<Cell>> }): Board {
+        let width = cells.length, height = cells[0].length;
+        return new Board({width, height, cells});
+    }
+
     getWidth() {
         return this._width;
     }
