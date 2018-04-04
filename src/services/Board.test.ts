@@ -73,7 +73,7 @@ describe("Board", function () {
 
         describe('newFrom', function () {
             describe('Valid cases', function () {
-                it(`should be able to create a board from cells`, function () {
+                it(`should be able to create a board from 1*1 cells`, function () {
                     // given
                     const cells: Cells = [[new Cell({isLive: true})]];
 
