@@ -71,14 +71,14 @@ describe("Board", function () {
             });
         });
 
-        describe('newFrom', function () {
+        describe('newFromCells', function () {
             describe('Valid cases', function () {
                 it(`should be able to create a board from 1*1 cells`, function () {
                     // given
                     const cells: Cells = [[Cell.of({isLive: true})]];
 
                     // when
-                    let board: Board = Board.newFrom({cells});
+                    let board: Board = Board.newFromCells({cells});
 
                     // then
                     expect(board.getWidth()).toEqual(1);
@@ -93,7 +93,7 @@ describe("Board", function () {
                     const cells: Cells = [];
 
                     // when
-                    let invalidBoardConstruction = () => Board.newFrom({cells});
+                    let invalidBoardConstruction = () => Board.newFromCells({cells});
 
                     // then
                     expect(invalidBoardConstruction).toThrow(`Cells (${JSON.stringify(cells)}) must not be empty`);
@@ -107,7 +107,7 @@ describe("Board", function () {
                         // given
 
                         // when
-                        let invalidBoardConstruction = () => Board.newFrom({cells});
+                        let invalidBoardConstruction = () => Board.newFromCells({cells});
 
                         // then
                         expect(invalidBoardConstruction).toThrow(`At least one row out of the ${cells.length} rows must be non-empty so that width can be determined`);
