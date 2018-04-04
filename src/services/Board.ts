@@ -2,6 +2,7 @@ import {checkArgument} from "precond";
 import Cell from "./Cell";
 
 export type Cells = Array<Array<Cell>>;
+export type BoardCoordinates = { x: number; y: number };
 
 export default class Board {
     private readonly _width: number;
@@ -37,7 +38,7 @@ export default class Board {
         return this._height;
     }
 
-    isLiveAt(coors: { x: number; y: number }): boolean {
+    isLiveAt(coors: BoardCoordinates): boolean {
         return this.getCell(coors).isLive();
     }
 
@@ -45,7 +46,7 @@ export default class Board {
         this._cells[x][y] = new Cell({isLive});
     }
 
-    getNumOfLivingNeighboursAt({x, y}: { x: number; y: number }) {
+    getNumOfLivingNeighboursAt({x, y}: BoardCoordinates) {
         let count = 0;
         for (let dx = -1; dx <= 1; dx++) {
             for (let dy = -1; dy <= 1; dy++) {
@@ -78,7 +79,7 @@ export default class Board {
         return newBoard;
     }
 
-    private willBeLive(coors: { x: number; y: number }): boolean {
+    private willBeLive(coors: BoardCoordinates): boolean {
         let numOfLivingNeighbours = this.getNumOfLivingNeighboursAt(coors);
         if (this.isLiveAt(coors)) {
             return shouldKeepLiving();
@@ -95,7 +96,7 @@ export default class Board {
         }
     }
 
-    private getCell({x, y}: { x: number; y: number }) {
+    private getCell({x, y}: BoardCoordinates) {
         return this._cells[x][y];
     }
 }
