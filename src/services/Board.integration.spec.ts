@@ -1,7 +1,7 @@
 import * as path from "path";
 
 import Board from './Board';
-import boardBuilder from "./test-utils/boardBuilder";
+import boardUtils from "./test-utils/boardUtils";
 
 describe("Board (Integration)", function () {
     describe('getNumOfLivingNeighboursAt', function () {
@@ -9,7 +9,7 @@ describe("Board (Integration)", function () {
             // given
             const width = 5, height = 4;
             const x = 2, y = 2;
-            let board = new Board({width, height});
+            let board = Board.newBlank({width, height});
 
             // when
             let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt({x, y});
@@ -27,7 +27,7 @@ describe("Board (Integration)", function () {
         ].forEach(({x, y, testCaseFileName, expectedNum}) =>
             it(`should, for "${testCaseFileName}", return ${expectedNum} for board.getNumOfLivingNeighboursAt({x: ${x}, y: ${y}})`, function () {
                 // given
-                let board = boardBuilder.buildFromFile(asResourcePath(testCaseFileName));
+                let board = boardUtils.buildFromFile(asResourcePath(testCaseFileName));
 
                 // when
                 let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt({x, y});
@@ -38,8 +38,8 @@ describe("Board (Integration)", function () {
 
         it("should compute all numOfLivingNeighboursAt correctly for board_neighbour_full case", function () {
             // given
-            let board = boardBuilder.buildFromFile(asResourcePath("board_neighbour_full.txt"));
-            let expectedNumbers = boardBuilder.readFileToLines(asResourcePath("board_neighbour_full_expected.txt"));
+            let board = boardUtils.buildFromFile(asResourcePath("board_neighbour_full.txt"));
+            let expectedNumbers = boardUtils.readFileToLines(asResourcePath("board_neighbour_full_expected.txt"));
 
             // when
             let actualNumbers = new Array(board.getHeight()).fill(0).map((_, y) =>
@@ -64,7 +64,7 @@ describe("Board (Integration)", function () {
             ].forEach(({prevStateFileName, nextStateFileName})=>{
                 it(`should evolve from ${prevStateFileName} to ${nextStateFileName} and get new Board `, function () {
                     // given
-                    let board = boardBuilder.buildFromFile(asResourcePath(prevStateFileName));
+                    let board = boardUtils.buildFromFile(asResourcePath(prevStateFileName));
 
                     // when
                     let newBoard = board.evolve();
@@ -74,14 +74,14 @@ describe("Board (Integration)", function () {
                     let actualCells = new Array(newBoard.getHeight()).fill(0).map((_, y) =>
                         new Array(newBoard.getWidth()).fill(0).map((_, x) => newBoard.isLiveAt({x, y}) ? 'l' : 'd').join("")
                     );
-                    let expectedCells = boardBuilder.readFileToLines(asResourcePath(nextStateFileName));
+                    let expectedCells = boardUtils.readFileToLines(asResourcePath(nextStateFileName));
 
                     expect(actualCells).toEqual(expectedCells);
                 });
 
                 it(`should not impact original board by board.evolve()`, function () {
                     // given
-                    let board = boardBuilder.buildFromFile(asResourcePath(prevStateFileName));
+                    let board = boardUtils.buildFromFile(asResourcePath(prevStateFileName));
 
                     // when
                     board.evolve();
@@ -91,7 +91,7 @@ describe("Board (Integration)", function () {
                     let actualCells = new Array(board.getHeight()).fill(0).map((_, y) =>
                         new Array(board.getWidth()).fill(0).map((_, x) => board.isLiveAt({x, y}) ? 'l' : 'd').join("")
                     );
-                    let expectedCells = boardBuilder.readFileToLines(asResourcePath(prevStateFileName));
+                    let expectedCells = boardUtils.readFileToLines(asResourcePath(prevStateFileName));
 
                     expect(actualCells).toEqual(expectedCells);
                 });

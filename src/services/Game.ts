@@ -4,9 +4,8 @@ export default class Game {
     private _board: Board;
 
     constructor(dimension: { width: number; height: number }) {
-        this._board = new Board(dimension);
+        this._board = Board.newBlank(dimension);
     }
-
 
     isLiveAt(coors: { x: number; y: number }): boolean {
         return this._board.isLiveAt(coors);
@@ -20,7 +19,7 @@ export default class Game {
 
     reset() {
         let width = this._board.getWidth(),  height = this._board.getHeight();
-        this._board = new Board({width, height});
+        this._board = Board.newBlank({width, height});
     }
 
     proceed(){

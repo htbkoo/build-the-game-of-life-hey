@@ -22,7 +22,7 @@ export default {
         let width = lines[0].length;
         checkArgument(width > 0, "length of first line, which is assumed to be width, cannot be zero");
 
-        let board = new Board({width, height});
+        let board = Board.newBlank({width, height});
 
         lines.forEach((line, y) =>
             line.split("").forEach((ch, x) => {

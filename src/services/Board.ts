@@ -1,20 +1,32 @@
 import {checkArgument} from "precond";
 import Cell from "./Cell";
 
-export default class Board {
-    private _width: number;
-    private _height: number;
-    // cell representation: upper-left = (0,0), first number is x which corresponds to the width
-    private _cells: Array<Array<Cell>>;
+export type Cells = Array<Array<Cell>>;
 
-    constructor({width, height}: { width: number; height: number }) {
+export default class Board {
+    private readonly _width: number;
+    private readonly _height: number;
+    // cell representation: upper-left = (0,0), first number is x which corresponds to the width
+    private readonly _cells: Cells;
+
+    private constructor({width, height, cells}: { width: number; height: number, cells: Cells }) {
+        this._width = width;
+        this._height = height;
+        this._cells = cells;
+    }
+
+    static newBlank({width, height}: { width: number; height: number }): Board {
         checkArgument(isPositive(width), `Width (${width}) must be be positive`);
         checkArgument(isPositive(height), `Height (${height}) must be be positive`);
 
-        this._width = width;
-        this._height = height;
+        return new Board({width, height, cells: createCells(width, height)});
+    }
 
-        this._cells = createCells(width, height);
+    static newFrom({cells}: { cells: Cells }): Board {
+        checkArgument(isNotEmpty(cells), `Cells (${JSON.stringify(cells)}) must not be empty`);
+
+        let width = cells.length, height = cells[0].length;
+        return new Board({width, height, cells});
     }
 
     getWidth() {
@@ -51,7 +63,7 @@ export default class Board {
     }
 
     evolve(): Board {
-        let newBoard = new Board({width: this.getWidth(), height: this.getHeight()});
+        let newBoard = Board.newBlank({width: this.getWidth(), height: this.getHeight()});
 
         for (let y = 0; y < this.getHeight(); y++) {
             for (let x = 0; x < this.getWidth(); x++) {
@@ -83,6 +95,10 @@ export default class Board {
 
 function isPositive(num: number): boolean {
     return num > 0;
+}
+
+function isNotEmpty(cells: Cells): boolean {
+    return cells.length > 0;
 }
 
 function createCells(width: number, height: number) {

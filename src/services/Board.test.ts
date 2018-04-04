@@ -1,70 +1,103 @@
-import Board from './Board';
+import Board, {Cells} from './Board';
+import Cell from "./Cell";
 
 describe("Board", function () {
-    describe('Constructor', function () {
-        describe('Valid cases', function () {
-            [
-                {width: 10, height: 20},
-                {width: 20, height: 10},
-            ].forEach(({width, height}) =>
-                it(`should create a new board with width=${width} and height=${height}`, function () {
+    describe('factory methods', function () {
+        describe('newBlank', function () {
+            describe('Valid cases', function () {
+                [
+                    {width: 10, height: 20},
+                    {width: 20, height: 10},
+                ].forEach(({width, height}) =>
+                    it(`should create a new board with width=${width} and height=${height}`, function () {
+                        // given
+                        let board = Board.newBlank({width, height});
+
+                        // when
+                        let board_width = board.getWidth();
+                        let board_height = board.getHeight();
+
+                        // then
+                        expect(board_width).toEqual(width);
+                        expect(board_height).toEqual(height);
+                    })
+                );
+            });
+
+            describe('Error cases', function () {
+                it(`should throw Error when creating a new board with negative width`, function () {
                     // given
-                    let board = new Board({width, height});
+                    const negativeWidth = -10, height = 20;
 
                     // when
-                    let board_width = board.getWidth();
-                    let board_height = board.getHeight();
+                    let invalidBoardConstruction = () => Board.newBlank({width: negativeWidth, height});
 
                     // then
-                    expect(board_width).toEqual(width);
-                    expect(board_height).toEqual(height);
-                })
-            );
+                    expect(invalidBoardConstruction).toThrow(`Width (${negativeWidth}) must be be positive`);
+                });
+
+                it(`should throw Error when creating a new board with zero width`, function () {
+                    // given
+                    const zeroWidth = 0, height = 20;
+
+                    // when
+                    let invalidBoardConstruction = () => Board.newBlank({width: zeroWidth, height});
+
+                    // then
+                    expect(invalidBoardConstruction).toThrow(`Width (${zeroWidth}) must be be positive`);
+                });
+
+                it(`should throw Error when creating a new board with negative height`, function () {
+                    // given
+                    const width = 20, negativeHeight = -10;
+
+                    // when
+                    let invalidBoardConstruction = () => Board.newBlank({width, height: negativeHeight});
+
+                    // then
+                    expect(invalidBoardConstruction).toThrow(`Height (${negativeHeight}) must be be positive`);
+                });
+
+                it(`should throw Error when creating a new board with zero height`, function () {
+                    // given
+                    const width = 20, zeroHeight = 0;
+
+                    // when
+                    let invalidBoardConstruction = () => Board.newBlank({width, height: zeroHeight});
+
+                    // then
+                    expect(invalidBoardConstruction).toThrow(`Height (${zeroHeight}) must be be positive`);
+                });
+            });
         });
 
-        describe('Error cases', function () {
-            it(`should throw Error when creating a new board with negative width`, function () {
-                // given
-                const negativeWidth = -10, height = 20;
+        describe('newFrom', function () {
+            describe('Valid cases', function () {
+                it(`should be able to create a board from cells`, function () {
+                    // given
+                    const cells: Cells = [[new Cell({isLive: true})]];
 
-                // when
-                let invalidBoardConstruction = () => new Board({width: negativeWidth, height});
+                    // when
+                    let board: Board = Board.newFrom({cells});
 
-                // then
-                expect(invalidBoardConstruction).toThrow(`Width (${negativeWidth}) must be be positive`);
+                    // then
+                    expect(board.getWidth()).toEqual(1);
+                    expect(board.getHeight()).toEqual(1);
+                    expect(board.isLiveAt({x: 0, y: 0})).toEqual(true);
+                });
             });
 
-            it(`should throw Error when creating a new board with zero width`, function () {
-                // given
-                const zeroWidth = 0, height = 20;
+            describe('Error cases', function () {
+                it(`should throw Error when creating a new board from empty array`, function () {
+                    // given
+                    const cells: Cells = [];
 
-                // when
-                let invalidBoardConstruction = () => new Board({width: zeroWidth, height});
+                    // when
+                    let invalidBoardConstruction = () => Board.newFrom({cells});
 
-                // then
-                expect(invalidBoardConstruction).toThrow(`Width (${zeroWidth}) must be be positive`);
-            });
-
-            it(`should throw Error when creating a new board with negative height`, function () {
-                // given
-                const width = 20, negativeHeight = -10;
-
-                // when
-                let invalidBoardConstruction = () => new Board({width, height: negativeHeight});
-
-                // then
-                expect(invalidBoardConstruction).toThrow(`Height (${negativeHeight}) must be be positive`);
-            });
-
-            it(`should throw Error when creating a new board with zero height`, function () {
-                // given
-                const width = 20, zeroHeight = 0;
-
-                // when
-                let invalidBoardConstruction = () => new Board({width, height: zeroHeight});
-
-                // then
-                expect(invalidBoardConstruction).toThrow(`Height (${zeroHeight}) must be be positive`);
+                    // then
+                    expect(invalidBoardConstruction).toThrow(`Cells (${JSON.stringify(cells)}) must not be empty`);
+                });
             });
         });
     });
@@ -73,7 +106,7 @@ describe("Board", function () {
         it('should expose board.isLiveAt({x, y})', function () {
             // given
             const width = 1, height = 1;
-            let board = new Board({width, height});
+            let board = Board.newBlank({width, height});
 
             // when
             let isLive = board.isLiveAt({x: 0, y: 0});
@@ -89,7 +122,7 @@ describe("Board", function () {
             const width = 1, height = 1;
             const x = 0, y = 0;
             const expectedIsLive = true;
-            let board = new Board({width, height});
+            let board = Board.newBlank({width, height});
 
             // when
             board.setLiveAt({x, y, isLive: expectedIsLive});
@@ -103,7 +136,7 @@ describe("Board", function () {
             // given
             const width = 2, height = 1;
             const x = 0, y = 0, isLive = true;
-            let board = new Board({width, height});
+            let board = Board.newBlank({width, height});
 
             // when
             board.setLiveAt({x, y, isLive});
