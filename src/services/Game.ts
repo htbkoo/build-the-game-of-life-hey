@@ -1,4 +1,4 @@
-import Board from "./Board";
+import Board, {BoardCoordinates} from "./Board";
 
 export default class Game {
     private _board: Board;
@@ -7,22 +7,22 @@ export default class Game {
         this._board = Board.newBlank(dimension);
     }
 
-    isLiveAt(coors: { x: number; y: number }): boolean {
+    isLiveAt(coors: BoardCoordinates): boolean {
         return this._board.isLiveAt(coors);
     }
 
-    toggleLiveAt(coors: { x: number; y: number }) {
+    toggleLiveAt(coors: BoardCoordinates) {
         let toggledIsLive = !this.isLiveAt(coors);
         this._board.setLiveAt({...coors, isLive: toggledIsLive});
         return toggledIsLive;
     }
 
     reset() {
-        let width = this._board.getWidth(),  height = this._board.getHeight();
+        let width = this._board.getWidth(), height = this._board.getHeight();
         this._board = Board.newBlank({width, height});
     }
 
-    proceed(){
+    proceed() {
         this._board = this._board.evolve();
     }
 }

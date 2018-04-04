@@ -2,6 +2,7 @@ import {checkArgument} from "precond";
 import Cell from "./Cell";
 
 export type Cells = Array<Array<Cell>>;
+export type BoardCoordinates = { x: number; y: number };
 
 export default class Board {
     private readonly _width: number;
@@ -37,15 +38,15 @@ export default class Board {
         return this._height;
     }
 
-    isLiveAt({x, y}: { x: number; y: number }): boolean {
-        return this._cells[x][y].isLive();
+    isLiveAt(coors: BoardCoordinates): boolean {
+        return this.getCell(coors).isLive();
     }
 
     setLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }) {
-        this._cells[x][y] = new Cell({isLive});
+        this._cells[y][x] = new Cell({isLive});
     }
 
-    getNumOfLivingNeighboursAt({x, y}: { x: number; y: number }) {
+    getNumOfLivingNeighboursAt({x, y}: BoardCoordinates) {
         let count = 0;
         for (let dx = -1; dx <= 1; dx++) {
             for (let dy = -1; dy <= 1; dy++) {
@@ -53,7 +54,11 @@ export default class Board {
                     continue;
                 }
 
-                if (this._cells[wrapCoordinate(x + dx, this._width)][wrapCoordinate(y + dy, this._height)].isLive()) {
+                let targetCoors = {
+                    x: wrapCoordinate(x + dx, this._width),
+                    y: wrapCoordinate(y + dy, this._height)
+                };
+                if (this.getCell(targetCoors).isLive()) {
                     count++;
                 }
             }
@@ -74,7 +79,7 @@ export default class Board {
         return newBoard;
     }
 
-    private willBeLive(coors: { x: number; y: number }): boolean {
+    private willBeLive(coors: BoardCoordinates): boolean {
         let numOfLivingNeighbours = this.getNumOfLivingNeighboursAt(coors);
         if (this.isLiveAt(coors)) {
             return shouldKeepLiving();
@@ -91,6 +96,9 @@ export default class Board {
         }
     }
 
+    private getCell({x, y}: BoardCoordinates) {
+        return this._cells[y][x];
+    }
 }
 
 function isPositive(num: number): boolean {
@@ -102,8 +110,8 @@ function isNotEmpty(cells: Cells): boolean {
 }
 
 function createCells(width: number, height: number) {
-    return new Array(width).fill(0).map(() =>
-        new Array(height).fill(0).map(() => new Cell({isLive: false}))
+    return new Array(height).fill(0).map(() =>
+        new Array(width).fill(0).map(() => new Cell({isLive: false}))
     );
 }
 
