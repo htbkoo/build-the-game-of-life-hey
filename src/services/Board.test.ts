@@ -98,6 +98,21 @@ describe("Board", function () {
                     // then
                     expect(invalidBoardConstruction).toThrow(`Cells (${JSON.stringify(cells)}) must not be empty`);
                 });
+
+                [
+                    [[]],
+                    [[], []],
+                ].forEach(cells =>
+                    it(`should throw Error when creating a new board from cells=${JSON.stringify(cells)} if all rows are empty`, function () {
+                        // given
+
+                        // when
+                        let invalidBoardConstruction = () => Board.newFrom({cells});
+
+                        // then
+                        expect(invalidBoardConstruction).toThrow(`At least one row out of the ${cells.length} rows must be non-empty so that width can be determined`);
+                    })
+                );
             });
         });
     });

@@ -25,6 +25,7 @@ export default class Board {
 
     static newFrom({cells}: { cells: Cells }): Board {
         checkArgument(isNotEmpty(cells), `Cells (${JSON.stringify(cells)}) must not be empty`);
+        checkArgument(haveNonEmptyRows(cells), `At least one row out of the ${cells.length} rows must be non-empty so that width can be determined`);
 
         let width = cells.length, height = cells[0].length;
         return new Board({width, height, cells});
@@ -107,6 +108,10 @@ function isPositive(num: number): boolean {
 
 function isNotEmpty(cells: Cells): boolean {
     return cells.length > 0;
+}
+
+function haveNonEmptyRows(cells: Cells): boolean {
+    return cells.some(row=>row.length>0);
 }
 
 function createCells(width: number, height: number) {
