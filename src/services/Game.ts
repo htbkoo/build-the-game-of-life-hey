@@ -1,4 +1,5 @@
-import Board, {BoardCoordinates} from "./Board";
+import Board from "./Board";
+import BoardCoordinates from "./BoardCoordinates";
 
 export default class Game {
     private _board: Board;

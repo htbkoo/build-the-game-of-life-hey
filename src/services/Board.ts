@@ -1,8 +1,8 @@
 import {checkArgument} from "precond";
 import Cell from "./Cell";
+import BoardCoordinates from "./BoardCoordinates";
 
 export type Cells = ReadonlyArray<ReadonlyArray<Cell>>; // Cells representation: upper-left = (0,0), first number is x which corresponds to the width
-export type BoardCoordinates = { x: number; y: number };
 
 export default class Board {
     private readonly _width: number;
