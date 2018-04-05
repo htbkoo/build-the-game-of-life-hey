@@ -25,4 +25,8 @@ export default class Game {
     proceed() {
         this._board = this._board.evolve();
     }
+
+    randomize() {
+        this._board = this._board.newRandomized();
+    }
 }
