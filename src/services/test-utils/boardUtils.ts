@@ -1,14 +1,15 @@
 import * as fs from "fs";
 import {checkArgument} from "precond";
 
-import Board from "../Board";
+import Board, {Cells} from "../Board";
+import Cell from "../Cell";
 
 const CHAR_LIVE = 'l';
 
 // IntelliJ bug - definitely in use in Board.integration.spec.ts
 // noinspection JSUnusedGlobalSymbols
 export default {
-    readFileToLines(filename: string): Array<string>{
+    readFileToLines(filename: string): Array<string> {
         let str = fs.readFileSync(filename).toString();
         return str.split(/[\r\n]+/);
     },
@@ -22,15 +23,11 @@ export default {
         let width = lines[0].length;
         checkArgument(width > 0, "length of first line, which is assumed to be width, cannot be zero");
 
-        let board = Board.newBlank({width, height});
-
-        lines.forEach((line, y) =>
-            line.split("").forEach((ch, x) => {
-                    if (CHAR_LIVE === ch) {
-                        board.setLiveAt({isLive: true, x, y});
-                    }
-                }
+        let cells: Cells = lines.map((line) =>
+            line.split("").map((ch) =>
+                Cell.of({isLive: CHAR_LIVE === ch})
             ));
-        return board;
+
+        return Board.newFromCells({cells});
     },
 };
