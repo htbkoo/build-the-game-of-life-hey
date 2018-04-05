@@ -26,7 +26,8 @@ export default {
         let cells: Cells = lines.map((line) =>
             line.split("").map((ch) =>
                 Cell.of({isLive: CHAR_LIVE === ch})
-            ));
+            )
+        );
 
         return Board.newFromCells({cells});
     },
