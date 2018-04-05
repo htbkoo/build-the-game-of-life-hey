@@ -27,7 +27,7 @@ export default class Board {
         checkArgument(isNotEmpty(cells), `Cells (${JSON.stringify(cells)}) must not be empty`);
         checkArgument(haveNonEmptyRows(cells), `At least one row out of the ${cells.length} rows must be non-empty so that width can be determined`);
 
-        let width = cells.length, height = cells[0].length;
+        let height = cells.length, width = cells[0].length;
         return new Board({width, height, cells});
     }
 

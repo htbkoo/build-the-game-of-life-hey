@@ -85,6 +85,20 @@ describe("Board", function () {
                     expect(board.getHeight()).toEqual(1);
                     expect(board.isLiveAt({x: 0, y: 0})).toEqual(true);
                 });
+
+                it(`should be able to create a board from 1*2 cells`, function () {
+                    // given
+                    const cells: Cells = [[Cell.of({isLive: false}), Cell.of({isLive: true})]];
+
+                    // when
+                    let board: Board = Board.newFromCells({cells});
+
+                    // then
+                    expect(board.getWidth()).toEqual(2);
+                    expect(board.getHeight()).toEqual(1);
+                    expect(board.isLiveAt({x: 0, y: 0})).toEqual(false);
+                    expect(board.isLiveAt({x: 1, y: 0})).toEqual(true);
+                });
             });
 
             describe('Error cases', function () {
