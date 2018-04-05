@@ -1,5 +1,7 @@
-import Game from './Game';
+import {sinonTest} from "./test-utils/sinonWithTest";
 import * as sinon from "sinon";
+
+import Game from './Game';
 import Board from "./Board";
 
 describe("Game", function () {
@@ -50,5 +52,23 @@ describe("Game", function () {
             // then
             expect(game["_board"]).toEqual(mockNewBoard);
         });
+    });
+
+    describe("randomize", function () {
+        it("should randomize the states on the board upon game.randomize()", sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const mockNewBoard = Symbol("mockNewBoard");
+            const mockBoard = sinon.createStubInstance(Board);
+            mockBoard.newRandomized = sinon.stub().returns(mockNewBoard);
+
+            let game = new Game({width: 1, height: 1});
+            game["_board"] = mockBoard;
+
+            // when
+            game.randomize();
+
+            // then
+            expect(game["_board"]).toEqual(mockNewBoard);
+        }));
     });
 });

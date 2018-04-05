@@ -1,5 +1,7 @@
 import {checkArgument} from "precond";
+
 import Cell from "./Cell";
+import randomObjectGenerator from "./utils/randomObjectGenerator";
 
 export type Cells = ReadonlyArray<ReadonlyArray<Cell>>; // Cells representation: upper-left = (0,0), first number is x which corresponds to the width
 export type BoardCoordinates = { x: number; y: number };
@@ -80,6 +82,16 @@ export default class Board {
         let cells = this._cells.map((row, y) =>
             row.map((cell, x) =>
                 Cell.of({isLive: this.willBeLive({x, y})})
+            )
+        );
+
+        return Board.newFromCells({cells});
+    }
+
+    newRandomized(): Board {
+        let cells = this._cells.map((row) =>
+            row.map(() =>
+                Cell.of({isLive: randomObjectGenerator.boolean()})
             )
         );
 
