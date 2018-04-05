@@ -12,7 +12,7 @@ describe("randomObjectGenerator", function () {
             0.9,
             0.999
         ].forEach(anyNumberGreaterThanOrEqualToZeroPointFive =>
-            it(`should return true if Math.random() returns ${anyNumberGreaterThanOrEqualToZeroPointFive} which is >=0.5`, sinonTest(function (this: sinon.SinonSandbox) {
+            it(`should return true if Math.random() returns ${anyNumberGreaterThanOrEqualToZeroPointFive} which is >= 0.5`, sinonTest(function (this: sinon.SinonSandbox) {
                 // given
                 this.stub(Math, "random").returns(anyNumberGreaterThanOrEqualToZeroPointFive);
 
@@ -24,16 +24,23 @@ describe("randomObjectGenerator", function () {
             }))
         );
 
-        it('should return false if Math.random() returned <0.5', sinonTest(function (this: sinon.SinonSandbox) {
-            // given
-            let anyNumberSmallerThanZeroPointFive = 0.1;
-            this.stub(Math, "random").returns(anyNumberSmallerThanZeroPointFive);
+        [
+            0,
+            0.1,
+            0.2,
+            0.4,
+            0.499,
+        ].forEach(anyNumberSmallerThanZeroPointFive =>
+            it(`should return false if Math.random() returns ${anyNumberSmallerThanZeroPointFive} which is < 0.5`, sinonTest(function (this: sinon.SinonSandbox) {
+                // given
+                this.stub(Math, "random").returns(anyNumberSmallerThanZeroPointFive);
 
-            // when
-            let generatedBoolean = randomObjectGenerator.boolean();
+                // when
+                let generatedBoolean = randomObjectGenerator.boolean();
 
-            // then
-            expect(generatedBoolean).toEqual(false);
-        }));
+                // then
+                expect(generatedBoolean).toEqual(false);
+            }))
+        );
     });
 });
