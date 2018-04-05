@@ -14,4 +14,20 @@ describe("BoardCoordinates", function () {
             expect(coordinates.y).toEqual(y);
         });
     });
+
+    describe("areSameAs", function () {
+        it("should return true if two BoardCoordinates represent the same coordinates", function () {
+            // given
+            const x = 10, y = 10;
+
+            const anotherCoordinates = BoardCoordinates.of({x, y});
+            const coordinates = BoardCoordinates.of({x, y});
+
+            // when
+            let areSame = anotherCoordinates.areSameAs({coordinates});
+
+            // then
+            expect(areSame).toEqual(true);
+        });
+    });
 });

@@ -56,7 +56,8 @@ export default class Board {
                     x: wrapCoordinate(x + dx, this._width),
                     y: wrapCoordinate(y + dy, this._height)
                 };
-                if (this.getCell(targetCoors).isLive()) {
+
+                if (this.getCell(BoardCoordinates.of(targetCoors)).isLive()) {
                     count++;
                 }
             }
@@ -79,7 +80,7 @@ export default class Board {
     evolve(): Board {
         let cells = this._cells.map((row, y) =>
             row.map((cell, x) =>
-                Cell.of({isLive: this.willBeLive({x, y})})
+                Cell.of({isLive: this.willBeLive(BoardCoordinates.of({x, y}))})
             )
         );
 

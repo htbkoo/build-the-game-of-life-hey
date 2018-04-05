@@ -1,4 +1,5 @@
 import Game from './Game';
+import BoardCoordinates from "./BoardCoordinates";
 
 describe("Game (integration)", function () {
     describe("toggleLiveAt", function () {
@@ -6,15 +7,15 @@ describe("Game (integration)", function () {
             // given
             const width = 20, height = 30, x = 5, y = 7;
             let game = new Game({width, height});
-            expect(game.isLiveAt({x, y})).toEqual(false);
+            expect(game.isLiveAt(BoardCoordinates.of({x, y}))).toEqual(false);
 
             // when
-            let isLiveAfterToggle = game.toggleLiveAt({x, y});
+            let isLiveAfterToggle = game.toggleLiveAt(BoardCoordinates.of({x, y}));
 
             // then
             const expectedIsLiveAfterToggle = true;
             expect(isLiveAfterToggle).toEqual(expectedIsLiveAfterToggle);
-            expect(game.isLiveAt({x, y})).toEqual(expectedIsLiveAfterToggle);
+            expect(game.isLiveAt(BoardCoordinates.of({x, y}))).toEqual(expectedIsLiveAfterToggle);
         });
     });
 
@@ -24,9 +25,10 @@ describe("Game (integration)", function () {
             const width = 20, height = 30;
             let game = new Game({width, height});
 
-            game.toggleLiveAt({x: 0, y: 0});
-            game.toggleLiveAt({x: 1, y: 2});
-            game.toggleLiveAt({x: 2, y: 2});
+
+            game.toggleLiveAt(BoardCoordinates.of({x: 0, y: 0}));
+            game.toggleLiveAt(BoardCoordinates.of({x: 1, y: 2}));
+            game.toggleLiveAt(BoardCoordinates.of({x: 2, y: 2}));
 
             // when
             game.reset();
@@ -34,7 +36,7 @@ describe("Game (integration)", function () {
             // then
             for (let y = 0; y < height; y++) {
                 for (let x = 0; x < width; x++) {
-                    expect(game.isLiveAt({x, y})).toEqual(false);
+                    expect(game.isLiveAt(BoardCoordinates.of({x, y}))).toEqual(false);
                 }
             }
         });

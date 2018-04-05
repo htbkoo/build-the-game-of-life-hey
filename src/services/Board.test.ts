@@ -1,5 +1,6 @@
 import Board, {Cells} from './Board';
 import Cell from "./Cell";
+import BoardCoordinates from "./BoardCoordinates";
 
 describe("Board", function () {
     describe('factory methods', function () {
@@ -83,7 +84,7 @@ describe("Board", function () {
                     // then
                     expect(board.getWidth()).toEqual(1);
                     expect(board.getHeight()).toEqual(1);
-                    expect(board.isLiveAt({x: 0, y: 0})).toEqual(true);
+                    expect(board.isLiveAt(BoardCoordinates.of({x: 0, y: 0}))).toEqual(true);
                 });
 
                 it(`should be able to create a board from 1*2 cells`, function () {
@@ -96,8 +97,8 @@ describe("Board", function () {
                     // then
                     expect(board.getWidth()).toEqual(2);
                     expect(board.getHeight()).toEqual(1);
-                    expect(board.isLiveAt({x: 0, y: 0})).toEqual(false);
-                    expect(board.isLiveAt({x: 1, y: 0})).toEqual(true);
+                    expect(board.isLiveAt(BoardCoordinates.of({x: 0, y: 0}))).toEqual(false);
+                    expect(board.isLiveAt(BoardCoordinates.of({x: 1, y: 0}))).toEqual(true);
                 });
             });
 
@@ -138,7 +139,7 @@ describe("Board", function () {
             let board = Board.newBlank({width, height});
 
             // when
-            let isLive = board.isLiveAt({x: 0, y: 0});
+            let isLive = board.isLiveAt(BoardCoordinates.of({x: 0, y: 0}));
 
             // then
             expect(isLive).toEqual(false);
@@ -155,7 +156,7 @@ describe("Board", function () {
 
             // when
             let newBoard = board.withLiveAt({x, y, isLive: expectedIsLive});
-            let isLive = newBoard.isLiveAt({x, y});
+            let isLive = newBoard.isLiveAt(BoardCoordinates.of({x, y}));
 
             // then
             expect(isLive).toEqual(expectedIsLive);
@@ -171,8 +172,8 @@ describe("Board", function () {
             board.withLiveAt({x, y, isLive});
 
             // then
-            expect(board.isLiveAt({x: 0, y: 0})).toEqual(false);
-            expect(board.isLiveAt({x: 1, y: 0})).toEqual(false);
+            expect(board.isLiveAt(BoardCoordinates.of({x: 0, y: 0}))).toEqual(false);
+            expect(board.isLiveAt(BoardCoordinates.of({x: 1, y: 0}))).toEqual(false);
         });
 
         it('should not affect other cells by setting only one cell', function () {
@@ -185,8 +186,8 @@ describe("Board", function () {
             let newBoard = board.withLiveAt({x, y, isLive});
 
             // then
-            expect(newBoard.isLiveAt({x: 0, y: 0})).toEqual(isLive);
-            expect(newBoard.isLiveAt({x: 1, y: 0})).toEqual(false);
+            expect(newBoard.isLiveAt(BoardCoordinates.of({x: 0, y: 0}))).toEqual(isLive);
+            expect(newBoard.isLiveAt(BoardCoordinates.of({x: 1, y: 0}))).toEqual(false);
         });
     });
 });

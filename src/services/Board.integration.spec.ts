@@ -2,6 +2,7 @@ import * as path from "path";
 
 import Board from './Board';
 import boardUtils from "./test-utils/boardUtils";
+import BoardCoordinates from "./BoardCoordinates";
 
 describe("Board (Integration)", function () {
     describe('getNumOfLivingNeighboursAt', function () {
@@ -12,7 +13,7 @@ describe("Board (Integration)", function () {
             let board = Board.newBlank({width, height});
 
             // when
-            let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt({x, y});
+            let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt(BoardCoordinates.of({x, y}));
 
             // then
             expect(numOfLivingNeighbours).toEqual(0);
@@ -30,7 +31,7 @@ describe("Board (Integration)", function () {
                 let board = boardUtils.buildFromFile(asResourcePath(testCaseFileName));
 
                 // when
-                let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt({x, y});
+                let numOfLivingNeighbours = board.getNumOfLivingNeighboursAt(BoardCoordinates.of({x, y}));
 
                 // then
                 expect(numOfLivingNeighbours).toEqual(expectedNum);
@@ -43,7 +44,10 @@ describe("Board (Integration)", function () {
 
             // when
             let actualNumbers = new Array(board.getHeight()).fill(0).map((_, y) =>
-                new Array(board.getWidth()).fill(0).map((_, x) => board.getNumOfLivingNeighboursAt({x, y})).join("")
+                new Array(board.getWidth()).fill(0).map((_, x) => board.getNumOfLivingNeighboursAt(BoardCoordinates.of({
+                    x,
+                    y
+                }))).join("")
             );
 
             // then
@@ -52,50 +56,56 @@ describe("Board (Integration)", function () {
     });
 
     describe("evolve", function () {
-            [
-                {
-                    prevStateFileName: "board_evolve_blinker_5x5_1.txt",
-                    nextStateFileName: "board_evolve_blinker_5x5_2.txt"
-                },
-                {
-                    prevStateFileName: "board_evolve_beacon_6x6_1.txt",
-                    nextStateFileName: "board_evolve_beacon_6x6_2.txt"
-                },
-            ].forEach(({prevStateFileName, nextStateFileName})=>{
-                it(`should evolve from ${prevStateFileName} to ${nextStateFileName} and get new Board `, function () {
-                    // given
-                    let board = boardUtils.buildFromFile(asResourcePath(prevStateFileName));
+        [
+            {
+                prevStateFileName: "board_evolve_blinker_5x5_1.txt",
+                nextStateFileName: "board_evolve_blinker_5x5_2.txt"
+            },
+            {
+                prevStateFileName: "board_evolve_beacon_6x6_1.txt",
+                nextStateFileName: "board_evolve_beacon_6x6_2.txt"
+            },
+        ].forEach(({prevStateFileName, nextStateFileName}) => {
+            it(`should evolve from ${prevStateFileName} to ${nextStateFileName} and get new Board `, function () {
+                // given
+                let board = boardUtils.buildFromFile(asResourcePath(prevStateFileName));
 
-                    // when
-                    let newBoard = board.evolve();
+                // when
+                let newBoard = board.evolve();
 
-                    // then
-                    // TODO: refactor - this duplicate with the code in Board.integration.spec.ts "should compute all numOfLivingNeighboursAt correctly for board_neighbour_full case" test
-                    let actualCells = new Array(newBoard.getHeight()).fill(0).map((_, y) =>
-                        new Array(newBoard.getWidth()).fill(0).map((_, x) => newBoard.isLiveAt({x, y}) ? 'l' : 'd').join("")
-                    );
-                    let expectedCells = boardUtils.readFileToLines(asResourcePath(nextStateFileName));
+                // then
+                // TODO: refactor - this duplicate with the code in Board.integration.spec.ts "should compute all numOfLivingNeighboursAt correctly for board_neighbour_full case" test
+                let actualCells = new Array(newBoard.getHeight()).fill(0).map((_, y) =>
+                    new Array(newBoard.getWidth()).fill(0).map((_, x) => newBoard.isLiveAt(BoardCoordinates.of({
+                        x,
+                        y
+                    })) ? 'l' : 'd').join("")
+                );
+                let expectedCells = boardUtils.readFileToLines(asResourcePath(nextStateFileName));
 
-                    expect(actualCells).toEqual(expectedCells);
-                });
-
-                it(`should not impact original board by board.evolve()`, function () {
-                    // given
-                    let board = boardUtils.buildFromFile(asResourcePath(prevStateFileName));
-
-                    // when
-                    board.evolve();
-
-                    // then
-                    // TODO: refactor - this duplicate with the code in Board.integration.spec.ts "should compute all numOfLivingNeighboursAt correctly for board_neighbour_full case" test
-                    let actualCells = new Array(board.getHeight()).fill(0).map((_, y) =>
-                        new Array(board.getWidth()).fill(0).map((_, x) => board.isLiveAt({x, y}) ? 'l' : 'd').join("")
-                    );
-                    let expectedCells = boardUtils.readFileToLines(asResourcePath(prevStateFileName));
-
-                    expect(actualCells).toEqual(expectedCells);
-                });
+                expect(actualCells).toEqual(expectedCells);
             });
+
+            it(`should not impact original board by board.evolve()`, function () {
+                // given
+                let board = boardUtils.buildFromFile(asResourcePath(prevStateFileName));
+
+                // when
+                board.evolve();
+
+                // then
+                // TODO: refactor - this duplicate with the code in Board.integration.spec.ts "should compute all numOfLivingNeighboursAt correctly for board_neighbour_full case" test
+                let actualCells = new Array(board.getHeight()).fill(0).map((_, y) =>
+                    new Array(board.getWidth()).fill(0).map((_, x) => board.isLiveAt(BoardCoordinates.of({
+                        x,
+                        y
+                    })) ? 'l' : 'd').join("")
+                );
+                let expectedCells = boardUtils.readFileToLines(asResourcePath(prevStateFileName));
+
+                expect(actualCells).toEqual(expectedCells);
+            });
+        });
     });
 
     function asResourcePath(fileName: string) {

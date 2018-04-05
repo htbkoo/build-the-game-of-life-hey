@@ -5,4 +5,8 @@ export default class BoardCoordinates {
     static of({x, y}: { x: number, y: number }): BoardCoordinates {
         return new BoardCoordinates(x, y);
     }
+
+    areSameAs({coordinates}: { coordinates: BoardCoordinates }): boolean {
+        return this.x === coordinates.x && this.y === coordinates.y;
+    }
 }

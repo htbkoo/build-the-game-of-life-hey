@@ -1,6 +1,7 @@
 import Game from './Game';
 import * as sinon from "sinon";
 import Board from "./Board";
+import BoardCoordinates from "./BoardCoordinates";
 
 describe("Game", function () {
     describe("constructor", function () {
@@ -28,7 +29,7 @@ describe("Game", function () {
             // then
             for (let y = 0; y < height; y++) {
                 for (let x = 0; x < width; x++) {
-                    expect(game.isLiveAt({x, y})).toEqual(false);
+                    expect(game.isLiveAt(BoardCoordinates.of({x, y}))).toEqual(false);
                 }
             }
         });
