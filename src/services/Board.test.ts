@@ -145,8 +145,8 @@ describe("Board", function () {
         });
     });
 
-    describe('setLiveAt', function () {
-        it('should be able to set the cell to live by board.setLiveAt({x, y})', function () {
+    describe('withLiveAt', function () {
+        it('should be able to set the cell to live by board.withLiveAt({x, y})', function () {
             // given
             const width = 1, height = 1;
             const x = 0, y = 0;
@@ -154,11 +154,25 @@ describe("Board", function () {
             let board = Board.newBlank({width, height});
 
             // when
-            board.setLiveAt({x, y, isLive: expectedIsLive});
-            let isLive = board.isLiveAt({x, y});
+            let newBoard = board.withLiveAt({x, y, isLive: expectedIsLive});
+            let isLive = newBoard.isLiveAt({x, y});
 
             // then
             expect(isLive).toEqual(expectedIsLive);
+        });
+
+        it('should not affect the old board', function () {
+            // given
+            const width = 2, height = 1;
+            const x = 0, y = 0, isLive = true;
+            let board = Board.newBlank({width, height});
+
+            // when
+            board.withLiveAt({x, y, isLive});
+
+            // then
+            expect(board.isLiveAt({x: 0, y: 0})).toEqual(false);
+            expect(board.isLiveAt({x: 1, y: 0})).toEqual(false);
         });
 
         it('should not affect other cells by setting only one cell', function () {
@@ -168,11 +182,11 @@ describe("Board", function () {
             let board = Board.newBlank({width, height});
 
             // when
-            board.setLiveAt({x, y, isLive});
+            let newBoard = board.withLiveAt({x, y, isLive});
 
             // then
-            expect(board.isLiveAt({x: 0, y: 0})).toEqual(isLive);
-            expect(board.isLiveAt({x: 1, y: 0})).toEqual(false);
+            expect(newBoard.isLiveAt({x: 0, y: 0})).toEqual(isLive);
+            expect(newBoard.isLiveAt({x: 1, y: 0})).toEqual(false);
         });
     });
 });
