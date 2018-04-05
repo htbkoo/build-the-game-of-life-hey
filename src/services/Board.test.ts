@@ -198,15 +198,16 @@ describe("Board", function () {
     describe("newRandomized", function () {
         it("should get a new randomized board from board.newRandomized", sinonTest(function (this: sinon.SinonSandbox) {
             // given
-            let stub = this.stub(randomObjectGenerator, "boolean");
-            stub
+            this.stub(randomObjectGenerator, "boolean")
                 .onFirstCall().returns(false)
                 .onSecondCall().returns(true)
-                .onThirdCall().returns(false);
-            stub.returns(true);
+                .onThirdCall().returns(false)
+                .returns(true);
+
+            const oldBoard = Board.newBlank({width: 2, height: 3});
 
             // when
-            let board = Board.newBlank({width: 2, height: 3}).newRandomized();
+            let board = oldBoard.newRandomized();
 
             // then
             let expectedCells = [
@@ -219,7 +220,14 @@ describe("Board", function () {
                 rows.forEach((expectedIsLive, x) =>
                     // Unfortunately Jest does not support (a simple way for) customized assertion error message
                     // Thus using the alternative suggested here: https://github.com/facebook/jest/issues/3293#issuecomment-361037383
-                    expect({x, y, isLive: board.isLiveAt({x, y})}).toEqual({x, y, isLive: expectedIsLive})
+                    expect({
+                        x, y,
+                        isLive: board.isLiveAt({x, y})
+                    })
+                        .toEqual({
+                            x, y,
+                            isLive: expectedIsLive
+                        })
                 )
             );
         }));
