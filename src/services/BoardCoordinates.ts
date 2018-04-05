@@ -1,6 +1,5 @@
 export default class BoardCoordinates {
-    private constructor(public x: number, public y: number) {
-
+    private constructor(public readonly x: number, public readonly y: number) {
     }
 
     static of({x, y}: { x: number, y: number }): BoardCoordinates {
