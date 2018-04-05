@@ -71,15 +71,13 @@ export default class Board {
     }
 
     evolve(): Board {
-        let newBoard = Board.newBlank({width: this.getWidth(), height: this.getHeight()});
+        let cells = this._cells.map((row, y) =>
+            row.map((cell, x) =>
+                Cell.of({isLive: this.willBeLive({x, y})})
+            )
+        );
 
-        for (let y = 0; y < this.getHeight(); y++) {
-            for (let x = 0; x < this.getWidth(); x++) {
-                newBoard.setLiveAt({x, y, isLive: this.willBeLive({x, y})});
-            }
-        }
-
-        return newBoard;
+        return Board.newFromCells({cells});
     }
 
     private willBeLive(coors: BoardCoordinates): boolean {
