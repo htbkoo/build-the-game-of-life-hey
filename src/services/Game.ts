@@ -13,7 +13,7 @@ export default class Game {
 
     toggleLiveAt(coors: BoardCoordinates) {
         let toggledIsLive = !this.isLiveAt(coors);
-        this._board.setLiveAt({...coors, isLive: toggledIsLive});
+        this._board = this._board.withLiveAt({...coors, isLive: toggledIsLive});
         return toggledIsLive;
     }
 

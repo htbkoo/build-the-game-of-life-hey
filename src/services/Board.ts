@@ -1,7 +1,7 @@
 import {checkArgument} from "precond";
 import Cell from "./Cell";
 
-export type Cells = Array<Array<Cell>>; // Cells representation: upper-left = (0,0), first number is x which corresponds to the width
+export type Cells = ReadonlyArray<ReadonlyArray<Cell>>; // Cells representation: upper-left = (0,0), first number is x which corresponds to the width
 export type BoardCoordinates = { x: number; y: number };
 
 export default class Board {
@@ -66,8 +66,14 @@ export default class Board {
     }
 
     /* New Instance Getter with updated fields */
-    setLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }) {
-        this._cells[y][x] = Cell.of({isLive});
+    withLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }): Board {
+        return Board.newFromCells({
+            cells: this._cells.map((row, cy) =>
+                row.map((cell, cx) =>
+                    (x === cx && y === cy) ? Cell.of({isLive}) : cell
+                )
+            )
+        });
     }
 
     evolve(): Board {

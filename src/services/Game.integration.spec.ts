@@ -2,7 +2,7 @@ import Game from './Game';
 
 describe("Game (integration)", function () {
     describe("toggleLiveAt", function () {
-        it("should be able to toogle isLive by toggleLiveAt", function () {
+        it("should be able to toggle isLive by toggleLiveAt", function () {
             // given
             const width = 20, height = 30, x = 5, y = 7;
             let game = new Game({width, height});
