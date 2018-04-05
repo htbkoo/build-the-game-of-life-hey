@@ -1,13 +1,12 @@
 import {checkArgument} from "precond";
 import Cell from "./Cell";
 
-export type Cells = Array<Array<Cell>>;
+export type Cells = Array<Array<Cell>>; // Cells representation: upper-left = (0,0), first number is x which corresponds to the width
 export type BoardCoordinates = { x: number; y: number };
 
 export default class Board {
     private readonly _width: number;
     private readonly _height: number;
-    // cell representation: upper-left = (0,0), first number is x which corresponds to the width
     private readonly _cells: Cells;
 
     private constructor({width, height, cells}: { width: number; height: number, cells: Cells }) {
@@ -16,6 +15,7 @@ export default class Board {
         this._cells = cells;
     }
 
+    /* Factory methods */
     static newBlank({width, height}: { width: number; height: number }): Board {
         checkArgument(isPositive(width), `Width (${width}) must be be positive`);
         checkArgument(isPositive(height), `Height (${height}) must be be positive`);
@@ -31,6 +31,7 @@ export default class Board {
         return new Board({width, height, cells});
     }
 
+    /* Getters */
     getWidth() {
         return this._width;
     }
@@ -41,10 +42,6 @@ export default class Board {
 
     isLiveAt(coors: BoardCoordinates): boolean {
         return this.getCell(coors).isLive();
-    }
-
-    setLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }) {
-        this._cells[y][x] = Cell.of({isLive});
     }
 
     getNumOfLivingNeighboursAt({x, y}: BoardCoordinates) {
@@ -66,6 +63,11 @@ export default class Board {
         }
 
         return count;
+    }
+
+    /* New Instance Getter with updated fields */
+    setLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }) {
+        this._cells[y][x] = Cell.of({isLive});
     }
 
     evolve(): Board {
