@@ -19,8 +19,8 @@ interface AppState {
 class App extends React.Component<AppProps, AppState> {
     private readonly _game: Game;
 
-    constructor(props: AppProps, context: any) {
-        super(props, context);
+    constructor(props: AppProps) {
+        super(props);
 
         const width = 20, height = 20;
         this._game = new Game({width, height});
@@ -45,14 +45,14 @@ class App extends React.Component<AppProps, AppState> {
         this.setState({isLives: this.getIsLives()});
     }
 
-    onProceedClick(event) {
+    onProceedClick() {
         this._game.proceed();
         this.setState({isLives: this.getIsLives()});
     }
 
     getIsLives(): IsLives {
         return new Array(this.state.height).fill(0).map((_, y) =>
-            new Array(this.state.width).fill(0).map((_, x) =>
+            new Array(this.state.width).fill(0).map((__, x) =>
                 this._game.isLiveAt({x, y})
             )
         );
@@ -61,8 +61,12 @@ class App extends React.Component<AppProps, AppState> {
     render() {
         return (
             <div className="App">
-                <Board width={this.state.width} height={this.state.height} isLives={this.state.isLives}
-                       onCellClick={this.onCellClick}/>
+                <Board
+                    width={this.state.width}
+                    height={this.state.height}
+                    isLives={this.state.isLives}
+                    onCellClick={this.onCellClick}
+                />
                 <button onClick={this.onProceedClick}>Proceed</button>
             </div>
         );

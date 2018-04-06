@@ -1,12 +1,12 @@
-import * as React from "react";
-import {OnCellClick} from "../App";
+import * as React from 'react';
+import {OnCellClick} from '../App';
 
 import './BoardComponent.css';
 
 const BoardCell = ({isLive, onCellClick}: { isLive: boolean, onCellClick: Function }) => {
-    let cssClasses = isLive ? "isLive" : "";
+    let cssClasses = isLive ? 'isLive' : '';
 
-    return <div className={cssClasses} onClick={e => onCellClick()}/>;
+    return <div className={cssClasses} onClick={() => onCellClick()}/>;
 };
 
 const BoardRow = ({width, isLives, onCellClick}: { width: number, isLives: Array<boolean>, onCellClick: Function }) => {
@@ -22,10 +22,15 @@ const BoardRow = ({width, isLives, onCellClick}: { width: number, isLives: Array
     );
 };
 
-const Board = ({width, height, isLives, onCellClick}: { width: number, height: number, isLives: Array<Array<boolean>>, onCellClick: OnCellClick }) => {
+const Board = ({width, height, isLives, onCellClick}:
+                   { width: number, height: number, isLives: Array<Array<boolean>>, onCellClick: OnCellClick }) => {
     let cells = new Array(height).fill(0).map((_, y) => (
-        <BoardRow key={y}
-            width={width} isLives={isLives[y]} onCellClick={(x: number) => onCellClick({x, y})}/>)
+        <BoardRow
+            key={y}
+            width={width}
+            isLives={isLives[y]}
+            onCellClick={(x: number) => onCellClick({x, y})}
+        />)
     );
 
     return (
