@@ -4,4 +4,4 @@ export default {
     boolean(): boolean {
         return Math.random() >= BOOLEAN_THRESHOLD;
     }
-}
+};
