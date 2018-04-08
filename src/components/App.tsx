@@ -17,15 +17,13 @@ type AppState = {
     height: number
 };
 
-const width = 30, height = 20;
-
 class App extends React.Component<AppProps, AppState> {
     constructor(props) {
         super(props);
 
         this.state = {
-            width,
-            height
+            width: 30,
+            height: 20
         };
     }
 
