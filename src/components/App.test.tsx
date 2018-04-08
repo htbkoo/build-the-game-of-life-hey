@@ -26,4 +26,17 @@ describe('App', function () {
         expect(app.state('width')).toEqual(expectedDefaultWidth);
         expect(app.state('height')).toEqual(expectedDefaultHeight);
     });
+
+    it('should pass state.width and state.height as props to <Board/>', () => {
+        // given
+        const width = 10, height = 50;
+        const app = shallow(<App/>);
+
+        // when
+        app.setState({width, height});
+
+        // then
+        expect(app.find(Board).prop("width")).toEqual(width);
+        expect(app.find(Board).prop("height")).toEqual(height);
+    });
 });

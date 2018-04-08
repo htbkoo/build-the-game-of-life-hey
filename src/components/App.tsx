@@ -37,7 +37,7 @@ class App extends React.Component<AppProps, AppState> {
                         <AppBar title="Hey's Game of Life (ReactJs + TypeScript)" className="App-Header-AppBar"/>
                     </div>
                     <div className="App-Body">
-                        <Board width={width} height={height}/>
+                        <Board width={this.state.width} height={this.state.height}/>
                         <ControlPanel/>
                     </div>
                     <div className="App-Footer">
