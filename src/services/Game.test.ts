@@ -6,7 +6,7 @@ import Board from "./Board";
 
 describe("Game", function () {
     describe("constructor", function () {
-        it("should take {width, height} and create Board accordingly", function () {
+        it("should take {width, height}, create Board accordingly and expose game.getWidth() and game.getHeight() accordingly", function () {
             // given
             const width = 20, height = 30;
 
@@ -14,8 +14,8 @@ describe("Game", function () {
             let game = new Game({width, height});
 
             // then
-            expect(game["_board"].getWidth()).toEqual(width);
-            expect(game["_board"].getHeight()).toEqual(height);
+            expect(game.getWidth()).toEqual(width);
+            expect(game.getHeight()).toEqual(height);
         });
     });
 
