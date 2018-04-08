@@ -10,6 +10,8 @@ import ControlPanel from './ControlPanelComponent';
 
 import './App.css';
 
+const width = 20, height = 30;
+
 class App extends React.Component {
     render() {
         return (
@@ -19,7 +21,7 @@ class App extends React.Component {
                         <AppBar title="Hey's Game of Life (ReactJs + TypeScript)" className="App-Header-AppBar"/>
                     </div>
                     <div className="App-Body">
-                        <Board/>
+                        <Board width={width} height={height}/>
                         <ControlPanel/>
                     </div>
                     <div className="App-Footer">
