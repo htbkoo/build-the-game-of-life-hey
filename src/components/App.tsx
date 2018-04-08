@@ -10,9 +10,25 @@ import ControlPanel from './ControlPanelComponent';
 
 import './App.css';
 
-const width = 20, height = 30;
+type AppProps = {};
 
-class App extends React.Component {
+type AppState = {
+    width: number,
+    height: number
+};
+
+const width = 30, height = 20;
+
+class App extends React.Component<AppProps, AppState> {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            width,
+            height
+        };
+    }
+
     render() {
         return (
             <MuiThemeProvider>
