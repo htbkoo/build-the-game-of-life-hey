@@ -2,18 +2,14 @@ import * as React from 'react';
 import './App.css';
 import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
-
-const logo = require('../logo.svg');
+import AppBar from 'material-ui/AppBar';
 
 class App extends React.Component {
     render() {
         return (
             <div className="App">
                 <div className="App-Header">
-                    <header className="App-header">
-                        <img src={logo} className="App-logo" alt="logo"/>
-                        <h1 className="App-title">Welcome to React</h1>
-                    </header>
+                    <AppBar title="Hey's Game of Life (ReactJs + TypeScript)"/>
                 </div>
                 <div className="App-Body">
                     <Board/>
