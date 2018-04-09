@@ -22,14 +22,16 @@ const Board = ({width, height}: BoardProps) => {
     }
 
     function boardRow(y) {
-        let row = new Array(width).fill(0).map((_, x) => {
-            return <td key={x}/>;
-        });
+        let row = new Array(width).fill(0).map((_, x) => boardCell(x));
         return (
             <tr key={y}>
                 {row}
             </tr>
         );
+    }
+
+    function boardCell(x) {
+        return <td key={x}/>;
     }
 };
 
