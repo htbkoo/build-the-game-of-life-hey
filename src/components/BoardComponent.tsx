@@ -13,20 +13,22 @@ const Board = ({width, height}: BoardProps) => {
     );
 
     function boardTable() {
-        let rows = new Array(height).fill(0).map((_, y) => {
-            let row = new Array(width).fill(0).map((__, x) => {
-                return <td key={x}/>;
-            });
-            return (
-                <tr key={y}>
-                    {row}
-                </tr>
-            );
-        });
+        let rows = new Array(height).fill(0).map((_, y) => boardRow(y));
         return (
             <table>
                 {rows}
             </table>
+        );
+    }
+
+    function boardRow(y) {
+        let row = new Array(width).fill(0).map((_, x) => {
+            return <td key={x}/>;
+        });
+        return (
+            <tr key={y}>
+                {row}
+            </tr>
         );
     }
 };
