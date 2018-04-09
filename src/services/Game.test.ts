@@ -11,7 +11,7 @@ describe("Game", function () {
             const width = 20, height = 30;
 
             // when
-            let game = new Game({width, height});
+            let game = Game.new({width, height});
 
             // then
             expect(game.getWidth()).toEqual(width);
@@ -25,7 +25,7 @@ describe("Game", function () {
             const width = 20, height = 30;
 
             // when
-            let game = new Game({width, height});
+            let game = Game.new({width, height});
 
             // then
             for (let y = 0; y < height; y++) {
@@ -43,7 +43,7 @@ describe("Game", function () {
             const mockBoard = sinon.createStubInstance(Board);
             mockBoard.evolve = sinon.stub().returns(mockNewBoard);
 
-            let game = new Game({width: 1, height: 1});
+            let game = Game.new({width: 1, height: 1});
             game["_board"] = mockBoard;
 
             // when
@@ -61,7 +61,7 @@ describe("Game", function () {
             const mockBoard = sinon.createStubInstance(Board);
             mockBoard.newRandomized = sinon.stub().returns(mockNewBoard);
 
-            let game = new Game({width: 1, height: 1});
+            let game = Game.new({width: 1, height: 1});
             game["_board"] = mockBoard;
 
             // when
