@@ -36,7 +36,7 @@ describe('App', function () {
         app.setState({width, height});
 
         // then
-        expect(app.find(Board).prop("width")).toEqual(width);
-        expect(app.find(Board).prop("height")).toEqual(height);
+        expect(app.find(Board).prop('width')).toEqual(width);
+        expect(app.find(Board).prop('height')).toEqual(height);
     });
 });
