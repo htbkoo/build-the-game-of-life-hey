@@ -51,8 +51,14 @@ describe('App', function () {
             // given
             const width = 30, height = 20;
             const mockGame = {
-                isLiveAt() {
-                    return true;
+                isLiveAt({x, y}) {
+                    return x === y;
+                },
+                getWidth(){
+                    return width;
+                },
+                getHeight(){
+                    return height;
                 }
             };
             this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
@@ -65,7 +71,7 @@ describe('App', function () {
 
             for (let y = 0; y < height; ++y) {
                 for (let x = 0; x < width; ++x) {
-                    expect({x, y, isLive: stateGame.isLives[y][x]}).toEqual({x, y, isLive: true});
+                    expect({x, y, isLive: stateGame.isLives[y][x]}).toEqual({x, y, isLive: x === y});
                 }
             }
 

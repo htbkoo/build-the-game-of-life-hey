@@ -9,6 +9,7 @@ import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
 
 import './App.css';
+import Game from '../services/Game';
 
 type AppProps = {};
 
@@ -25,12 +26,14 @@ type GameState = {
 type IsLivesState = ReadonlyArray<ReadonlyArray<boolean>>;
 
 class App extends React.Component<AppProps, AppState> {
+    private readonly game: Game = Game.new({width: 30, height: 20});
+
     constructor(props) {
         super(props);
 
         this.state = {
-            width: 30,
-            height: 20,
+            width: this.game.getWidth(),
+            height: this.game.getHeight(),
             game: {
                 isLives: this.getIsLives()
             }
@@ -56,8 +59,9 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     private getIsLives(): IsLivesState {
-        return new Array(20).fill(0).map(() =>
-            new Array(30).fill(0).map(() => true)
+        return new Array(20).fill(0).map((_, y) =>
+            new Array(30).fill(0).map((__, x) =>
+                this.game.isLiveAt({x, y}))
         );
     }
 }
