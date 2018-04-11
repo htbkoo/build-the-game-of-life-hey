@@ -4,8 +4,13 @@ export default class Game {
     private _board: Board;
 
     // constructors
-    constructor(dimension: { width: number; height: number }) {
+    private constructor(dimension: { width: number; height: number }) {
         this._board = Board.newBlank(dimension);
+    }
+
+    // factory methods
+    static new(dimension: { width: number; height: number }): Game{
+        return new Game(dimension);
     }
 
     // getters

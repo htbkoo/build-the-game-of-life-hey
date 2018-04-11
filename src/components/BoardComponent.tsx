@@ -6,21 +6,33 @@ type BoardProps = {
 };
 
 const Board = ({width, height}: BoardProps) => {
-    let rows = new Array(height).fill(0).map((_, y) => {
-        let row = new Array(width).fill(0).map((__, x) => {
-            return <td key={x}/>;
-        });
+    return (
+        <div className="Board">
+            {boardTable()}
+        </div>
+    );
+
+    function boardTable() {
+        let rows = new Array(height).fill(0).map((_, y) => boardRow(y));
+        return (
+            <table>
+                {rows}
+            </table>
+        );
+    }
+
+    function boardRow(y) {
+        let row = new Array(width).fill(0).map((_, x) => boardCell(x));
         return (
             <tr key={y}>
                 {row}
             </tr>
         );
-    });
-    return (<div className="Board">
-        <table>
-            {rows}
-        </table>
-    </div>);
+    }
+
+    function boardCell(x) {
+        return <td key={x}/>;
+    }
 };
 
 export default Board;

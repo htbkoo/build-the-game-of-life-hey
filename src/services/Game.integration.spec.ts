@@ -1,11 +1,11 @@
 import Game from './Game';
 
-describe("Game (integration)", function () {
-    describe("toggleLiveAt", function () {
-        it("should be able to toggle isLive by toggleLiveAt", function () {
+describe('Game (integration)', function () {
+    describe('toggleLiveAt', function () {
+        it('should be able to toggle isLive by toggleLiveAt', function () {
             // given
             const width = 20, height = 30, x = 5, y = 7;
-            let game = new Game({width, height});
+            let game = Game.new({width, height});
             expect(game.isLiveAt({x, y})).toEqual(false);
 
             // when
@@ -18,11 +18,11 @@ describe("Game (integration)", function () {
         });
     });
 
-    describe("reset", function () {
-        it("should set isLive=false for all cells after game.reset()", function () {
+    describe('reset', function () {
+        it('should set isLive=false for all cells after game.reset()', function () {
             // given
             const width = 20, height = 30;
-            let game = new Game({width, height});
+            let game = Game.new({width, height});
 
             game.toggleLiveAt({x: 0, y: 0});
             game.toggleLiveAt({x: 1, y: 2});

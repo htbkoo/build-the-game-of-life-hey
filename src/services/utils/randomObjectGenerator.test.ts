@@ -1,4 +1,4 @@
-import {sinonTest} from "../test-utils/sinonWithTest";
+import {sinonTest} from "../../test-utils/sinonWithTest";
 import * as sinon from "sinon";
 
 import randomObjectGenerator from './randomObjectGenerator';
