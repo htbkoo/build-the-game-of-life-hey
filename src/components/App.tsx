@@ -14,8 +14,15 @@ type AppProps = {};
 
 type AppState = {
     width: number,
-    height: number
+    height: number,
+    game: GameState
 };
+
+type GameState = {
+    isLives: IsLivesState
+};
+
+type IsLivesState = ReadonlyArray<ReadonlyArray<boolean>>;
 
 class App extends React.Component<AppProps, AppState> {
     constructor(props) {
@@ -23,7 +30,10 @@ class App extends React.Component<AppProps, AppState> {
 
         this.state = {
             width: 30,
-            height: 20
+            height: 20,
+            game: {
+                isLives: this.getIsLives()
+            }
         };
     }
 
@@ -42,6 +52,12 @@ class App extends React.Component<AppProps, AppState> {
                     </div>
                 </div>
             </MuiThemeProvider>
+        );
+    }
+
+    private getIsLives(): IsLivesState {
+        return new Array(20).fill(0).map(() =>
+            new Array(30).fill(0).map(() => true)
         );
     }
 }

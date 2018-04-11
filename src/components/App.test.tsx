@@ -1,10 +1,12 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
+import {sinonTest} from '../test-utils/sinonWithTest';
 
 import App from './App';
 
 import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
+import Game from '../services/Game';
 
 describe('App', function () {
     describe('initialization', function () {
@@ -44,5 +46,33 @@ describe('App', function () {
             expect(app.find(Board).prop('width')).toEqual(width);
             expect(app.find(Board).prop('height')).toEqual(height);
         });
+
+        it('should have a new game and state.game.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const width = 30, height = 20;
+            const mockGame = {
+                isLiveAt() {
+                    return true;
+                }
+            };
+            this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+
+            // when
+            const app = shallow(<App/>);
+
+            // then
+            let stateGame = app.state('game');
+
+            for (let y = 0; y < height; ++y) {
+                for (let x = 0; x < width; ++x) {
+                    expect({x, y, isLive: stateGame.isLives[y][x]}).toEqual({x, y, isLive: true});
+                }
+            }
+
+            // stateGame.isLives.forEach(row =>
+            //     row.forEach(cell =>
+            //         expect(cell).toEqual(true))
+            // );
+        }));
     });
 });
