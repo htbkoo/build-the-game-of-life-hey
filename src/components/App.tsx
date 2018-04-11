@@ -14,12 +14,12 @@ import Game from '../services/Game';
 type AppProps = {};
 
 type AppState = {
-    width: number,
-    height: number,
-    game: GameState
+    board: BoardState
 };
 
-type GameState = {
+type BoardState = {
+    width: number,
+    height: number,
     isLives: IsLivesState
 };
 
@@ -32,9 +32,9 @@ class App extends React.Component<AppProps, AppState> {
         super(props);
 
         this.state = {
-            width: this.game.getWidth(),
-            height: this.game.getHeight(),
-            game: {
+            board: {
+                width: this.game.getWidth(),
+                height: this.game.getHeight(),
                 isLives: this.getIsLives()
             }
         };
@@ -48,7 +48,7 @@ class App extends React.Component<AppProps, AppState> {
                         <AppBar title="Hey's Game of Life (ReactJs + TypeScript)" className="App-Header-AppBar"/>
                     </div>
                     <div className="App-Body">
-                        <Board width={this.state.width} height={this.state.height}/>
+                        <Board width={this.state.board.width} height={this.state.board.height}/>
                         <ControlPanel/>
                     </div>
                     <div className="App-Footer">

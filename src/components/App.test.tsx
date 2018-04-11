@@ -22,7 +22,7 @@ describe('App', function () {
     });
 
     describe('state', function () {
-        it('should have state.width=30 and state.height=20 by default', () => {
+        it('should have state.board.width=30 and state.board.height=20 by default', () => {
             // given
             const expectedDefaultWidth = 30, expectedDefaultHeight = 20;
 
@@ -30,8 +30,9 @@ describe('App', function () {
             let app = shallow(<App/>);
 
             // then
-            expect(app.state('width')).toEqual(expectedDefaultWidth);
-            expect(app.state('height')).toEqual(expectedDefaultHeight);
+            let boardState = app.state('board');
+            expect(boardState.width).toEqual(expectedDefaultWidth);
+            expect(boardState.height).toEqual(expectedDefaultHeight);
         });
 
         it('should pass state.width and state.height as props to <Board/>', () => {
@@ -40,14 +41,14 @@ describe('App', function () {
             const app = shallow(<App/>);
 
             // when
-            app.setState({width, height});
+            app.setState({board:{width, height}});
 
             // then
             expect(app.find(Board).prop('width')).toEqual(width);
             expect(app.find(Board).prop('height')).toEqual(height);
         });
 
-        it('should have a new game and state.game.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {
+        it('should have a new game and state.board.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const width = 30, height = 20;
             const mockGame = {
@@ -67,11 +68,11 @@ describe('App', function () {
             const app = shallow(<App/>);
 
             // then
-            let stateGame = app.state('game');
+            let boardState = app.state('board');
 
             for (let y = 0; y < height; ++y) {
                 for (let x = 0; x < width; ++x) {
-                    expect({x, y, isLive: stateGame.isLives[y][x]}).toEqual({x, y, isLive: x === y});
+                    expect({x, y, isLive: boardState.isLives[y][x]}).toEqual({x, y, isLive: x === y});
                 }
             }
 
