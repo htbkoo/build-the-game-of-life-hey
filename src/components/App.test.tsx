@@ -41,7 +41,7 @@ describe('App', function () {
             const app = shallow(<App/>);
 
             // when
-            app.setState({board:{width, height}});
+            app.setState({board: {width, height}});
 
             // then
             expect(app.find(Board).prop('width')).toEqual(width);
@@ -55,10 +55,10 @@ describe('App', function () {
                 isLiveAt({x, y}) {
                     return x === y;
                 },
-                getWidth(){
+                getWidth() {
                     return width;
                 },
-                getHeight(){
+                getHeight() {
                     return height;
                 }
             };
@@ -75,11 +75,6 @@ describe('App', function () {
                     expect({x, y, isLive: boardState.isLives[y][x]}).toEqual({x, y, isLive: x === y});
                 }
             }
-
-            // stateGame.isLives.forEach(row =>
-            //     row.forEach(cell =>
-            //         expect(cell).toEqual(true))
-            // );
         }));
     });
 });
