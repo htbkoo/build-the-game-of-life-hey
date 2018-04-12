@@ -9,21 +9,34 @@ import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
 
 import './App.css';
+import Game from '../services/Game';
 
 type AppProps = {};
 
 type AppState = {
-    width: number,
-    height: number
+    board: BoardState
 };
 
+export type BoardState = {
+    width: number,
+    height: number,
+    isLives: IsLivesState
+};
+
+type IsLivesState = ReadonlyArray<ReadonlyArray<boolean>>;
+
 class App extends React.Component<AppProps, AppState> {
+    private readonly game: Game = Game.new({width: 30, height: 20});
+
     constructor(props) {
         super(props);
 
         this.state = {
-            width: 30,
-            height: 20
+            board: {
+                width: this.game.getWidth(),
+                height: this.game.getHeight(),
+                isLives: this.getIsLives()
+            }
         };
     }
 
@@ -35,13 +48,20 @@ class App extends React.Component<AppProps, AppState> {
                         <AppBar title="Hey's Game of Life (ReactJs + TypeScript)" className="App-Header-AppBar"/>
                     </div>
                     <div className="App-Body">
-                        <Board width={this.state.width} height={this.state.height}/>
+                        <Board board={this.state.board}/>
                         <ControlPanel/>
                     </div>
                     <div className="App-Footer">
                     </div>
                 </div>
             </MuiThemeProvider>
+        );
+    }
+
+    private getIsLives(): IsLivesState {
+        return new Array(20).fill(0).map((_, y) =>
+            new Array(30).fill(0).map((__, x) =>
+                this.game.isLiveAt({x, y}))
         );
     }
 }
