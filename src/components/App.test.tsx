@@ -35,17 +35,17 @@ describe('App', function () {
             expect(boardState.height).toEqual(expectedDefaultHeight);
         });
 
-        it('should pass state.width and state.height as props to <Board/>', () => {
+        it('should pass state.board as props to <Board/>', () => {
             // given
             const width = 10, height = 50;
+            const boardState = {width, height};
             const app = shallow(<App/>);
 
             // when
             app.setState({board: {width, height}});
 
             // then
-            expect(app.find(Board).prop('width')).toEqual(width);
-            expect(app.find(Board).prop('height')).toEqual(height);
+            expect(app.find(Board).prop('board')).toEqual(boardState);
         });
 
         it('should have a new game and state.board.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {

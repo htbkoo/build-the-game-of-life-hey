@@ -8,9 +8,10 @@ describe('BoardComponent', function () {
         it('should have a table that has same number of tr as height and same number of td in each row as width when initialized', function () {
             // given
             const width = 20, height = 20;
+            const board = {width, height, isLives: undefined};
 
             // when
-            let wrapper = shallow(<Board width={width} height={height}/>);
+            let wrapper = shallow(<Board board={board}/>);
 
             // then
             expect(wrapper.find('table').length).toEqual(1);

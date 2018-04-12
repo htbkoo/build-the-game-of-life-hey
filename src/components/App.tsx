@@ -17,7 +17,7 @@ type AppState = {
     board: BoardState
 };
 
-type BoardState = {
+export type BoardState = {
     width: number,
     height: number,
     isLives: IsLivesState
@@ -48,7 +48,7 @@ class App extends React.Component<AppProps, AppState> {
                         <AppBar title="Hey's Game of Life (ReactJs + TypeScript)" className="App-Header-AppBar"/>
                     </div>
                     <div className="App-Body">
-                        <Board width={this.state.board.width} height={this.state.board.height}/>
+                        <Board board={this.state.board}/>
                         <ControlPanel/>
                     </div>
                     <div className="App-Footer">
