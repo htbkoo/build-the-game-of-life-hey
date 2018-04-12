@@ -16,7 +16,9 @@ const Board = ({board}: BoardProps) => {
         let rows = new Array(board.height).fill(0).map((_, y) => boardRow(y));
         return (
             <table>
+                <tbody>
                 {rows}
+                </tbody>
             </table>
         );
     }
