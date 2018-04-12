@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {BoardState} from './App';
 
+import './BoardComponent.css';
+
 type BoardProps = {
     board: BoardState
 };
@@ -33,7 +35,11 @@ const Board = ({board}: BoardProps) => {
     }
 
     function boardCell(x) {
-        return <td key={x}/>;
+        return (
+            <td key={x}>
+                <div/>
+            </td>
+        );
     }
 };
 
