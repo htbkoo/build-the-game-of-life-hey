@@ -24,7 +24,32 @@ describe('BoardComponent', function () {
             let rows = wrapper.find('tr');
             expect(rows.length).toEqual(height);
             rows.forEach(row =>
-                expect(row.find('td').length).toEqual(width)
+                expect(row.find('td div').length).toEqual(width)
+            );
+        });
+    });
+
+    describe('isLive', function () {
+        it('should have className=isLive on td.div if the cell is Live', function () {
+            // given
+            const width = 20, height = 25,
+                isLives: IsLivesState = new Array(height).fill(0).map((_, y) =>
+                    new Array(width).fill(0).map((_, x) =>
+                        x === y
+                    )
+                );
+            const board = {width, height, isLives};
+
+            // when
+            let wrapper = shallow(<Board board={board}/>);
+
+            // then
+            let rows = wrapper.find('tr');
+            rows.forEach((row, y) =>
+                row.find('td div').forEach((cell, x) =>
+                    expect({x, y, isLive: cell.hasClass('isLive')})
+                        .toEqual({x, y, isLive: (x === y)})
+                )
             );
         });
     });

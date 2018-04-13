@@ -7,6 +7,10 @@ type BoardProps = {
     board: BoardState
 };
 
+const CLASS_NAMES = {
+    IS_LIVE: 'isLive'
+};
+
 const Board = ({board}: BoardProps) => {
     return (
         <div className="Board">
@@ -26,7 +30,7 @@ const Board = ({board}: BoardProps) => {
     }
 
     function boardRow(isLivesRow, y) {
-        let row = isLivesRow.map((_, x) => boardCell(x));
+        let row = isLivesRow.map((isLivesCell, x) => boardCell(isLivesCell, x));
         return (
             <tr key={y}>
                 {row}
@@ -34,10 +38,11 @@ const Board = ({board}: BoardProps) => {
         );
     }
 
-    function boardCell(x) {
+    function boardCell(isLivesCell, x) {
+        let divClassName = isLivesCell ? CLASS_NAMES.IS_LIVE : '';
         return (
             <td key={x}>
-                <div/>
+                <div className={divClassName}/>
             </td>
         );
     }
