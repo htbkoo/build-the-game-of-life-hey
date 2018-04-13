@@ -23,7 +23,7 @@ export type BoardState = {
     isLives: IsLivesState
 };
 
-type IsLivesState = ReadonlyArray<ReadonlyArray<boolean>>;
+export type IsLivesState = ReadonlyArray<ReadonlyArray<boolean>>;
 
 class App extends React.Component<AppProps, AppState> {
     private readonly game: Game = Game.new({width: 30, height: 20});
