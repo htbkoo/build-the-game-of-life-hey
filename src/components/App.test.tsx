@@ -51,9 +51,10 @@ describe('App', function () {
         it('should have a new game and randomized and state.board.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const width = 30, height = 20;
+            let getIsLive = (coor) => false;
             const mockGame = {
-                isLiveAt({x, y}) {
-                    return x === y;
+                isLiveAt(coor) {
+                    return getIsLive(coor);
                 },
                 getWidth() {
                     return width;
@@ -62,7 +63,9 @@ describe('App', function () {
                     return height;
                 },
                 // TODO: assert the state has reflected the randomize?
-                randomize: this.spy()
+                randomize: () => {
+                    getIsLive = ({x, y}) => x === y;
+                }
             };
             this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
 
@@ -77,7 +80,6 @@ describe('App', function () {
                     expect({x, y, isLive: boardState.isLives[y][x]}).toEqual({x, y, isLive: x === y});
                 }
             }
-            expect(mockGame.randomize.calledOnce).toEqual(true);
         }));
     });
 });
