@@ -49,9 +49,9 @@ class App extends React.Component<AppProps, AppState> {
                     </div>
                     <div className="App-Body">
                         <Board board={this.state.board}/>
-                        <ControlPanel/>
                     </div>
                     <div className="App-Footer">
+                        <ControlPanel/>
                     </div>
                 </div>
             </MuiThemeProvider>

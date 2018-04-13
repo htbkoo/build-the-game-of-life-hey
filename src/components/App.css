@@ -12,6 +12,10 @@
 .App-Body{
     flex: 1;
     overflow-y: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: lavender;
 }
 
 /**/
