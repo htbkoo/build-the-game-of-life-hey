@@ -51,6 +51,9 @@ describe('App', function () {
         it('should have a new game and randomized and state.board.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const width = 30, height = 20;
+
+            // necessary for the signature
+            // noinspection JSUnusedLocalSymbols
             let getIsLive = (coor) => false;
             const mockGame = {
                 isLiveAt(coor) {
@@ -62,7 +65,6 @@ describe('App', function () {
                 getHeight() {
                     return height;
                 },
-                // TODO: assert the state has reflected the randomize?
                 randomize: () => {
                     getIsLive = ({x, y}) => x === y;
                 }
