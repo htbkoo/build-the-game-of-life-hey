@@ -9,8 +9,8 @@ describe('BoardComponent', function () {
         it('should have a table that has same number of tr as height and same number of td in each row as width when initialized', function () {
             // given
             const width = 20, height = 25,
-                isLives: IsLivesState = new Array(height).fill(0).map((_, y) =>
-                    new Array(width).fill(0).map((_, x) =>
+                isLives: IsLivesState = new Array(height).fill(0).map(() =>
+                    new Array(width).fill(0).map(() =>
                         true
                     )
                 );
@@ -35,7 +35,7 @@ describe('BoardComponent', function () {
             const width = 20, height = 25,
                 isLives: IsLivesState = new Array(height).fill(0).map((_, y) =>
                     new Array(width).fill(0).map((_, x) =>
-                        x === y
+                        (x - y) === 1
                     )
                 );
             const board = {width, height, isLives};
@@ -48,7 +48,7 @@ describe('BoardComponent', function () {
             rows.forEach((row, y) =>
                 row.find('td div').forEach((cell, x) =>
                     expect({x, y, isLive: cell.hasClass('isLive')})
-                        .toEqual({x, y, isLive: (x === y)})
+                        .toEqual({x, y, isLive: ((x - y) === 1)})
                 )
             );
         });
