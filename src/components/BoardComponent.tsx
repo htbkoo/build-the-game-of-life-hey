@@ -15,7 +15,7 @@ const Board = ({board}: BoardProps) => {
     );
 
     function boardTable() {
-        let rows = new Array(board.height).fill(0).map((_, y) => boardRow(y));
+        let rows = board.isLives.map((isLivesRow, y) => boardRow(isLivesRow, y));
         return (
             <table>
                 <tbody>
@@ -25,8 +25,8 @@ const Board = ({board}: BoardProps) => {
         );
     }
 
-    function boardRow(y) {
-        let row = new Array(board.width).fill(0).map((_, x) => boardCell(x));
+    function boardRow(isLivesRow, y) {
+        let row = isLivesRow.map((_, x) => boardCell(x));
         return (
             <tr key={y}>
                 {row}
