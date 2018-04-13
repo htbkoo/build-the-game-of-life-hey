@@ -48,7 +48,7 @@ describe('App', function () {
             expect(app.find(Board).prop('board')).toEqual(boardState);
         });
 
-        it('should have a new game and state.board.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {
+        it('should have a new game and randomized and state.board.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const width = 30, height = 20;
             const mockGame = {
@@ -60,7 +60,9 @@ describe('App', function () {
                 },
                 getHeight() {
                     return height;
-                }
+                },
+                // TODO: assert the state has reflected the randomize?
+                randomize: this.spy()
             };
             this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
 
@@ -75,6 +77,7 @@ describe('App', function () {
                     expect({x, y, isLive: boardState.isLives[y][x]}).toEqual({x, y, isLive: x === y});
                 }
             }
+            expect(mockGame.randomize.calledOnce).toEqual(true);
         }));
     });
 });

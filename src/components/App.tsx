@@ -31,6 +31,8 @@ class App extends React.Component<AppProps, AppState> {
     constructor(props) {
         super(props);
 
+        this.game.randomize();
+
         this.state = {
             board: {
                 width: this.game.getWidth(),
