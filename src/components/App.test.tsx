@@ -107,11 +107,7 @@ describe('App', function () {
 
             const app = shallow(<App/>);
 
-            for (let y = 0; y < height; ++y) {
-                for (let x = 0; x < width; ++x) {
-                    expect({x, y, isLive: app.state('board').isLives[y][x]}).toEqual({x, y, isLive: false});
-                }
-            }
+            assertBoardState(height, width, app.state('board'), () => false);
 
             // when
             const controlPanel = app.find(ControlPanel);
