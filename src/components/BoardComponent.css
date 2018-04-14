@@ -13,4 +13,9 @@ td {
 
 table {
     border-collapse: collapse;
+    margin: 7%;
+}
+
+.Board {
+    max-height: 100%;
 }
