@@ -53,7 +53,12 @@ class App extends React.Component<AppProps, AppState> {
                         <Board board={this.state.board}/>
                     </div>
                     <div className="App-Footer">
-                        <ControlPanel/>
+                        <ControlPanel onProceedClick={() => {
+                            console.log('should proceed');
+                            this.game.proceed();
+                            let board = Object.assign({}, this.state.board, {isLives: this.getIsLives()});
+                            this.setState({board});
+                        }}/>
                     </div>
                 </div>
             </MuiThemeProvider>

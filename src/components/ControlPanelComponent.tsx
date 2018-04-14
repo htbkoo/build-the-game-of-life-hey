@@ -9,7 +9,7 @@ const styles = {
     }
 };
 
-const ControlPanel = () => (
+const ControlPanel = (props) => (
     <div className="ControlPanel">
         <Paper style={styles.Paper} zDepth={3} rounded={false} className="ControlPanel-Paper"/>
     </div>
