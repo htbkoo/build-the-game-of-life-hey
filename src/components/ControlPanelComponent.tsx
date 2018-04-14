@@ -6,7 +6,7 @@ import {green500} from 'material-ui/styles/colors';
 
 import './ControlPanelComponent.css';
 import './css/react-player-controls.css';
-import ControlPanelStyledButton from './ControlPanelStyledButton';
+import ControlPanelStyledIconButton from './ControlPanelStyledIconButton';
 
 const INNER_BUTTON_SIZE = 48;
 
@@ -37,9 +37,9 @@ const ControlPanel = (props: ControlPanelProps) => (
         <Paper style={styles.Paper} zDepth={3} rounded={false} className="ControlPanel-Paper">
 
             <div className="ControlPanel-InnerButton-Div">
-                <ControlPanelStyledButton>
+                <ControlPanelStyledIconButton>
                     <ActionHelp color={green500}/>
-                </ControlPanelStyledButton>
+                </ControlPanelStyledIconButton>
             </div>
 
             <PlaybackControls

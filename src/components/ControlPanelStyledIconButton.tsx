@@ -9,7 +9,11 @@ import './css/react-player-controls.css';
 const INNER_BUTTON_SIZE = 48;
 
 const styles = {
-    InnerButtonPaper: {backgroundColor: 'white', maxHeight: INNER_BUTTON_SIZE, maxWidth: INNER_BUTTON_SIZE},
+    InnerButtonPaper: {
+        backgroundColor: 'white',
+        maxHeight: INNER_BUTTON_SIZE,
+        maxWidth: INNER_BUTTON_SIZE
+    },
     mediumIcon: {
         width: INNER_BUTTON_SIZE,
         height: INNER_BUTTON_SIZE,
@@ -21,11 +25,11 @@ const styles = {
     },
 };
 
-type ControlPanelStyledButton = {
+type ControlPanelStyledIconButtonProps = {
     children?: any
 };
 
-const ControlPanelStyledButton = (props: ControlPanelStyledButton) => (
+const ControlPanelStyledIconButton = (props: ControlPanelStyledIconButtonProps) => (
     <div className="StyledButton">
         <Paper style={styles.InnerButtonPaper} zDepth={0} circle={true}>
             <IconButton
@@ -38,4 +42,4 @@ const ControlPanelStyledButton = (props: ControlPanelStyledButton) => (
     </div>
 );
 
-export default ControlPanelStyledButton;
+export default ControlPanelStyledIconButton;
