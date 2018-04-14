@@ -3,9 +3,6 @@ import Paper from 'material-ui/Paper';
 import {PlaybackControls} from 'react-player-controls';
 import IconButton from 'material-ui/IconButton';
 
-import './ControlPanelComponent.css';
-import './css/react-player-controls.css';
-
 const INNER_BUTTON_SIZE = 48;
 
 const styles = {

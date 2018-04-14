@@ -5,9 +5,10 @@ import ActionHelp from 'material-ui/svg-icons/action/help-outline';
 import ActionPowerSettingNew from 'material-ui/svg-icons/action/power-settings-new';
 import {green500} from 'material-ui/styles/colors';
 
-import './ControlPanelComponent.css';
-import './css/react-player-controls.css';
 import ControlPanelStyledIconButton from './ControlPanelStyledIconButton';
+
+import './css/ControlPanelComponent.css';
+import './css/react-player-controls.css';
 
 const INNER_BUTTON_SIZE = 48;
 
