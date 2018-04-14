@@ -34,15 +34,10 @@ class App extends React.Component<AppProps, AppState> {
         this.game.randomize();
 
         this.state = {
-            board: {
-                width: this.game.getWidth(),
-                height: this.game.getHeight(),
-                isLives: this.getIsLives()
-            }
+            board: this.getBoardState()
         };
 
         this.onProceedClick = this.onProceedClick.bind(this);
-        // this.updateGameBy = this.updateGameBy.bind(this);
     }
 
     onProceedClick() {
@@ -68,6 +63,14 @@ class App extends React.Component<AppProps, AppState> {
         );
     }
 
+    private getBoardState(): BoardState {
+        return {
+            width: this.game.getWidth(),
+            height: this.game.getHeight(),
+            isLives: this.getIsLives()
+        };
+    }
+
     private getIsLives(): IsLivesState {
         return new Array(20).fill(0).map((_, y) =>
             new Array(30).fill(0).map((__, x) =>
@@ -77,8 +80,9 @@ class App extends React.Component<AppProps, AppState> {
 
     private updateGameBy(method) {
         this.game[method]();
-        let board = Object.assign({}, this.state.board, {isLives: this.getIsLives()});
-        this.setState({board});
+        this.setState({
+            board: this.getBoardState()
+        });
     }
 }
 
