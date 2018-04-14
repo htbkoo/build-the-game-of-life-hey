@@ -9,6 +9,9 @@ import ControlPanel from './ControlPanelComponent';
 import Game from '../services/Game';
 
 describe('App', function () {
+    const NO_OP = () => {
+    };
+
     describe('initialization', function () {
         it('should have a <Board/> and <ControlPanel/>', () => {
             // given
@@ -86,8 +89,6 @@ describe('App', function () {
                 isLiveAt(coor) {
                     return getIsLive(coor);
                 },
-                randomize: () => {
-                },
                 proceed: () => {
                     getIsLive = ({x, y}) => x === y;
                 }
@@ -125,6 +126,12 @@ describe('App', function () {
                 return height;
             }
         };
-        return Object.assign(baseMockGame, additionalMethods);
+        const defaultNoOpMethods = ['isLiveAt', 'randomize', 'proceed']
+            .reduce((obj, methodName) => {
+                obj[methodName] = NO_OP;
+                return obj;
+            }, {});
+
+        return Object.assign(baseMockGame, defaultNoOpMethods, additionalMethods);
     }
 });
