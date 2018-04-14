@@ -12,19 +12,7 @@ import ControlPanelStyledIconButton from './ControlPanelStyledIconButton';
 const INNER_BUTTON_SIZE = 48;
 
 const styles = {
-    Paper: {
-        backgroundColor: 'burlywood'
-    },
-    InnerButtonPaper: {backgroundColor: 'white', maxHeight: INNER_BUTTON_SIZE, maxWidth: INNER_BUTTON_SIZE},
-    mediumIcon: {
-        width: INNER_BUTTON_SIZE,
-        height: INNER_BUTTON_SIZE,
-    },
-    medium: {
-        width: INNER_BUTTON_SIZE,
-        height: INNER_BUTTON_SIZE,
-        padding: 0,
-    },
+    Paper: {backgroundColor: 'burlywood'},
 };
 
 const NO_OP = () => {
