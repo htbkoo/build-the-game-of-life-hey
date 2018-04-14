@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
-import {sinonTest} from '../test-utils/sinonWithTest';
+import {sinon, sinonTest} from '../test-utils/sinonWithTest';
 
 import App, {BoardState} from './App';
 
@@ -118,7 +118,8 @@ describe('App', function () {
     }
 
     function createMockGame(width: number, height: number, additionalMethods = {}) {
-        const baseMockGame = {
+        const baseMockGame = sinon.createStubInstance(Game);
+        const defaultOverriddenMethods = {
             getWidth() {
                 return width;
             },
@@ -126,12 +127,7 @@ describe('App', function () {
                 return height;
             }
         };
-        const defaultNoOpMethods = ['isLiveAt', 'randomize', 'proceed']
-            .reduce((obj, methodName) => {
-                obj[methodName] = NO_OP;
-                return obj;
-            }, {});
 
-        return Object.assign(baseMockGame, defaultNoOpMethods, additionalMethods);
+        return Object.assign(baseMockGame, defaultOverriddenMethods, additionalMethods);
     }
 });
