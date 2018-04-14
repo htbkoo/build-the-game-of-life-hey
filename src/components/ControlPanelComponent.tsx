@@ -27,6 +27,9 @@ const styles = {
     },
 };
 
+const NO_OP = () => {
+};
+
 type ControlPanelProps = {
     onProceedClick: () => void
 };
@@ -38,13 +41,13 @@ const ControlPanel = (props: ControlPanelProps) => (
         <Paper style={styles.Paper} zDepth={3} rounded={false} className="ControlPanel-Paper">
 
             <div className="ControlPanel-InnerButton-Div">
-                <ControlPanelStyledIconButton>
+                <ControlPanelStyledIconButton onClick={NO_OP}>
                     <ActionHelp color={green500}/>
                 </ControlPanelStyledIconButton>
             </div>
 
             <div className="ControlPanel-InnerButton-Div">
-                <ControlPanelStyledIconButton>
+                <ControlPanelStyledIconButton onClick={NO_OP}>
                     <ActionPowerSettingNew color={green500}/>
                 </ControlPanelStyledIconButton>
             </div>
@@ -52,12 +55,10 @@ const ControlPanel = (props: ControlPanelProps) => (
             <PlaybackControls
                 isPlayable={false}
                 isPlaying={false}
-                onPlaybackChange={() => {
-                }}
+                onPlaybackChange={NO_OP}
                 showPrevious={false}
                 hasPrevious={false}
-                onPrevious={() => {
-                }}
+                onPrevious={NO_OP}
                 showNext={true}
                 hasNext={true}
                 onNext={props.onProceedClick}
