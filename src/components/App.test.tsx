@@ -1,14 +1,17 @@
 import * as React from 'react';
 import {shallow} from 'enzyme';
-import {sinonTest} from '../test-utils/sinonWithTest';
+import {sinon, sinonTest} from '../test-utils/sinonWithTest';
 
-import App from './App';
+import App, {BoardState} from './App';
 
 import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
 import Game from '../services/Game';
 
 describe('App', function () {
+    const NO_OP = () => {
+    };
+
     describe('initialization', function () {
         it('should have a <Board/> and <ControlPanel/>', () => {
             // given
@@ -55,20 +58,14 @@ describe('App', function () {
             // necessary for the signature
             // noinspection JSUnusedLocalSymbols
             let getIsLive = (coor) => false;
-            const mockGame = {
+            const mockGame = createMockGame(width, height, {
                 isLiveAt(coor) {
                     return getIsLive(coor);
-                },
-                getWidth() {
-                    return width;
-                },
-                getHeight() {
-                    return height;
                 },
                 randomize: () => {
                     getIsLive = ({x, y}) => x === y;
                 }
-            };
+            });
             this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
 
             // when
@@ -76,12 +73,7 @@ describe('App', function () {
 
             // then
             let boardState = app.state('board');
-
-            for (let y = 0; y < height; ++y) {
-                for (let x = 0; x < width; ++x) {
-                    expect({x, y, isLive: boardState.isLives[y][x]}).toEqual({x, y, isLive: x === y});
-                }
-            }
+            assertBoardState(height, width, boardState, ({x, y}) => x === y);
         }));
     });
 
@@ -89,45 +81,53 @@ describe('App', function () {
         it('should call game.proceed() and set to next state when <ControlPanelComponent/>.props.onProceedClick()', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const width = 30, height = 20;
+
             // necessary for the signature
             // noinspection JSUnusedLocalSymbols
-            let getIsLive = (_) => false;
-            const mockGame = {
+            let getIsLive = (coor) => false;
+            const mockGame = createMockGame(width, height, {
                 isLiveAt(coor) {
                     return getIsLive(coor);
                 },
-                getWidth() {
-                    return width;
-                },
-                getHeight() {
-                    return height;
-                },
-                randomize: ()=>{},
                 proceed: () => {
                     getIsLive = ({x, y}) => x === y;
                 }
-            };
+            });
             this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
 
             const app = shallow(<App/>);
 
-            for (let y = 0; y < height; ++y) {
-                for (let x = 0; x < width; ++x) {
-                    expect({x, y, isLive: app.state('board').isLives[y][x]}).toEqual({x, y, isLive: false});
-                }
-            }
+            assertBoardState(height, width, app.state('board'), () => false);
 
             // when
             const controlPanel = app.find(ControlPanel);
-            let onProceedClick = controlPanel.prop("onProceedClick");
+            let onProceedClick = controlPanel.prop('onProceedClick');
             onProceedClick();
 
             // then
-            for (let y = 0; y < height; ++y) {
-                for (let x = 0; x < width; ++x) {
-                    expect({x, y, isLive: app.state('board').isLives[y][x]}).toEqual({x, y, isLive: x === y});
-                }
-            }
+            assertBoardState(height, width, app.state('board'), ({x, y}) => x === y);
         }));
     });
+
+    function assertBoardState(height: number, width: number, boardState: BoardState, getExpectedIsLive: (coor) => boolean) {
+        for (let y = 0; y < height; ++y) {
+            for (let x = 0; x < width; ++x) {
+                expect({x, y, isLive: boardState.isLives[y][x]}).toEqual({x, y, isLive: getExpectedIsLive({x, y})});
+            }
+        }
+    }
+
+    function createMockGame(width: number, height: number, additionalMethods = {}) {
+        const baseMockGame = sinon.createStubInstance(Game);
+        const defaultOverriddenMethods = {
+            getWidth() {
+                return width;
+            },
+            getHeight() {
+                return height;
+            }
+        };
+
+        return Object.assign(baseMockGame, defaultOverriddenMethods, additionalMethods);
+    }
 });
