@@ -55,20 +55,14 @@ describe('App', function () {
             // necessary for the signature
             // noinspection JSUnusedLocalSymbols
             let getIsLive = (coor) => false;
-            const mockGame = {
+            const mockGame = createMockGame(width, height, {
                 isLiveAt(coor) {
                     return getIsLive(coor);
-                },
-                getWidth() {
-                    return width;
-                },
-                getHeight() {
-                    return height;
                 },
                 randomize: () => {
                     getIsLive = ({x, y}) => x === y;
                 }
-            };
+            });
             this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
 
             // when
@@ -125,5 +119,17 @@ describe('App', function () {
                 expect({x, y, isLive: boardState.isLives[y][x]}).toEqual({x, y, isLive: getExpectedIsLive({x, y})});
             }
         }
+    }
+
+    function createMockGame(width: number, height: number, additionalMethods = {}) {
+        const baseMockGame = {
+            getWidth() {
+                return width;
+            },
+            getHeight() {
+                return height;
+            }
+        };
+        return Object.assign(baseMockGame, additionalMethods);
     }
 });
