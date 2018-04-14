@@ -8,7 +8,7 @@ import AppBar from 'material-ui/AppBar';
 import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
 
-import './App.css';
+import './css/App.css';
 import Game from '../services/Game';
 
 type AppProps = {};
