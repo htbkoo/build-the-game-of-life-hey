@@ -2,6 +2,7 @@ import * as React from 'react';
 import Paper from 'material-ui/Paper';
 import {PlaybackControls} from 'react-player-controls';
 import ActionHelp from 'material-ui/svg-icons/action/help-outline';
+import ActionPowerSettingNew from 'material-ui/svg-icons/action/power-settings-new';
 import {green500} from 'material-ui/styles/colors';
 
 import './ControlPanelComponent.css';
@@ -39,6 +40,12 @@ const ControlPanel = (props: ControlPanelProps) => (
             <div className="ControlPanel-InnerButton-Div">
                 <ControlPanelStyledIconButton>
                     <ActionHelp color={green500}/>
+                </ControlPanelStyledIconButton>
+            </div>
+
+            <div className="ControlPanel-InnerButton-Div">
+                <ControlPanelStyledIconButton>
+                    <ActionPowerSettingNew color={green500}/>
                 </ControlPanelStyledIconButton>
             </div>
 
