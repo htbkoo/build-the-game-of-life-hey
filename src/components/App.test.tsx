@@ -115,11 +115,7 @@ describe('App', function () {
             onProceedClick();
 
             // then
-            for (let y = 0; y < height; ++y) {
-                for (let x = 0; x < width; ++x) {
-                    expect({x, y, isLive: app.state('board').isLives[y][x]}).toEqual({x, y, isLive: x === y});
-                }
-            }
+            assertBoardState(height, width, app.state('board'), ({x, y}) => x === y);
         }));
     });
 
