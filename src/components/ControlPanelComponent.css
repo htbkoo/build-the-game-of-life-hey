@@ -9,3 +9,7 @@
     align-items: center;
     justify-content: center;
 }
+
+.ControlPanel-InnerButton-Div{
+    margin-right: 10px;
+}
