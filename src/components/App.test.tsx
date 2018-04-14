@@ -78,25 +78,20 @@ describe('App', function () {
         it('should call game.proceed() and set to next state when <ControlPanelComponent/>.props.onProceedClick()', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const width = 30, height = 20;
+
             // necessary for the signature
             // noinspection JSUnusedLocalSymbols
-            let getIsLive = (_) => false;
-            const mockGame = {
+            let getIsLive = (coor) => false;
+            const mockGame = createMockGame(width, height, {
                 isLiveAt(coor) {
                     return getIsLive(coor);
-                },
-                getWidth() {
-                    return width;
-                },
-                getHeight() {
-                    return height;
                 },
                 randomize: () => {
                 },
                 proceed: () => {
                     getIsLive = ({x, y}) => x === y;
                 }
-            };
+            });
             this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
 
             const app = shallow(<App/>);
