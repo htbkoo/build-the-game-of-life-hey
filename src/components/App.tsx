@@ -37,10 +37,10 @@ class App extends React.Component<AppProps, AppState> {
             board: this.getBoardState()
         };
 
-        this.onProceedClick = this.onProceedClick.bind(this);
+        this.proceedGame = this.proceedGame.bind(this);
     }
 
-    onProceedClick() {
+    proceedGame() {
         console.log('should proceed');
         this.updateGameBy('proceed');
     }
@@ -56,7 +56,7 @@ class App extends React.Component<AppProps, AppState> {
                         <Board board={this.state.board}/>
                     </div>
                     <div className="App-Footer">
-                        <ControlPanel onProceedClick={this.onProceedClick}/>
+                        <ControlPanel onProceedClick={this.proceedGame}/>
                     </div>
                 </div>
             </MuiThemeProvider>
