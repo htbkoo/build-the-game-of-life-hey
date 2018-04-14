@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {BoardState} from './App';
 
-import './BoardComponent.css';
+import './css/BoardComponent.css';
 
 type BoardProps = {
     board: BoardState
