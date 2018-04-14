@@ -42,13 +42,12 @@ class App extends React.Component<AppProps, AppState> {
         };
 
         this.onProceedClick = this.onProceedClick.bind(this);
+        // this.updateGameBy = this.updateGameBy.bind(this);
     }
 
     onProceedClick() {
         console.log('should proceed');
-        this.game.proceed();
-        let board = Object.assign({}, this.state.board, {isLives: this.getIsLives()});
-        this.setState({board});
+        this.updateGameBy('proceed');
     }
 
     render() {
@@ -74,6 +73,12 @@ class App extends React.Component<AppProps, AppState> {
             new Array(30).fill(0).map((__, x) =>
                 this.game.isLiveAt({x, y}))
         );
+    }
+
+    private updateGameBy(method) {
+        this.game[method]();
+        let board = Object.assign({}, this.state.board, {isLives: this.getIsLives()});
+        this.setState({board});
     }
 }
 
