@@ -34,12 +34,15 @@ class App extends React.Component<AppProps, AppState> {
         this.game.randomize();
 
         this.state = {
-            board: {
-                width: this.game.getWidth(),
-                height: this.game.getHeight(),
-                isLives: this.getIsLives()
-            }
+            board: this.getBoardState()
         };
+
+        this.proceedGame = this.proceedGame.bind(this);
+    }
+
+    proceedGame() {
+        console.log('should proceed');
+        this.updateGameBy('proceed');
     }
 
     render() {
@@ -53,16 +56,19 @@ class App extends React.Component<AppProps, AppState> {
                         <Board board={this.state.board}/>
                     </div>
                     <div className="App-Footer">
-                        <ControlPanel onProceedClick={() => {
-                            console.log('should proceed');
-                            this.game.proceed();
-                            let board = Object.assign({}, this.state.board, {isLives: this.getIsLives()});
-                            this.setState({board});
-                        }}/>
+                        <ControlPanel onProceedClick={this.proceedGame}/>
                     </div>
                 </div>
             </MuiThemeProvider>
         );
+    }
+
+    private getBoardState(): BoardState {
+        return {
+            width: this.game.getWidth(),
+            height: this.game.getHeight(),
+            isLives: this.getIsLives()
+        };
     }
 
     private getIsLives(): IsLivesState {
@@ -70,6 +76,13 @@ class App extends React.Component<AppProps, AppState> {
             new Array(30).fill(0).map((__, x) =>
                 this.game.isLiveAt({x, y}))
         );
+    }
+
+    private updateGameBy(method) {
+        this.game[method]();
+        this.setState({
+            board: this.getBoardState()
+        });
     }
 }
 
