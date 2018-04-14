@@ -2,7 +2,7 @@ import * as React from 'react';
 import {shallow} from 'enzyme';
 import {sinonTest} from '../test-utils/sinonWithTest';
 
-import App from './App';
+import App, {BoardState} from './App';
 
 import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
@@ -76,12 +76,7 @@ describe('App', function () {
 
             // then
             let boardState = app.state('board');
-
-            for (let y = 0; y < height; ++y) {
-                for (let x = 0; x < width; ++x) {
-                    expect({x, y, isLive: boardState.isLives[y][x]}).toEqual({x, y, isLive: x === y});
-                }
-            }
+            assertBoardState(height, width, boardState, ({x, y}) => x === y);
         }));
     });
 
@@ -102,7 +97,8 @@ describe('App', function () {
                 getHeight() {
                     return height;
                 },
-                randomize: ()=>{},
+                randomize: () => {
+                },
                 proceed: () => {
                     getIsLive = ({x, y}) => x === y;
                 }
@@ -119,7 +115,7 @@ describe('App', function () {
 
             // when
             const controlPanel = app.find(ControlPanel);
-            let onProceedClick = controlPanel.prop("onProceedClick");
+            let onProceedClick = controlPanel.prop('onProceedClick');
             onProceedClick();
 
             // then
@@ -130,4 +126,12 @@ describe('App', function () {
             }
         }));
     });
+
+    function assertBoardState(height: number, width: number, boardState: BoardState, getExpectedIsLive: (coor) => boolean) {
+        for (let y = 0; y < height; ++y) {
+            for (let x = 0; x < width; ++x) {
+                expect({x, y, isLive: boardState.isLives[y][x]}).toEqual({x, y, isLive: getExpectedIsLive({x, y})});
+            }
+        }
+    }
 });
