@@ -1,12 +1,12 @@
 import * as React from 'react';
 import Paper from 'material-ui/Paper';
 import {PlaybackControls} from 'react-player-controls';
-import IconButton from 'material-ui/IconButton';
 import ActionHelp from 'material-ui/svg-icons/action/help-outline';
 import {green500} from 'material-ui/styles/colors';
 
 import './ControlPanelComponent.css';
 import './css/react-player-controls.css';
+import ControlPanelStyledButton from './ControlPanelStyledButton';
 
 const INNER_BUTTON_SIZE = 48;
 
@@ -35,16 +35,13 @@ type ControlPanelProps = {
 const ControlPanel = (props: ControlPanelProps) => (
     <div className="ControlPanel">
         <Paper style={styles.Paper} zDepth={3} rounded={false} className="ControlPanel-Paper">
+
             <div className="ControlPanel-InnerButton-Div">
-                <Paper style={styles.InnerButtonPaper} zDepth={0} circle={true}>
-                    <IconButton
-                        iconStyle={styles.mediumIcon}
-                        style={styles.medium}
-                    >
-                        <ActionHelp color={green500}/>
-                    </IconButton>
-                </Paper>
+                <ControlPanelStyledButton>
+                    <ActionHelp color={green500}/>
+                </ControlPanelStyledButton>
             </div>
+
             <PlaybackControls
                 isPlayable={false}
                 isPlaying={false}
@@ -58,6 +55,7 @@ const ControlPanel = (props: ControlPanelProps) => (
                 hasNext={true}
                 onNext={props.onProceedClick}
             />
+
         </Paper>
     </div>
 );
