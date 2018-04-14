@@ -40,6 +40,15 @@ class App extends React.Component<AppProps, AppState> {
                 isLives: this.getIsLives()
             }
         };
+
+        this.onProceedClick = this.onProceedClick.bind(this);
+    }
+
+    onProceedClick() {
+        console.log('should proceed');
+        this.game.proceed();
+        let board = Object.assign({}, this.state.board, {isLives: this.getIsLives()});
+        this.setState({board});
     }
 
     render() {
@@ -53,12 +62,7 @@ class App extends React.Component<AppProps, AppState> {
                         <Board board={this.state.board}/>
                     </div>
                     <div className="App-Footer">
-                        <ControlPanel onProceedClick={() => {
-                            console.log('should proceed');
-                            this.game.proceed();
-                            let board = Object.assign({}, this.state.board, {isLives: this.getIsLives()});
-                            this.setState({board});
-                        }}/>
+                        <ControlPanel onProceedClick={this.onProceedClick}/>
                     </div>
                 </div>
             </MuiThemeProvider>
