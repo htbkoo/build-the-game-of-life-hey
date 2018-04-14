@@ -2,8 +2,6 @@ import * as React from 'react';
 import {shallow} from 'enzyme';
 import {PlaybackControls} from 'react-player-controls';
 
-import Board from './BoardComponent';
-import {IsLivesState} from './App';
 import ControlPanel from './ControlPanelComponent';
 
 describe('ControlPanelComponent', function () {
@@ -15,7 +13,7 @@ describe('ControlPanelComponent', function () {
 
             // when
             let playbackControlsWrapper = controlPanelWrapper.find(PlaybackControls);
-            playbackControlsWrapper.simulate("next");
+            playbackControlsWrapper.simulate('next');
 
             // then
             expect(spyOnProceedClick.mock.calls.length).toBe(1);
