@@ -26,7 +26,8 @@ const styles = {
 };
 
 type ControlPanelStyledIconButtonProps = {
-    children?: any
+    children?: any,
+    onClick: (event: object) => void
 };
 
 const ControlPanelStyledIconButton = (props: ControlPanelStyledIconButtonProps) => (
@@ -35,6 +36,7 @@ const ControlPanelStyledIconButton = (props: ControlPanelStyledIconButtonProps) 
             <IconButton
                 iconStyle={styles.mediumIcon}
                 style={styles.medium}
+                onClick={props.onClick}
             >
                 {props.children}
             </IconButton>
