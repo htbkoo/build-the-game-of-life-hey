@@ -48,18 +48,25 @@ describe('App', function () {
             expect(app.find(Board).prop('board')).toEqual(boardState);
         });
 
-        it('should have a new game and state.board.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {
+        it('should have a new game and randomized and state.board.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const width = 30, height = 20;
+
+            // necessary for the signature
+            // noinspection JSUnusedLocalSymbols
+            let getIsLive = (coor) => false;
             const mockGame = {
-                isLiveAt({x, y}) {
-                    return x === y;
+                isLiveAt(coor) {
+                    return getIsLive(coor);
                 },
                 getWidth() {
                     return width;
                 },
                 getHeight() {
                     return height;
+                },
+                randomize: () => {
+                    getIsLive = ({x, y}) => x === y;
                 }
             };
             this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
@@ -73,6 +80,52 @@ describe('App', function () {
             for (let y = 0; y < height; ++y) {
                 for (let x = 0; x < width; ++x) {
                     expect({x, y, isLive: boardState.isLives[y][x]}).toEqual({x, y, isLive: x === y});
+                }
+            }
+        }));
+    });
+
+    describe('onProceedClick', function () {
+        it('should call game.proceed() and set to next state when <ControlPanelComponent/>.props.onProceedClick()', sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const width = 30, height = 20;
+            // necessary for the signature
+            // noinspection JSUnusedLocalSymbols
+            let getIsLive = (_) => false;
+            const mockGame = {
+                isLiveAt(coor) {
+                    return getIsLive(coor);
+                },
+                getWidth() {
+                    return width;
+                },
+                getHeight() {
+                    return height;
+                },
+                randomize: ()=>{},
+                proceed: () => {
+                    getIsLive = ({x, y}) => x === y;
+                }
+            };
+            this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+
+            const app = shallow(<App/>);
+
+            for (let y = 0; y < height; ++y) {
+                for (let x = 0; x < width; ++x) {
+                    expect({x, y, isLive: app.state('board').isLives[y][x]}).toEqual({x, y, isLive: false});
+                }
+            }
+
+            // when
+            const controlPanel = app.find(ControlPanel);
+            let onProceedClick = controlPanel.prop("onProceedClick");
+            onProceedClick();
+
+            // then
+            for (let y = 0; y < height; ++y) {
+                for (let x = 0; x < width; ++x) {
+                    expect({x, y, isLive: app.state('board').isLives[y][x]}).toEqual({x, y, isLive: x === y});
                 }
             }
         }));

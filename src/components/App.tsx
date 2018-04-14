@@ -23,13 +23,15 @@ export type BoardState = {
     isLives: IsLivesState
 };
 
-type IsLivesState = ReadonlyArray<ReadonlyArray<boolean>>;
+export type IsLivesState = ReadonlyArray<ReadonlyArray<boolean>>;
 
 class App extends React.Component<AppProps, AppState> {
     private readonly game: Game = Game.new({width: 30, height: 20});
 
     constructor(props) {
         super(props);
+
+        this.game.randomize();
 
         this.state = {
             board: {
@@ -51,7 +53,12 @@ class App extends React.Component<AppProps, AppState> {
                         <Board board={this.state.board}/>
                     </div>
                     <div className="App-Footer">
-                        <ControlPanel/>
+                        <ControlPanel onProceedClick={() => {
+                            console.log('should proceed');
+                            this.game.proceed();
+                            let board = Object.assign({}, this.state.board, {isLives: this.getIsLives()});
+                            this.setState({board});
+                        }}/>
                     </div>
                 </div>
             </MuiThemeProvider>

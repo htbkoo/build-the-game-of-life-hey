@@ -4,7 +4,8 @@ td div {
 }
 
 td {
-    border: 1px solid black;
+    border: 2px solid black;
+    padding: 2px;
 }
 
 .isLive {
@@ -13,4 +14,9 @@ td {
 
 table {
     border-collapse: collapse;
+    margin: 7%;
+}
+
+.Board {
+    max-height: 100%;
 }
