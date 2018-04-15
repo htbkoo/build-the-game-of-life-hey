@@ -109,6 +109,38 @@ describe('App', function () {
         }));
     });
 
+    describe('onResetClick', function () {
+        it('should call game.reset() and set to next state when <ControlPanelComponent/>.props.onResetClick()', sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const width = 30, height = 20;
+
+            // necessary for the signature
+            // noinspection JSUnusedLocalSymbols
+            let getIsLive = (coor) => false;
+            const mockGame = createMockGame(width, height, {
+                isLiveAt(coor) {
+                    return getIsLive(coor);
+                },
+                reset: () => {
+                    getIsLive = ({x, y}) => x === y;
+                }
+            });
+            this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+
+            const app = shallow(<App/>);
+
+            assertBoardState(height, width, app.state('board'), () => false);
+
+            // when
+            const controlPanel = app.find(ControlPanel);
+            let onRestClick = controlPanel.prop('onResetClick');
+            onRestClick();
+
+            // then
+            assertBoardState(height, width, app.state('board'), ({x, y}) => x === y);
+        }));
+    });
+
     function assertBoardState(height: number, width: number, boardState: BoardState, getExpectedIsLive: (coor) => boolean) {
         for (let y = 0; y < height; ++y) {
             for (let x = 0; x < width; ++x) {

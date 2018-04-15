@@ -8,7 +8,7 @@ import AppBar from 'material-ui/AppBar';
 import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
 
-import './App.css';
+import './css/App.css';
 import Game from '../services/Game';
 
 type AppProps = {};
@@ -38,11 +38,17 @@ class App extends React.Component<AppProps, AppState> {
         };
 
         this.proceedGame = this.proceedGame.bind(this);
+        this.resetGame = this.resetGame.bind(this);
     }
 
     proceedGame() {
         console.log('should proceed');
         this.updateGameBy('proceed');
+    }
+
+    resetGame() {
+        console.log('should reset');
+        this.updateGameBy('reset');
     }
 
     render() {
@@ -56,7 +62,7 @@ class App extends React.Component<AppProps, AppState> {
                         <Board board={this.state.board}/>
                     </div>
                     <div className="App-Footer">
-                        <ControlPanel onProceedClick={this.proceedGame}/>
+                        <ControlPanel onProceedClick={this.proceedGame} onResetClick={this.resetGame}/>
                     </div>
                 </div>
             </MuiThemeProvider>
