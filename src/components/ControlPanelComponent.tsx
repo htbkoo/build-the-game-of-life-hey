@@ -7,6 +7,8 @@ import {green500} from 'material-ui/styles/colors';
 
 import ControlPanelStyledIconButton from './ControlPanelStyledIconButton';
 
+import {NO_OP} from './utils/common';
+
 import './css/ControlPanelComponent.css';
 import './css/react-player-controls.css';
 
@@ -14,9 +16,6 @@ const INNER_BUTTON_SIZE = 48;
 
 const styles = {
     Paper: {backgroundColor: 'burlywood'},
-};
-
-const NO_OP = () => {
 };
 
 type ControlPanelProps = {
