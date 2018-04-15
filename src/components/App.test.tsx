@@ -102,6 +102,43 @@ describe('App', function () {
         }));
     });
 
+    describe('onRandomizeClick', function () {
+        it('should call game.randomize() and set to next state when <ControlPanelComponent/>.props.onRandomizeClick()', sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const width = 30, height = 20;
+
+            // necessary for the signature
+            // noinspection JSUnusedLocalSymbols
+            let initialized = false;
+            let getIsLive = (coor) => false;
+            const randomize = () => {
+                if (initialized){
+                    getIsLive = ({x, y}) => x === y;
+                }
+            };
+            const mockGame = createMockGame(width, height, {
+                isLiveAt(coor) {
+                    return getIsLive(coor);
+                },
+                randomize
+            });
+            this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+
+            const app = shallow(<App/>);
+
+            assertBoardState(height, width, app.state('board'), () => false);
+            initialized = true;
+
+            // when
+            const controlPanel = app.find(ControlPanel);
+            let onRandomizeClick = controlPanel.prop('onRandomizeClick');
+            onRandomizeClick();
+
+            // then
+            assertBoardState(height, width, app.state('board'), ({x, y}) => x === y);
+        }));
+    });
+
     // necessary for the signature
     // noinspection JSUnusedLocalSymbols
     function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width, height, methodName, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y) {

@@ -39,6 +39,7 @@ class App extends React.Component<AppProps, AppState> {
 
         this.proceedGame = this.proceedGame.bind(this);
         this.resetGame = this.resetGame.bind(this);
+        this.randomizeGame = this.randomizeGame.bind(this);
     }
 
     proceedGame() {
@@ -49,6 +50,11 @@ class App extends React.Component<AppProps, AppState> {
     resetGame() {
         console.log('should reset');
         this.updateGameBy('reset');
+    }
+
+    randomizeGame() {
+        console.log('should randomize');
+        this.updateGameBy('randomize');
     }
 
     render() {
@@ -62,7 +68,7 @@ class App extends React.Component<AppProps, AppState> {
                         <Board board={this.state.board}/>
                     </div>
                     <div className="App-Footer">
-                        <ControlPanel onProceedClick={this.proceedGame} onResetClick={this.resetGame}/>
+                        <ControlPanel onProceedClick={this.proceedGame} onResetClick={this.resetGame} onRandomizeClick={this.randomizeGame}/>
                     </div>
                 </div>
             </MuiThemeProvider>
