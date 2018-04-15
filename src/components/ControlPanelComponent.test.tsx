@@ -34,5 +34,18 @@ describe('ControlPanelComponent', function () {
             // then
             expect(spyOnResetClick.mock.calls.length).toBe(1);
         });
+
+        it('should pass props.onRandomizeClick to #btn_randomize.<ControlPanelStyledIconButton/>.onClick', function () {
+            // given
+            const spyOnRandomizeClick = jest.fn();
+            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={NO_OP} onResetClick={NO_OP} onRandomizeClick={spyOnRandomizeClick}/>);
+
+            // when
+            let btnRandomizeWrapper = controlPanelWrapper.find("#btn_randomize").find(ControlPanelStyledIconButton);
+            btnRandomizeWrapper.simulate('click');
+
+            // then
+            expect(spyOnRandomizeClick.mock.calls.length).toBe(1);
+        });
     });
 });

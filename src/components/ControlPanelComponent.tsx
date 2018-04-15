@@ -30,8 +30,8 @@ const ControlPanel = (props: ControlPanelProps) => (
     <div className="ControlPanel">
         <Paper style={styles.Paper} zDepth={3} rounded={false} className="ControlPanel-Paper">
 
-            <div className="ControlPanel-InnerButton-Div">
-                <ControlPanelStyledIconButton onClick={NO_OP}>
+            <div className="ControlPanel-InnerButton-Div" id="btn_randomize">
+                <ControlPanelStyledIconButton onClick={props.onRandomizeClick}>
                     <ActionHelp color={green500}/>
                 </ControlPanelStyledIconButton>
             </div>
