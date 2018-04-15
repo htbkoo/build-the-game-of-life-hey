@@ -9,9 +9,6 @@ import ControlPanel from './ControlPanelComponent';
 import Game from '../services/Game';
 
 describe('App', function () {
-    const NO_OP = () => {
-    };
-
     describe('initialization', function () {
         it('should have a <Board/> and <ControlPanel/>', () => {
             // given
