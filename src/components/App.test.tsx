@@ -110,23 +110,11 @@ describe('App', function () {
         it('should call game.reset() and set to next state when <ControlPanelComponent/>.props.onResetClick()', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const width = 30, height = 20;
+            const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
 
-            // necessary for the signature
-            // noinspection JSUnusedLocalSymbols
-            let getIsLive = (coor) => false;
-            const mockGame = createMockGame(width, height, {
-                isLiveAt(coor) {
-                    return getIsLive(coor);
-                },
-                reset: () => {
-                    getIsLive = ({x, y}) => x === y;
-                }
-            });
-            this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+            const app = createAppInstanceWithMockGame.call(this, width, height, 'reset', getIsLiveBefore, getIsLiveAfter);
 
-            const app = shallow(<App/>);
-
-            assertBoardState(height, width, app.state('board'), () => false);
+            assertBoardState(height, width, app.state('board'), getIsLiveBefore);
 
             // when
             const controlPanel = app.find(ControlPanel);
@@ -134,9 +122,25 @@ describe('App', function () {
             onRestClick();
 
             // then
-            assertBoardState(height, width, app.state('board'), ({x, y}) => x === y);
+            assertBoardState(height, width, app.state('board'), getIsLiveAfter);
         }));
     });
+
+    // necessary for the signature
+    // noinspection JSUnusedLocalSymbols
+    function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width, height, methodName, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y) {
+        const mockGame = createMockGame(width, height, {
+            isLiveAt(coor) {
+                return getIsLive(coor);
+            },
+            [methodName]: () => {
+                getIsLive = getIsLiveAfter;
+            }
+        });
+        this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+
+        return shallow(<App/>);
+    }
 
     function assertBoardState(height: number, width: number, boardState: BoardState, getExpectedIsLive: (coor) => boolean) {
         for (let y = 0; y < height; ++y) {
