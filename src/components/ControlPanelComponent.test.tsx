@@ -9,7 +9,7 @@ describe('ControlPanelComponent', function () {
         it('should pass props.onProceedClick to <PlayerControls/>.onNext', function () {
             // given
             const spyOnProceedClick = jest.fn();
-            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={spyOnProceedClick}/>);
+            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={spyOnProceedClick} onResetClick={()=>{}} />);
 
             // when
             let playbackControlsWrapper = controlPanelWrapper.find(PlaybackControls);
