@@ -51,26 +51,14 @@ describe('App', function () {
         it('should have a new game and randomized and state.board.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const width = 30, height = 20;
-
-            // necessary for the signature
-            // noinspection JSUnusedLocalSymbols
-            let getIsLive = (coor) => false;
-            const mockGame = createMockGame(width, height, {
-                isLiveAt(coor) {
-                    return getIsLive(coor);
-                },
-                randomize: () => {
-                    getIsLive = ({x, y}) => x === y;
-                }
-            });
-            this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+            const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
 
             // when
-            const app = shallow(<App/>);
+            const app = createAppInstanceWithMockGame.call(this, width, height, 'randomize', getIsLiveBefore, getIsLiveAfter);
+            const controlPanel = app.find(ControlPanel);
 
             // then
-            let boardState = app.state('board');
-            assertBoardState(height, width, boardState, ({x, y}) => x === y);
+            assertBoardState(height, width, app.state('board'), getIsLiveAfter);
         }));
     });
 
@@ -78,23 +66,11 @@ describe('App', function () {
         it('should call game.proceed() and set to next state when <ControlPanelComponent/>.props.onProceedClick()', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const width = 30, height = 20;
+            const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
 
-            // necessary for the signature
-            // noinspection JSUnusedLocalSymbols
-            let getIsLive = (coor) => false;
-            const mockGame = createMockGame(width, height, {
-                isLiveAt(coor) {
-                    return getIsLive(coor);
-                },
-                proceed: () => {
-                    getIsLive = ({x, y}) => x === y;
-                }
-            });
-            this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+            const app = createAppInstanceWithMockGame.call(this, width, height, 'proceed', getIsLiveBefore, getIsLiveAfter);
 
-            const app = shallow(<App/>);
-
-            assertBoardState(height, width, app.state('board'), () => false);
+            assertBoardState(height, width, app.state('board'), getIsLiveBefore);
 
             // when
             const controlPanel = app.find(ControlPanel);
@@ -102,7 +78,7 @@ describe('App', function () {
             onProceedClick();
 
             // then
-            assertBoardState(height, width, app.state('board'), ({x, y}) => x === y);
+            assertBoardState(height, width, app.state('board'), getIsLiveAfter);
         }));
     });
 
