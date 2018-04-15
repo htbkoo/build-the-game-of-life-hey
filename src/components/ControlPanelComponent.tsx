@@ -22,6 +22,7 @@ type ControlPanelProps = {
     onProceedClick: () => void,
     onResetClick: () => void,
     onRandomizeClick: () => void,
+    onPlayClick: () => void,
 };
 
 // IntelliJ bug - already imported with ES6 import state, still keep on asking to add ES5 style require statement thus suppressing

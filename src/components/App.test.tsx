@@ -112,7 +112,7 @@ describe('App', function () {
             let initialized = false;
             let getIsLive = (coor) => false;
             const randomize = () => {
-                if (initialized){
+                if (initialized) {
                     getIsLive = ({x, y}) => x === y;
                 }
             };
@@ -139,6 +139,25 @@ describe('App', function () {
         }));
     });
 
+    describe('onPlayClick', function () {
+        it('should update state.isPlaying to true when <ControlPanelComponent/>.props.onPlayClick()', sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const ANY_NUMBER = 1;
+            // TODO: clean up
+            const app = createAppInstanceWithMockGame.call(this, ANY_NUMBER, ANY_NUMBER, 'reset');
+            expect(app.state('isPlaying')).toEqual(false);
+
+            // when
+            const controlPanel = app.find(ControlPanel);
+            let onPlayClick = controlPanel.prop('onPlayClick');
+            onPlayClick();
+
+            // then
+            expect(app.state('isPlaying')).toEqual(true);
+        }));
+    });
+
+
     // necessary for the signature
     // noinspection JSUnusedLocalSymbols
     function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width, height, methodName, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y) {
@@ -150,7 +169,9 @@ describe('App', function () {
                 getIsLive = getIsLiveAfter;
             }
         });
-        this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+        // TODO: clean up
+        // this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+        this.stub(Game, 'new').returns(mockGame);
 
         return shallow(<App/>);
     }

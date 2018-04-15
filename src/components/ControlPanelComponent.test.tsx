@@ -12,7 +12,8 @@ describe('ControlPanelComponent', function () {
         it('should pass props.onProceedClick to <PlayerControls/>.onNext', function () {
             // given
             const spyOnProceedClick = jest.fn();
-            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={spyOnProceedClick} onResetClick={NO_OP} onRandomizeClick={NO_OP} />);
+            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={spyOnProceedClick} onResetClick={NO_OP}
+                                                              onRandomizeClick={NO_OP} onPlayClick={NO_OP}/>);
 
             // when
             let playbackControlsWrapper = controlPanelWrapper.find(PlaybackControls);
@@ -25,10 +26,11 @@ describe('ControlPanelComponent', function () {
         it('should pass props.onResetClick to #btn_reset.<ControlPanelStyledIconButton/>.onClick', function () {
             // given
             const spyOnResetClick = jest.fn();
-            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={NO_OP} onResetClick={spyOnResetClick} onRandomizeClick={NO_OP}/>);
+            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={NO_OP} onResetClick={spyOnResetClick}
+                                                              onRandomizeClick={NO_OP} onPlayClick={NO_OP}/>);
 
             // when
-            let btnResetWrapper = controlPanelWrapper.find("#btn_reset").find(ControlPanelStyledIconButton);
+            let btnResetWrapper = controlPanelWrapper.find('#btn_reset').find(ControlPanelStyledIconButton);
             btnResetWrapper.simulate('click');
 
             // then
@@ -38,10 +40,12 @@ describe('ControlPanelComponent', function () {
         it('should pass props.onRandomizeClick to #btn_randomize.<ControlPanelStyledIconButton/>.onClick', function () {
             // given
             const spyOnRandomizeClick = jest.fn();
-            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={NO_OP} onResetClick={NO_OP} onRandomizeClick={spyOnRandomizeClick}/>);
+            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={NO_OP} onResetClick={NO_OP}
+                                                              onRandomizeClick={spyOnRandomizeClick}
+                                                              onPlayClick={NO_OP}/>);
 
             // when
-            let btnRandomizeWrapper = controlPanelWrapper.find("#btn_randomize").find(ControlPanelStyledIconButton);
+            let btnRandomizeWrapper = controlPanelWrapper.find('#btn_randomize').find(ControlPanelStyledIconButton);
             btnRandomizeWrapper.simulate('click');
 
             // then
