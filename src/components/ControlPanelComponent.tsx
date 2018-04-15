@@ -36,8 +36,8 @@ const ControlPanel = (props: ControlPanelProps) => (
                 </ControlPanelStyledIconButton>
             </div>
 
-            <div className="ControlPanel-InnerButton-Div">
-                <ControlPanelStyledIconButton onClick={NO_OP}>
+            <div className="ControlPanel-InnerButton-Div" id="btn_reset">
+                <ControlPanelStyledIconButton onClick={props.onResetClick}>
                     <ActionPowerSettingNew color={green500}/>
                 </ControlPanelStyledIconButton>
             </div>
