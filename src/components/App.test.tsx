@@ -62,101 +62,102 @@ describe('App', function () {
         }));
     });
 
-    describe('onProceedClick', function () {
-        it('should call game.proceed() and set to next state when <ControlPanelComponent/>.props.onProceedClick()', sinonTest(function (this: sinon.SinonSandbox) {
-            // given
-            const width = 30, height = 20;
-            const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
+    describe('handlers', function () {
+        describe('onProceedClick', function () {
+            it('should call game.proceed() and set to next state when <ControlPanelComponent/>.props.onProceedClick()', sinonTest(function (this: sinon.SinonSandbox) {
+                // given
+                const width = 30, height = 20;
+                const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
 
-            const app = createAppInstanceWithMockGame.call(this, width, height, 'proceed', getIsLiveBefore, getIsLiveAfter);
+                const app = createAppInstanceWithMockGame.call(this, width, height, 'proceed', getIsLiveBefore, getIsLiveAfter);
 
-            assertBoardState(height, width, app.state('board'), getIsLiveBefore);
+                assertBoardState(height, width, app.state('board'), getIsLiveBefore);
 
-            // when
-            const controlPanel = app.find(ControlPanel);
-            let onProceedClick = controlPanel.prop('onProceedClick');
-            onProceedClick();
+                // when
+                const controlPanel = app.find(ControlPanel);
+                let onProceedClick = controlPanel.prop('onProceedClick');
+                onProceedClick();
 
-            // then
-            assertBoardState(height, width, app.state('board'), getIsLiveAfter);
-        }));
+                // then
+                assertBoardState(height, width, app.state('board'), getIsLiveAfter);
+            }));
+        });
+
+        describe('onResetClick', function () {
+            it('should call game.reset() and set to next state when <ControlPanelComponent/>.props.onResetClick()', sinonTest(function (this: sinon.SinonSandbox) {
+                // given
+                const width = 30, height = 20;
+                const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
+
+                const app = createAppInstanceWithMockGame.call(this, width, height, 'reset', getIsLiveBefore, getIsLiveAfter);
+
+                assertBoardState(height, width, app.state('board'), getIsLiveBefore);
+
+                // when
+                const controlPanel = app.find(ControlPanel);
+                let onRestClick = controlPanel.prop('onResetClick');
+                onRestClick();
+
+                // then
+                assertBoardState(height, width, app.state('board'), getIsLiveAfter);
+            }));
+        });
+
+        describe('onRandomizeClick', function () {
+            it('should call game.randomize() and set to next state when <ControlPanelComponent/>.props.onRandomizeClick()', sinonTest(function (this: sinon.SinonSandbox) {
+                // given
+                const width = 30, height = 20;
+
+                // necessary for the signature
+                // noinspection JSUnusedLocalSymbols
+                let initialized = false;
+                let getIsLive = (coor) => false;
+                const randomize = () => {
+                    if (initialized) {
+                        getIsLive = ({x, y}) => x === y;
+                    }
+                };
+                const mockGame = createMockGame(width, height, {
+                    isLiveAt(coor) {
+                        return getIsLive(coor);
+                    },
+                    randomize
+                });
+                this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+
+                const app = shallow(<App/>);
+
+                assertBoardState(height, width, app.state('board'), () => false);
+                initialized = true;
+
+                // when
+                const controlPanel = app.find(ControlPanel);
+                let onRandomizeClick = controlPanel.prop('onRandomizeClick');
+                onRandomizeClick();
+
+                // then
+                assertBoardState(height, width, app.state('board'), ({x, y}) => x === y);
+            }));
+        });
+
+        describe('onPlayClick', function () {
+            it('should update state.isPlaying to true when <ControlPanelComponent/>.props.onPlayClick()', sinonTest(function (this: sinon.SinonSandbox) {
+                // given
+                const ANY_NUMBER = 1;
+                // TODO: clean up
+                const app = createAppInstanceWithMockGame.call(this, ANY_NUMBER, ANY_NUMBER, 'reset');
+                expect(app.state('isPlaying')).toEqual(false);
+
+                // when
+                const controlPanel = app.find(ControlPanel);
+                let onPlayClick = controlPanel.prop('onPlayClick');
+                onPlayClick();
+
+                // then
+                expect(app.state('isPlaying')).toEqual(true);
+            }));
+        });
     });
-
-    describe('onResetClick', function () {
-        it('should call game.reset() and set to next state when <ControlPanelComponent/>.props.onResetClick()', sinonTest(function (this: sinon.SinonSandbox) {
-            // given
-            const width = 30, height = 20;
-            const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
-
-            const app = createAppInstanceWithMockGame.call(this, width, height, 'reset', getIsLiveBefore, getIsLiveAfter);
-
-            assertBoardState(height, width, app.state('board'), getIsLiveBefore);
-
-            // when
-            const controlPanel = app.find(ControlPanel);
-            let onRestClick = controlPanel.prop('onResetClick');
-            onRestClick();
-
-            // then
-            assertBoardState(height, width, app.state('board'), getIsLiveAfter);
-        }));
-    });
-
-    describe('onRandomizeClick', function () {
-        it('should call game.randomize() and set to next state when <ControlPanelComponent/>.props.onRandomizeClick()', sinonTest(function (this: sinon.SinonSandbox) {
-            // given
-            const width = 30, height = 20;
-
-            // necessary for the signature
-            // noinspection JSUnusedLocalSymbols
-            let initialized = false;
-            let getIsLive = (coor) => false;
-            const randomize = () => {
-                if (initialized) {
-                    getIsLive = ({x, y}) => x === y;
-                }
-            };
-            const mockGame = createMockGame(width, height, {
-                isLiveAt(coor) {
-                    return getIsLive(coor);
-                },
-                randomize
-            });
-            this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
-
-            const app = shallow(<App/>);
-
-            assertBoardState(height, width, app.state('board'), () => false);
-            initialized = true;
-
-            // when
-            const controlPanel = app.find(ControlPanel);
-            let onRandomizeClick = controlPanel.prop('onRandomizeClick');
-            onRandomizeClick();
-
-            // then
-            assertBoardState(height, width, app.state('board'), ({x, y}) => x === y);
-        }));
-    });
-
-    describe('onPlayClick', function () {
-        it('should update state.isPlaying to true when <ControlPanelComponent/>.props.onPlayClick()', sinonTest(function (this: sinon.SinonSandbox) {
-            // given
-            const ANY_NUMBER = 1;
-            // TODO: clean up
-            const app = createAppInstanceWithMockGame.call(this, ANY_NUMBER, ANY_NUMBER, 'reset');
-            expect(app.state('isPlaying')).toEqual(false);
-
-            // when
-            const controlPanel = app.find(ControlPanel);
-            let onPlayClick = controlPanel.prop('onPlayClick');
-            onPlayClick();
-
-            // then
-            expect(app.state('isPlaying')).toEqual(true);
-        }));
-    });
-
 
     // necessary for the signature
     // noinspection JSUnusedLocalSymbols
