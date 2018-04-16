@@ -6,10 +6,14 @@ import {mount} from 'enzyme';
 describe('App (Acceptance)', function () {
     it('renders without crashing', () => {
         const div = document.createElement('div');
-        ReactDOM.render(<App/>, div);
+        ReactDOM.render(app(), div);
     });
 
     it('should mounts without crashing', function () {
-        mount(<App/>);
+        mount(app());
     });
+
+    function app() {
+        return (<App initialDimension={{width: 30, height: 20}}/>);
+    }
 });

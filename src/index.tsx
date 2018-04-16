@@ -6,8 +6,10 @@ import App from './components/App';
 
 import './index.css';
 
+const defaultInitialDimension = {width: 30, height: 20};
+
 ReactDOM.render(
-    <App/>,
+    <App initialDimension={defaultInitialDimension}/>,
     document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();

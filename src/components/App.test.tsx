@@ -13,7 +13,7 @@ describe('App', function () {
         it('should have a <Board/> and <ControlPanel/>', () => {
             // given
             // when
-            let app = shallow(<App/>);
+            let app = shallowApp();
 
             // then
             expect(app.find(Board).length).toEqual(1);
@@ -27,7 +27,7 @@ describe('App', function () {
             const expectedDefaultWidth = 30, expectedDefaultHeight = 20;
 
             // when
-            let app = shallow(<App/>);
+            let app = shallowApp(withDimension(expectedDefaultWidth, expectedDefaultHeight));
 
             // then
             let boardState = app.state('board');
@@ -39,7 +39,7 @@ describe('App', function () {
             // given
             const width = 10, height = 50;
             const boardState = {width, height};
-            const app = shallow(<App/>);
+            const app = shallowApp();
 
             // when
             app.setState({board: {width, height}});
@@ -125,7 +125,7 @@ describe('App', function () {
                 });
                 this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
 
-                const app = shallow(<App/>);
+                const app = shallowApp(withDimension(width, height));
 
                 assertBoardState(height, width, app.state('board'), () => false);
                 initialized = true;
@@ -159,6 +159,14 @@ describe('App', function () {
         });
     });
 
+    function shallowApp(initialDimension = {width: 30, height: 20}) {
+        return shallow(<App initialDimension={initialDimension}/>);
+    }
+
+    function withDimension(width: number, height: number) {
+        return {width, height};
+    }
+
     // necessary for the signature
     // noinspection JSUnusedLocalSymbols
     function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width, height, methodName, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y) {
@@ -174,7 +182,7 @@ describe('App', function () {
         // this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
         this.stub(Game, 'new').returns(mockGame);
 
-        return shallow(<App/>);
+        return shallowApp(withDimension(width, height));
     }
 
     function assertBoardState(height: number, width: number, boardState: BoardState, getExpectedIsLive: (coor) => boolean) {

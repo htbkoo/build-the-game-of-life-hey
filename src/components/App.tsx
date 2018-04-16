@@ -10,11 +10,18 @@ import Game from '../services/Game';
 // reference: https://stackoverflow.com/a/42505940
 // const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider');
 
-type AppProps = {};
+type AppProps = {
+    initialDimension: BoardDimension
+};
 
 type AppState = {
     isPlaying: boolean,
     board: BoardState
+};
+
+type BoardDimension = {
+    width: number,
+    height: number
 };
 
 export type BoardState = {
