@@ -31,8 +31,7 @@ class App extends React.Component<AppProps, AppState> {
     constructor(props) {
         super(props);
 
-        this.game = Game.new({width: 30, height: 20});
-        this.game.randomize();
+        this.game = App.newRandomizedGame({width: 30, height: 20});
 
         this.state = {
             isPlaying: false,
@@ -43,6 +42,12 @@ class App extends React.Component<AppProps, AppState> {
         this.resetGame = this.resetGame.bind(this);
         this.randomizeGame = this.randomizeGame.bind(this);
         this.startPlaying = this.startPlaying.bind(this);
+    }
+
+    private static newRandomizedGame(dimension): Game {
+        let game = Game.new(dimension);
+        game.randomize();
+        return game;
     }
 
     proceedGame() {
@@ -60,7 +65,7 @@ class App extends React.Component<AppProps, AppState> {
         this.updateGameBy('randomize');
     }
 
-    startPlaying(){
+    startPlaying() {
         this.setState({
             isPlaying: true
         });
