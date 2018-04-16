@@ -25,8 +25,7 @@ describe('ControlPanelComponent', function () {
         it('should pass props.onResetClick to #btn_reset.<ControlPanelStyledIconButton/>.onClick', function () {
             // given
             const spyOnResetClick = jest.fn();
-            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={NO_OP} onResetClick={spyOnResetClick}
-                                                              onRandomizeClick={NO_OP} onPlayClick={NO_OP}/>);
+            const controlPanelWrapper = createControlPanel({onResetClick: spyOnResetClick});
 
             // when
             let btnResetWrapper = controlPanelWrapper.find('#btn_reset').find(ControlPanelStyledIconButton);
@@ -39,9 +38,7 @@ describe('ControlPanelComponent', function () {
         it('should pass props.onRandomizeClick to #btn_randomize.<ControlPanelStyledIconButton/>.onClick', function () {
             // given
             const spyOnRandomizeClick = jest.fn();
-            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={NO_OP} onResetClick={NO_OP}
-                                                              onRandomizeClick={spyOnRandomizeClick}
-                                                              onPlayClick={NO_OP}/>);
+            const controlPanelWrapper = createControlPanel({onRandomizeClick:spyOnRandomizeClick});
 
             // when
             let btnRandomizeWrapper = controlPanelWrapper.find('#btn_randomize').find(ControlPanelStyledIconButton);
