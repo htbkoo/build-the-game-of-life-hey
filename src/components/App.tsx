@@ -26,11 +26,12 @@ export type BoardState = {
 export type IsLivesState = ReadonlyArray<ReadonlyArray<boolean>>;
 
 class App extends React.Component<AppProps, AppState> {
-    private readonly game: Game = Game.new({width: 30, height: 20});
+    private readonly game: Game;
 
     constructor(props) {
         super(props);
 
+        this.game = Game.new({width: 30, height: 20});
         this.game.randomize();
 
         this.state = {
