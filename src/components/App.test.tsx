@@ -165,9 +165,7 @@ describe('App', function () {
                 getIsLive = getIsLiveAfter;
             }
         });
-        // TODO: clean up
-        // this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
-        this.stub(Game, 'new').returns(mockGame);
+        this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
 
         return shallowApp(withDimension(width, height));
     }
