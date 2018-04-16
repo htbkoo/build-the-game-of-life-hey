@@ -22,19 +22,6 @@ describe('App', function () {
     });
 
     describe('state', function () {
-        it('should have state.board.width=30 and state.board.height=20 by default', () => {
-            // given
-            const expectedDefaultWidth = 30, expectedDefaultHeight = 20;
-
-            // when
-            let app = shallowApp(withDimension(expectedDefaultWidth, expectedDefaultHeight));
-
-            // then
-            let boardState = app.state('board');
-            expect(boardState.width).toEqual(expectedDefaultWidth);
-            expect(boardState.height).toEqual(expectedDefaultHeight);
-        });
-
         it('should pass state.board as props to <Board/>', () => {
             // given
             const width = 10, height = 50;
