@@ -12,8 +12,7 @@ describe('ControlPanelComponent', function () {
         it('should pass props.onProceedClick to <PlayerControls/>.onNext', function () {
             // given
             const spyOnProceedClick = jest.fn();
-            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={spyOnProceedClick} onResetClick={NO_OP}
-                                                              onRandomizeClick={NO_OP} onPlayClick={NO_OP}/>);
+            const controlPanelWrapper = createControlPanel({onProceedClick: spyOnProceedClick});
 
             // when
             let playbackControlsWrapper = controlPanelWrapper.find(PlaybackControls);
@@ -52,4 +51,13 @@ describe('ControlPanelComponent', function () {
             expect(spyOnRandomizeClick.mock.calls.length).toBe(1);
         });
     });
+
+    function createControlPanel({onProceedClick = NO_OP, onResetClick = NO_OP, onRandomizeClick = NO_OP, onPlayClick = NO_OP,}) {
+        return shallow(<ControlPanel
+            onProceedClick={onProceedClick}
+            onResetClick={onResetClick}
+            onRandomizeClick={onRandomizeClick}
+            onPlayClick={onPlayClick}
+        />);
+    }
 });
