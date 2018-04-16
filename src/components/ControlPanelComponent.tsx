@@ -7,6 +7,8 @@ import {green500} from 'material-ui/styles/colors';
 
 import ControlPanelStyledIconButton from './ControlPanelStyledIconButton';
 
+import {NO_OP} from './utils/common';
+
 import './css/ControlPanelComponent.css';
 import './css/react-player-controls.css';
 
@@ -16,12 +18,13 @@ const styles = {
     Paper: {backgroundColor: 'burlywood'},
 };
 
-const NO_OP = () => {
-};
+type Handler = () => void;
 
 type ControlPanelProps = {
-    onProceedClick: () => void,
-    onResetClick: () => void,
+    onProceedClick: Handler,
+    onResetClick: Handler,
+    onRandomizeClick: Handler,
+    onPlayClick: Handler,
 };
 
 // IntelliJ bug - already imported with ES6 import state, still keep on asking to add ES5 style require statement thus suppressing
@@ -30,8 +33,8 @@ const ControlPanel = (props: ControlPanelProps) => (
     <div className="ControlPanel">
         <Paper style={styles.Paper} zDepth={3} rounded={false} className="ControlPanel-Paper">
 
-            <div className="ControlPanel-InnerButton-Div">
-                <ControlPanelStyledIconButton onClick={NO_OP}>
+            <div className="ControlPanel-InnerButton-Div" id="btn_randomize">
+                <ControlPanelStyledIconButton onClick={props.onRandomizeClick}>
                     <ActionHelp color={green500}/>
                 </ControlPanelStyledIconButton>
             </div>

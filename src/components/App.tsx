@@ -1,19 +1,19 @@
 import * as React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
-// To avoid the "TS7016: Could not find a declaration file for module" error
-// reference: https://stackoverflow.com/a/42505940
-// const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider');
-
 import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
 
 import './css/App.css';
 import Game from '../services/Game';
+// To avoid the "TS7016: Could not find a declaration file for module" error
+// reference: https://stackoverflow.com/a/42505940
+// const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider');
 
 type AppProps = {};
 
 type AppState = {
+    isPlaying: boolean,
     board: BoardState
 };
 
@@ -34,11 +34,14 @@ class App extends React.Component<AppProps, AppState> {
         this.game.randomize();
 
         this.state = {
+            isPlaying: false,
             board: this.getBoardState()
         };
 
         this.proceedGame = this.proceedGame.bind(this);
         this.resetGame = this.resetGame.bind(this);
+        this.randomizeGame = this.randomizeGame.bind(this);
+        this.startPlaying = this.startPlaying.bind(this);
     }
 
     proceedGame() {
@@ -49,6 +52,17 @@ class App extends React.Component<AppProps, AppState> {
     resetGame() {
         console.log('should reset');
         this.updateGameBy('reset');
+    }
+
+    randomizeGame() {
+        console.log('should randomize');
+        this.updateGameBy('randomize');
+    }
+
+    startPlaying(){
+        this.setState({
+            isPlaying: true
+        });
     }
 
     render() {
@@ -62,7 +76,12 @@ class App extends React.Component<AppProps, AppState> {
                         <Board board={this.state.board}/>
                     </div>
                     <div className="App-Footer">
-                        <ControlPanel onProceedClick={this.proceedGame} onResetClick={this.resetGame}/>
+                        <ControlPanel
+                            onProceedClick={this.proceedGame}
+                            onResetClick={this.resetGame}
+                            onRandomizeClick={this.randomizeGame}
+                            onPlayClick={this.startPlaying}
+                        />
                     </div>
                 </div>
             </MuiThemeProvider>

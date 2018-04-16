@@ -5,13 +5,14 @@ import {PlaybackControls} from 'react-player-controls';
 import ControlPanel from './ControlPanelComponent';
 
 import ControlPanelStyledIconButton from './ControlPanelStyledIconButton';
+import {NO_OP} from './utils/common';
 
 describe('ControlPanelComponent', function () {
     describe('react-player-controls', function () {
         it('should pass props.onProceedClick to <PlayerControls/>.onNext', function () {
             // given
             const spyOnProceedClick = jest.fn();
-            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={spyOnProceedClick} onResetClick={()=>{}} />);
+            const controlPanelWrapper = createControlPanel({onProceedClick: spyOnProceedClick});
 
             // when
             let playbackControlsWrapper = controlPanelWrapper.find(PlaybackControls);
@@ -24,14 +25,36 @@ describe('ControlPanelComponent', function () {
         it('should pass props.onResetClick to #btn_reset.<ControlPanelStyledIconButton/>.onClick', function () {
             // given
             const spyOnResetClick = jest.fn();
-            const controlPanelWrapper = shallow(<ControlPanel onProceedClick={()=>{}} onResetClick={spyOnResetClick} />);
+            const controlPanelWrapper = createControlPanel({onResetClick: spyOnResetClick});
 
             // when
-            let btnResetWrapper = controlPanelWrapper.find("#btn_reset").find(ControlPanelStyledIconButton);
+            let btnResetWrapper = controlPanelWrapper.find('#btn_reset').find(ControlPanelStyledIconButton);
             btnResetWrapper.simulate('click');
 
             // then
             expect(spyOnResetClick.mock.calls.length).toBe(1);
         });
+
+        it('should pass props.onRandomizeClick to #btn_randomize.<ControlPanelStyledIconButton/>.onClick', function () {
+            // given
+            const spyOnRandomizeClick = jest.fn();
+            const controlPanelWrapper = createControlPanel({onRandomizeClick:spyOnRandomizeClick});
+
+            // when
+            let btnRandomizeWrapper = controlPanelWrapper.find('#btn_randomize').find(ControlPanelStyledIconButton);
+            btnRandomizeWrapper.simulate('click');
+
+            // then
+            expect(spyOnRandomizeClick.mock.calls.length).toBe(1);
+        });
     });
+
+    function createControlPanel({onProceedClick = NO_OP, onResetClick = NO_OP, onRandomizeClick = NO_OP, onPlayClick = NO_OP,}) {
+        return shallow(<ControlPanel
+            onProceedClick={onProceedClick}
+            onResetClick={onResetClick}
+            onRandomizeClick={onRandomizeClick}
+            onPlayClick={onPlayClick}
+        />);
+    }
 });
