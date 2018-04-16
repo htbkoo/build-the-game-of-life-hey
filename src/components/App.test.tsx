@@ -24,14 +24,14 @@ describe('App', function () {
     describe('state', function () {
         it('should pass state.board as props to <Board/>', () => {
             // given
-            const width = 10, height = 50;
-            const boardState = {width, height};
             const app = shallowApp();
 
             // when
+            const width = 10, height = 50;
             app.setState({board: {width, height}});
 
             // then
+            const boardState = {width, height};
             expect(app.find(Board).prop('board')).toEqual(boardState);
         });
 
