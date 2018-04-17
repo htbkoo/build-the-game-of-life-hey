@@ -55,6 +55,7 @@ describe('ControlPanelComponent', function () {
             onResetClick={onResetClick}
             onRandomizeClick={onRandomizeClick}
             onPlayClick={onPlayClick}
+            isPlaying={false}
         />);
     }
 });

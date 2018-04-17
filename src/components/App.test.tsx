@@ -127,7 +127,7 @@ describe('App', function () {
             }));
         });
 
-        describe('onPlayClick', function () {
+        describe('isPlaying', function () {
             it('should update state.isPlaying to true when <ControlPanelComponent/>.props.onPlayClick()', sinonTest(function (this: sinon.SinonSandbox) {
                 // given
                 const app = createAppInstanceWithMockGame.call(this);
@@ -140,6 +140,19 @@ describe('App', function () {
 
                 // then
                 expect(app.state('isPlaying')).toEqual(true);
+            }));
+
+            it('should pass state.isPlaying to <ControlPanel/>.props.isPlaying', sinonTest(function (this: sinon.SinonSandbox) {
+                // given
+                const app = createAppInstanceWithMockGame.call(this);
+                const isPlaying = true;
+                app.setState({isPlaying});
+
+                // when
+                const controlPanel = app.find(ControlPanel);
+
+                // then
+                expect(controlPanel.prop('isPlaying')).toEqual(isPlaying);
             }));
         });
     });

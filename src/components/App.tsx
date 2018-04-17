@@ -94,6 +94,7 @@ class App extends React.Component<AppProps, AppState> {
                             onResetClick={this.resetGame}
                             onRandomizeClick={this.randomizeGame}
                             onPlayClick={this.startPlaying}
+                            isPlaying={this.state.isPlaying}
                         />
                     </div>
                 </div>
