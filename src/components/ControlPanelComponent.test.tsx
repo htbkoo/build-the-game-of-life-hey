@@ -48,6 +48,19 @@ describe('ControlPanelComponent', function () {
             expect(spyOnRandomizeClick.mock.calls.length).toBe(1);
         });
 
+        it('should pass props.onPlayClick to <PlaybackControls/>.props.onPlaybackChange', function () {
+            // given
+            const spyOnPlayClick = jest.fn();
+            const controlPanelWrapper = createControlPanel({onPlayClick: spyOnPlayClick});
+
+            // when
+            let playbackControls = controlPanelWrapper.find(PlaybackControls);
+            playbackControls.simulate('playbackChange');
+
+            // then
+            expect(spyOnPlayClick.mock.calls.length).toBe(1);
+        });
+
         it('should pass props.isPlaying to <PlaybackControls/>.props.isPlaying', function () {
             // given
             const isPlaying = true;

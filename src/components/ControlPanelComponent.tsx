@@ -49,7 +49,7 @@ const ControlPanel = (props: ControlPanelProps) => (
             <PlaybackControls
                 isPlayable={true}
                 isPlaying={props.isPlaying}
-                onPlaybackChange={NO_OP}
+                onPlaybackChange={props.onPlayClick}
                 showPrevious={false}
                 hasPrevious={false}
                 onPrevious={NO_OP}
