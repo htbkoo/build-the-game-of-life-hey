@@ -24,7 +24,7 @@ type ControlPanelProps = {
     onProceedClick: Handler,
     onResetClick: Handler,
     onRandomizeClick: Handler,
-    onPlayClick: Handler,
+    onPlayToggle: Handler,
     isPlaying: boolean,
 };
 
@@ -49,7 +49,7 @@ const ControlPanel = (props: ControlPanelProps) => (
             <PlaybackControls
                 isPlayable={true}
                 isPlaying={props.isPlaying}
-                onPlaybackChange={props.onPlayClick}
+                onPlaybackChange={props.onPlayToggle}
                 showPrevious={false}
                 hasPrevious={false}
                 onPrevious={NO_OP}

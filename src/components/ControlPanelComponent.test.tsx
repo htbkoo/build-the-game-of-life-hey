@@ -48,17 +48,17 @@ describe('ControlPanelComponent', function () {
             expect(spyOnRandomizeClick.mock.calls.length).toBe(1);
         });
 
-        it('should pass props.onPlayClick to <PlaybackControls/>.props.onPlaybackChange', function () {
+        it('should pass props.onPlayToggle to <PlaybackControls/>.props.onPlaybackChange', function () {
             // given
-            const spyOnPlayClick = jest.fn();
-            const controlPanelWrapper = createControlPanel({onPlayClick: spyOnPlayClick});
+            const spyOnPlayToggle = jest.fn();
+            const controlPanelWrapper = createControlPanel({onPlayToggle: spyOnPlayToggle});
 
             // when
             let playbackControls = controlPanelWrapper.find(PlaybackControls);
             playbackControls.simulate('playbackChange');
 
             // then
-            expect(spyOnPlayClick.mock.calls.length).toBe(1);
+            expect(spyOnPlayToggle.mock.calls.length).toBe(1);
         });
 
         it('should pass props.isPlaying to <PlaybackControls/>.props.isPlaying', function () {
@@ -74,12 +74,12 @@ describe('ControlPanelComponent', function () {
         });
     });
 
-    function createControlPanel({onProceedClick = NO_OP, onResetClick = NO_OP, onRandomizeClick = NO_OP, onPlayClick = NO_OP, isPlaying = false}) {
+    function createControlPanel({onProceedClick = NO_OP, onResetClick = NO_OP, onRandomizeClick = NO_OP, onPlayToggle = NO_OP, isPlaying = false}) {
         return shallow(<ControlPanel
             onProceedClick={onProceedClick}
             onResetClick={onResetClick}
             onRandomizeClick={onRandomizeClick}
-            onPlayClick={onPlayClick}
+            onPlayToggle={onPlayToggle}
             isPlaying={isPlaying}
         />);
     }
