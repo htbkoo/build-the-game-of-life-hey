@@ -10,11 +10,18 @@ import Game from '../services/Game';
 // reference: https://stackoverflow.com/a/42505940
 // const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider');
 
-type AppProps = {};
+type AppProps = {
+    initialDimension: BoardDimension
+};
 
 type AppState = {
     isPlaying: boolean,
     board: BoardState
+};
+
+type BoardDimension = {
+    width: number,
+    height: number
 };
 
 export type BoardState = {
@@ -26,12 +33,12 @@ export type BoardState = {
 export type IsLivesState = ReadonlyArray<ReadonlyArray<boolean>>;
 
 class App extends React.Component<AppProps, AppState> {
-    private readonly game: Game = Game.new({width: 30, height: 20});
+    private readonly game: Game;
 
     constructor(props) {
         super(props);
 
-        this.game.randomize();
+        this.game = App.newRandomizedGame(props.initialDimension);
 
         this.state = {
             isPlaying: false,
@@ -41,7 +48,13 @@ class App extends React.Component<AppProps, AppState> {
         this.proceedGame = this.proceedGame.bind(this);
         this.resetGame = this.resetGame.bind(this);
         this.randomizeGame = this.randomizeGame.bind(this);
-        this.startPlaying = this.startPlaying.bind(this);
+        this.togglePlaying = this.togglePlaying.bind(this);
+    }
+
+    private static newRandomizedGame(dimension): Game {
+        let game = Game.new(dimension);
+        game.randomize();
+        return game;
     }
 
     proceedGame() {
@@ -59,9 +72,10 @@ class App extends React.Component<AppProps, AppState> {
         this.updateGameBy('randomize');
     }
 
-    startPlaying(){
+    togglePlaying() {
+        let toggledIsPlaying = !this.state.isPlaying;
         this.setState({
-            isPlaying: true
+            isPlaying: toggledIsPlaying
         });
     }
 
@@ -80,7 +94,8 @@ class App extends React.Component<AppProps, AppState> {
                             onProceedClick={this.proceedGame}
                             onResetClick={this.resetGame}
                             onRandomizeClick={this.randomizeGame}
-                            onPlayClick={this.startPlaying}
+                            onPlayToggle={this.togglePlaying}
+                            isPlaying={this.state.isPlaying}
                         />
                     </div>
                 </div>
@@ -89,16 +104,18 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     private getBoardState(): BoardState {
+        let width = this.game.getWidth();
+        let height = this.game.getHeight();
         return {
-            width: this.game.getWidth(),
-            height: this.game.getHeight(),
-            isLives: this.getIsLives()
+            width,
+            height,
+            isLives: this.getIsLives(width, height)
         };
     }
 
-    private getIsLives(): IsLivesState {
-        return new Array(20).fill(0).map((_, y) =>
-            new Array(30).fill(0).map((__, x) =>
+    private getIsLives(width, height): IsLivesState {
+        return new Array(height).fill(0).map((_, y) =>
+            new Array(width).fill(0).map((__, x) =>
                 this.game.isLiveAt({x, y}))
         );
     }

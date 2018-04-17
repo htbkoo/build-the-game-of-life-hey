@@ -13,7 +13,7 @@ describe('App', function () {
         it('should have a <Board/> and <ControlPanel/>', () => {
             // given
             // when
-            let app = shallow(<App/>);
+            let app = shallowApp();
 
             // then
             expect(app.find(Board).length).toEqual(1);
@@ -22,29 +22,16 @@ describe('App', function () {
     });
 
     describe('state', function () {
-        it('should have state.board.width=30 and state.board.height=20 by default', () => {
-            // given
-            const expectedDefaultWidth = 30, expectedDefaultHeight = 20;
-
-            // when
-            let app = shallow(<App/>);
-
-            // then
-            let boardState = app.state('board');
-            expect(boardState.width).toEqual(expectedDefaultWidth);
-            expect(boardState.height).toEqual(expectedDefaultHeight);
-        });
-
         it('should pass state.board as props to <Board/>', () => {
             // given
-            const width = 10, height = 50;
-            const boardState = {width, height};
-            const app = shallow(<App/>);
+            const app = shallowApp();
 
             // when
+            const width = 10, height = 50;
             app.setState({board: {width, height}});
 
             // then
+            const boardState = {width, height};
             expect(app.find(Board).prop('board')).toEqual(boardState);
         });
 
@@ -125,7 +112,7 @@ describe('App', function () {
                 });
                 this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
 
-                const app = shallow(<App/>);
+                const app = shallowApp(withDimension(width, height));
 
                 assertBoardState(height, width, app.state('board'), () => false);
                 initialized = true;
@@ -140,41 +127,68 @@ describe('App', function () {
             }));
         });
 
-        describe('onPlayClick', function () {
-            it('should update state.isPlaying to true when <ControlPanelComponent/>.props.onPlayClick()', sinonTest(function (this: sinon.SinonSandbox) {
+        describe('isPlaying', function () {
+            [
+                {fromState: false, toState: true},
+                {fromState: true, toState: false}
+            ].forEach(({fromState, toState}) =>
+                it(`should update state.isPlaying from ${fromState} to ${toState} when <ControlPanelComponent/>.props.onPlayToggle()`, sinonTest(function (this: sinon.SinonSandbox) {
+                    // given
+                    const app = createAppInstanceWithMockGame.call(this);
+                    expect(app.state('isPlaying')).toEqual(false);
+                    app.setState({isPlaying: fromState});
+
+                    // when
+                    const controlPanel = app.find(ControlPanel);
+                    let onPlayToggle = controlPanel.prop('onPlayToggle');
+                    onPlayToggle();
+
+                    // then
+                    expect(app.state('isPlaying')).toEqual(toState);
+                }))
+            );
+
+            it('should pass state.isPlaying to <ControlPanel/>.props.isPlaying', sinonTest(function (this: sinon.SinonSandbox) {
                 // given
-                const ANY_NUMBER = 1;
-                // TODO: clean up
-                const app = createAppInstanceWithMockGame.call(this, ANY_NUMBER, ANY_NUMBER, 'reset');
-                expect(app.state('isPlaying')).toEqual(false);
+                const app = createAppInstanceWithMockGame.call(this);
+                const isPlaying = true;
+                app.setState({isPlaying});
 
                 // when
                 const controlPanel = app.find(ControlPanel);
-                let onPlayClick = controlPanel.prop('onPlayClick');
-                onPlayClick();
 
                 // then
-                expect(app.state('isPlaying')).toEqual(true);
+                expect(controlPanel.prop('isPlaying')).toEqual(isPlaying);
             }));
         });
     });
 
+    function shallowApp(initialDimension = {width: 30, height: 20}) {
+        return shallow(<App initialDimension={initialDimension}/>);
+    }
+
+    function withDimension(width: number, height: number) {
+        return {width, height};
+    }
+
     // necessary for the signature
     // noinspection JSUnusedLocalSymbols
-    function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width, height, methodName, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y) {
-        const mockGame = createMockGame(width, height, {
+    function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width = 1, height = 1, methodName?, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y) {
+        let additionalMethods = {
             isLiveAt(coor) {
                 return getIsLive(coor);
-            },
-            [methodName]: () => {
-                getIsLive = getIsLiveAfter;
             }
-        });
-        // TODO: clean up
-        // this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
-        this.stub(Game, 'new').returns(mockGame);
+        };
+        if (methodName) {
+            additionalMethods[methodName] = () => {
+                getIsLive = getIsLiveAfter;
+            };
+        }
 
-        return shallow(<App/>);
+        const mockGame = createMockGame(width, height, additionalMethods);
+        this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
+
+        return shallowApp(withDimension(width, height));
     }
 
     function assertBoardState(height: number, width: number, boardState: BoardState, getExpectedIsLive: (coor) => boolean) {
