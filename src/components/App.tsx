@@ -6,6 +6,7 @@ import ControlPanel from './ControlPanelComponent';
 
 import './css/App.css';
 import Game from '../services/Game';
+import TimeTicker from './TimeTickerComponent';
 // To avoid the "TS7016: Could not find a declaration file for module" error
 // reference: https://stackoverflow.com/a/42505940
 // const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider');
@@ -80,6 +81,8 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     render() {
+        let optionalTimeTicker = this.state.isPlaying ? <TimeTicker/> : '';
+
         return (
             <MuiThemeProvider>
                 <div className="App">
@@ -88,6 +91,7 @@ class App extends React.Component<AppProps, AppState> {
                     </div>
                     <div className="App-Body">
                         <Board board={this.state.board}/>
+                        {optionalTimeTicker}
                     </div>
                     <div className="App-Footer">
                         <ControlPanel
