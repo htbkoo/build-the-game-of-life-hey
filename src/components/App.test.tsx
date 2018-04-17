@@ -130,9 +130,7 @@ describe('App', function () {
         describe('onPlayClick', function () {
             it('should update state.isPlaying to true when <ControlPanelComponent/>.props.onPlayClick()', sinonTest(function (this: sinon.SinonSandbox) {
                 // given
-                const ANY_NUMBER = 1;
-                // TODO: clean up
-                const app = createAppInstanceWithMockGame.call(this, ANY_NUMBER, ANY_NUMBER, 'reset');
+                const app = createAppInstanceWithMockGame.call(this);
                 expect(app.state('isPlaying')).toEqual(false);
 
                 // when
@@ -156,15 +154,19 @@ describe('App', function () {
 
     // necessary for the signature
     // noinspection JSUnusedLocalSymbols
-    function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width, height, methodName, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y) {
-        const mockGame = createMockGame(width, height, {
+    function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width = 1, height = 1, methodName?, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y) {
+        let additionalMethods = {
             isLiveAt(coor) {
                 return getIsLive(coor);
-            },
-            [methodName]: () => {
-                getIsLive = getIsLiveAfter;
             }
-        });
+        };
+        if (methodName) {
+            additionalMethods[methodName] = () => {
+                getIsLive = getIsLiveAfter;
+            };
+        }
+
+        const mockGame = createMockGame(width, height, additionalMethods);
         this.stub(Game, 'new').withArgs({width, height}).returns(mockGame);
 
         return shallowApp(withDimension(width, height));
