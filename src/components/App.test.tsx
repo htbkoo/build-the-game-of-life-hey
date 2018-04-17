@@ -128,19 +128,25 @@ describe('App', function () {
         });
 
         describe('isPlaying', function () {
-            it('should update state.isPlaying to true when <ControlPanelComponent/>.props.onPlayToggle()', sinonTest(function (this: sinon.SinonSandbox) {
-                // given
-                const app = createAppInstanceWithMockGame.call(this);
-                expect(app.state('isPlaying')).toEqual(false);
+            [
+                {fromState: false, toState: true},
+                {fromState: true, toState: false}
+            ].forEach(({fromState, toState}) =>
+                it(`should update state.isPlaying from ${fromState} to ${toState} when <ControlPanelComponent/>.props.onPlayToggle()`, sinonTest(function (this: sinon.SinonSandbox) {
+                    // given
+                    const app = createAppInstanceWithMockGame.call(this);
+                    expect(app.state('isPlaying')).toEqual(false);
+                    app.setState({isPlaying: fromState});
 
-                // when
-                const controlPanel = app.find(ControlPanel);
-                let onPlayToggle = controlPanel.prop('onPlayToggle');
-                onPlayToggle();
+                    // when
+                    const controlPanel = app.find(ControlPanel);
+                    let onPlayToggle = controlPanel.prop('onPlayToggle');
+                    onPlayToggle();
 
-                // then
-                expect(app.state('isPlaying')).toEqual(true);
-            }));
+                    // then
+                    expect(app.state('isPlaying')).toEqual(toState);
+                }))
+            );
 
             it('should pass state.isPlaying to <ControlPanel/>.props.isPlaying', sinonTest(function (this: sinon.SinonSandbox) {
                 // given

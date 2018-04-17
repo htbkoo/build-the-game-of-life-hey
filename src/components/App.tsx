@@ -73,8 +73,9 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     togglePlaying() {
+        let toggledIsPlaying = !this.state.isPlaying;
         this.setState({
-            isPlaying: true
+            isPlaying: toggledIsPlaying
         });
     }
 
