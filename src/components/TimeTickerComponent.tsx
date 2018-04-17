@@ -1,6 +1,8 @@
 import * as React from 'react';
 
-type TimeTickerProps = {};
+type TimeTickerProps = {
+    onTick: () => void
+};
 
 const TimeTicker = (props: TimeTickerProps) => (
     <div className="TimeTicker">

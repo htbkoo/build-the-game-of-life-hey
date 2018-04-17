@@ -176,6 +176,25 @@ describe('App', function () {
                 // then
                 expect(app.find(TimeTicker).length).toEqual(1);
             }));
+
+            it('pass <TimeTicker onTick={game.proceed}/>', sinonTest(function (this: sinon.SinonSandbox) {
+                // given
+                const width = 30, height = 20;
+                const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
+
+                const app = createAppInstanceWithMockGame.call(this, width, height, 'proceed', getIsLiveBefore, getIsLiveAfter);
+                app.setState({isPlaying: true});
+
+                assertBoardState(height, width, app.state('board'), getIsLiveBefore);
+
+                // when
+                const timeTicker = app.find(TimeTicker);
+                let onTick = timeTicker.prop('onTick');
+                onTick();
+
+                // then
+                assertBoardState(height, width, app.state('board'), getIsLiveAfter);
+            }));
         });
     });
 

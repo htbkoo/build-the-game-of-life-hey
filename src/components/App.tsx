@@ -81,7 +81,13 @@ class App extends React.Component<AppProps, AppState> {
     }
 
     render() {
-        let optionalTimeTicker = this.state.isPlaying ? <TimeTicker/> : '';
+        let optionalTimeTicker = this.state.isPlaying
+            ? (
+                <TimeTicker
+                    onTick={this.proceedGame}
+                />
+            )
+            : '';
 
         return (
             <MuiThemeProvider>
