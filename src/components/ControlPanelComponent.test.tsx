@@ -38,7 +38,7 @@ describe('ControlPanelComponent', function () {
         it('should pass props.onRandomizeClick to #btn_randomize.<ControlPanelStyledIconButton/>.onClick', function () {
             // given
             const spyOnRandomizeClick = jest.fn();
-            const controlPanelWrapper = createControlPanel({onRandomizeClick:spyOnRandomizeClick});
+            const controlPanelWrapper = createControlPanel({onRandomizeClick: spyOnRandomizeClick});
 
             // when
             let btnRandomizeWrapper = controlPanelWrapper.find('#btn_randomize').find(ControlPanelStyledIconButton);
@@ -47,15 +47,27 @@ describe('ControlPanelComponent', function () {
             // then
             expect(spyOnRandomizeClick.mock.calls.length).toBe(1);
         });
+
+        it('should pass props.isPlaying to <PlaybackControls/>.props.isPlaying', function () {
+            // given
+            const isPlaying = true;
+            const controlPanelWrapper = createControlPanel({isPlaying});
+
+            // when
+            let playbackControls = controlPanelWrapper.find(PlaybackControls);
+
+            // then
+            expect(playbackControls.prop("isPlaying")).toBe(isPlaying);
+        });
     });
 
-    function createControlPanel({onProceedClick = NO_OP, onResetClick = NO_OP, onRandomizeClick = NO_OP, onPlayClick = NO_OP,}) {
+    function createControlPanel({onProceedClick = NO_OP, onResetClick = NO_OP, onRandomizeClick = NO_OP, onPlayClick = NO_OP, isPlaying = false}) {
         return shallow(<ControlPanel
             onProceedClick={onProceedClick}
             onResetClick={onResetClick}
             onRandomizeClick={onRandomizeClick}
             onPlayClick={onPlayClick}
-            isPlaying={false}
+            isPlaying={isPlaying}
         />);
     }
 });
