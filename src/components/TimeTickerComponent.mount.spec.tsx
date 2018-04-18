@@ -18,7 +18,7 @@ describe('TimeTicker (mount)', function () {
 
         // then
         assertOnTick(spyOnTick).hasBeenCalled(0)
-            .after(jest.runOnlyPendingTimers).hasBeenCalled(1);
+            .andAfter(jest.runOnlyPendingTimers).hasBeenCalled(1);
     });
 
     it('should have state.intervalId to be defined after ComponentWillMount', () => {
@@ -60,10 +60,10 @@ describe('TimeTicker (mount)', function () {
 
         function hasBeenCalled(occurrences) {
             expect(spy.mock.calls.length).toEqual(occurrences);
-            return {after};
+            return {andAfter};
         }
 
-        function after(fn) {
+        function andAfter(fn) {
             fn();
             return {hasBeenCalled};
         }
