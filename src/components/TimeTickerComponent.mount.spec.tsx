@@ -54,6 +54,24 @@ describe('TimeTicker (mount)', function () {
             .andAfter(advancingTime(expectedInterval)).hasBeenCalled(4);// 2001
     });
 
+    it('should clearInterval upon unmount', () => {
+        // given
+        jest.useFakeTimers();
+
+        const expectedInterval = 500, timeRightBeforeInterval = expectedInterval - 1;
+        let spyOnTick = jest.fn();
+
+        let app = mount(<TimeTicker onTick={spyOnTick}/>);
+        let furtherAssertion = assertOnTick(spyOnTick).hasBeenCalled(0)
+            .andAfter(jest.runOnlyPendingTimers).hasBeenCalled(1);
+
+        // when
+        app.unmount();
+
+        // then
+        furtherAssertion.andAfter(jest.runOnlyPendingTimers).hasBeenCalled(1);
+    });
+
     function assertOnTick(spy) {
         return {hasBeenCalled};
 

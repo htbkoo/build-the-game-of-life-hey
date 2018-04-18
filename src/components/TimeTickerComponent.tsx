@@ -26,6 +26,10 @@ class TimeTicker extends React.Component<TimeTickerProps, TimeTickerState> {
         this.setState({intervalId});
     }
 
+    componentWillUnmount(): void {
+        window.clearInterval(this.state.intervalId);
+    }
+
     render() {
         return (
             <div/>
