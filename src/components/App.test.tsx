@@ -7,6 +7,7 @@ import App, {BoardState} from './App';
 import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
 import Game from '../services/Game';
+import TimeTicker from './TimeTickerComponent';
 
 describe('App', function () {
     describe('initialization', function () {
@@ -159,6 +160,40 @@ describe('App', function () {
 
                 // then
                 expect(controlPanel.prop('isPlaying')).toEqual(isPlaying);
+            }));
+        });
+
+        describe('TimeTicker', function () {
+            it('should have <TimeTicker> only when state.isPlaying is true', sinonTest(function (this: sinon.SinonSandbox) {
+                // given
+                const app = createAppInstanceWithMockGame.call(this);
+                expect(app.find(TimeTicker).length).toEqual(0);
+
+                // when
+                const isPlaying = true;
+                app.setState({isPlaying});
+
+                // then
+                expect(app.find(TimeTicker).length).toEqual(1);
+            }));
+
+            it('pass <TimeTicker onTick={game.proceed}/>', sinonTest(function (this: sinon.SinonSandbox) {
+                // given
+                const width = 30, height = 20;
+                const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
+
+                const app = createAppInstanceWithMockGame.call(this, width, height, 'proceed', getIsLiveBefore, getIsLiveAfter);
+                app.setState({isPlaying: true});
+
+                assertBoardState(height, width, app.state('board'), getIsLiveBefore);
+
+                // when
+                const timeTicker = app.find(TimeTicker);
+                let onTick = timeTicker.prop('onTick');
+                onTick();
+
+                // then
+                assertBoardState(height, width, app.state('board'), getIsLiveAfter);
             }));
         });
     });
