@@ -22,11 +22,7 @@ class TimeTicker extends React.Component<TimeTickerProps, TimeTickerState> {
     }
 
     componentWillMount(): void {
-        // let intervalId = window.setInterval(this.props.onTick, INTERVAL);
-        let intervalId = window.setInterval(()=>{
-            console.log("triggered");
-            this.props.onTick();
-        }, INTERVAL);
+        let intervalId = window.setInterval(this.props.onTick, INTERVAL);
         this.setState({intervalId});
     }
 
