@@ -136,7 +136,6 @@ describe('App', function () {
                 it(`should update state.isPlaying from ${fromState} to ${toState} when <ControlPanelComponent/>.props.onPlayToggle()`, sinonTest(function (this: sinon.SinonSandbox) {
                     // given
                     const app = createAppInstanceWithMockGame.call(this);
-                    expect(app.state('isPlaying')).toEqual(false);
                     app.setState({isPlaying: fromState});
 
                     // when
@@ -167,14 +166,15 @@ describe('App', function () {
             it('should have <TimeTicker> only when state.isPlaying is true', sinonTest(function (this: sinon.SinonSandbox) {
                 // given
                 const app = createAppInstanceWithMockGame.call(this);
-                expect(app.find(TimeTicker).length).toEqual(0);
+                expect(app.state('isPlaying')).toEqual(true);
+                expect(app.find(TimeTicker).length).toEqual(1);
 
                 // when
-                const isPlaying = true;
+                const isPlaying = false;
                 app.setState({isPlaying});
 
                 // then
-                expect(app.find(TimeTicker).length).toEqual(1);
+                expect(app.find(TimeTicker).length).toEqual(0);
             }));
 
             it('pass <TimeTicker onTick={game.proceed}/>', sinonTest(function (this: sinon.SinonSandbox) {

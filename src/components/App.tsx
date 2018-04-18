@@ -42,7 +42,7 @@ class App extends React.Component<AppProps, AppState> {
         this.game = App.newRandomizedGame(props.initialDimension);
 
         this.state = {
-            isPlaying: false,
+            isPlaying: true,
             board: this.getBoardState()
         };
 
