@@ -56,16 +56,16 @@ describe('TimeTicker (mount)', function () {
     });
 
     function assertOnTick(spy) {
-        let after;
-        const hasBeenCalled = occurrences => {
+        return {hasBeenCalled};
+
+        function hasBeenCalled(occurrences) {
             expect(spy.mock.calls.length).toEqual(occurrences);
             return {after};
-        };
-        after = fn => {
+        }
+
+        function after(fn) {
             fn();
             return {hasBeenCalled};
-        };
-
-        return {hasBeenCalled};
+        }
     }
 });
