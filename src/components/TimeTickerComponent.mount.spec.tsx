@@ -6,7 +6,7 @@ import TimeTicker from './TimeTickerComponent';
 import {NO_OP} from './utils/common';
 
 describe('TimeTicker (mount)', function () {
-    xit('should, when ComponentWillMount, setInterval so that props.onTick() ', () => {
+    it('should trigger props.onTick() upon pending timer has run', () => {
         // given
         jest.useFakeTimers();
 
@@ -19,7 +19,7 @@ describe('TimeTicker (mount)', function () {
         // then
         expect(spyOnTick.mock.calls.length).toEqual(0);
 
-        jest.runAllTimers();
+        jest.runOnlyPendingTimers();
 
         expect(spyOnTick.mock.calls.length).toEqual(1);
     });
