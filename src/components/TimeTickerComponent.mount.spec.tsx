@@ -17,11 +17,8 @@ describe('TimeTicker (mount)', function () {
         let app = mount(<TimeTicker onTick={spyOnTick}/>);
 
         // then
-        expect(spyOnTick.mock.calls.length).toEqual(0);
-
-        jest.runOnlyPendingTimers();
-
-        expect(spyOnTick.mock.calls.length).toEqual(1);
+        assertOnTick(spyOnTick).hasBeenCalled(0)
+            .after(jest.runOnlyPendingTimers).hasBeenCalled(1);
     });
 
     it('should have state.intervalId to be defined after ComponentWillMount', () => {
@@ -57,4 +54,18 @@ describe('TimeTicker (mount)', function () {
 
         expect(spyOnTick.mock.calls.length).toEqual(1);
     });
+
+    function assertOnTick(spy) {
+        let after;
+        const hasBeenCalled = occurrences => {
+            expect(spy.mock.calls.length).toEqual(occurrences);
+            return {after};
+        };
+        after = fn => {
+            fn();
+            return {hasBeenCalled};
+        };
+
+        return {hasBeenCalled};
+    }
 });
