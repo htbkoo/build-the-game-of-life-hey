@@ -37,21 +37,21 @@ describe('TimeTicker (mount)', function () {
         jest.useFakeTimers();
 
         const expectedInterval = 500, residualInterval = 1,
-            timeRightBeforeInterval = expectedInterval - residualInterval;
+            rightBe4Interval = expectedInterval - residualInterval;
         let spyOnTick = jest.fn();
 
         // when
         let app = mount(<TimeTicker onTick={spyOnTick}/>);
 
         // then
-        assertOnTick(spyOnTick).hasBeenCalled(0)
-            .andAfter(()=>jest.advanceTimersByTime(timeRightBeforeInterval)).hasBeenCalled(0)
-            .andAfter(()=>jest.advanceTimersByTime(residualInterval)).hasBeenCalled(1)
-            .andAfter(()=>jest.advanceTimersByTime(residualInterval)).hasBeenCalled(1)
-            .andAfter(()=>jest.advanceTimersByTime(timeRightBeforeInterval)).hasBeenCalled(2)
-            .andAfter(()=>jest.advanceTimersByTime(expectedInterval)).hasBeenCalled(3)
-            .andAfter(()=>jest.advanceTimersByTime(residualInterval)).hasBeenCalled(3)
-            .andAfter(()=>jest.advanceTimersByTime(expectedInterval)).hasBeenCalled(4);
+        assertOnTick(spyOnTick).hasBeenCalled(0)              // 0
+            .andAfter(advancingTime(rightBe4Interval)).hasBeenCalled(0) // 499
+            .andAfter(advancingTime(residualInterval)).hasBeenCalled(1) // 500
+            .andAfter(advancingTime(residualInterval)).hasBeenCalled(1) // 501
+            .andAfter(advancingTime(rightBe4Interval)).hasBeenCalled(2) // 1000
+            .andAfter(advancingTime(expectedInterval)).hasBeenCalled(3) // 1500
+            .andAfter(advancingTime(residualInterval)).hasBeenCalled(3) // 1501
+            .andAfter(advancingTime(expectedInterval)).hasBeenCalled(4);// 2001
     });
 
     function assertOnTick(spy) {
@@ -66,5 +66,9 @@ describe('TimeTicker (mount)', function () {
             fn();
             return {hasBeenCalled};
         }
+    }
+
+    function advancingTime(timeRightBeforeInterval) {
+        return () => jest.advanceTimersByTime(timeRightBeforeInterval);
     }
 });
