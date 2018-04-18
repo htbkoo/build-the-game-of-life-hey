@@ -44,15 +44,14 @@ describe('TimeTicker (mount)', function () {
         let app = mount(<TimeTicker onTick={spyOnTick}/>);
 
         // then
-        expect(spyOnTick.mock.calls.length).toEqual(0);
-
-        jest.advanceTimersByTime(timeRightBeforeInterval);
-
-        expect(spyOnTick.mock.calls.length).toEqual(0);
-
-        jest.advanceTimersByTime(residualInterval);
-
-        expect(spyOnTick.mock.calls.length).toEqual(1);
+        assertOnTick(spyOnTick).hasBeenCalled(0)
+            .andAfter(()=>jest.advanceTimersByTime(timeRightBeforeInterval)).hasBeenCalled(0)
+            .andAfter(()=>jest.advanceTimersByTime(residualInterval)).hasBeenCalled(1)
+            .andAfter(()=>jest.advanceTimersByTime(residualInterval)).hasBeenCalled(1)
+            .andAfter(()=>jest.advanceTimersByTime(timeRightBeforeInterval)).hasBeenCalled(2)
+            .andAfter(()=>jest.advanceTimersByTime(expectedInterval)).hasBeenCalled(3)
+            .andAfter(()=>jest.advanceTimersByTime(residualInterval)).hasBeenCalled(3)
+            .andAfter(()=>jest.advanceTimersByTime(expectedInterval)).hasBeenCalled(4);
     });
 
     function assertOnTick(spy) {
