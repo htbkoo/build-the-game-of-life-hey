@@ -208,16 +208,14 @@ describe('App', function () {
 
     // necessary for the signature
     // noinspection JSUnusedLocalSymbols
-    function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width = 1, height = 1, methodName?, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y) {
+    function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width = 1, height = 1, methodName?, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y, expectedArgs = []) {
         let additionalMethods = {
             isLiveAt(coor) {
                 return getIsLive(coor);
             }
         };
         if (methodName) {
-            additionalMethods[methodName] = () => {
-                getIsLive = getIsLiveAfter;
-            };
+            additionalMethods[methodName] = this.stub().withArgs(...expectedArgs).callsFake(() => getIsLive = getIsLiveAfter);
         }
 
         const mockGame = createMockGame(width, height, additionalMethods);
