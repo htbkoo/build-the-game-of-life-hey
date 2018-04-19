@@ -3,6 +3,7 @@ import {shallow} from 'enzyme';
 
 import Board from './BoardComponent';
 import {IsLivesState} from './App';
+import {NO_OP} from './utils/common';
 
 describe('BoardComponent', function () {
     describe('initialization', function () {
@@ -17,7 +18,7 @@ describe('BoardComponent', function () {
             const board = {width, height, isLives};
 
             // when
-            let wrapper = shallow(<Board board={board}/>);
+            let wrapper = shallow(<Board board={board} onCellClick={NO_OP}/>);
 
             // then
             expect(wrapper.find('table').length).toEqual(1);
@@ -41,7 +42,7 @@ describe('BoardComponent', function () {
             const board = {width, height, isLives};
 
             // when
-            let wrapper = shallow(<Board board={board}/>);
+            let wrapper = shallow(<Board board={board} onCellClick={NO_OP}/>);
 
             // then
             let rows = wrapper.find('tr');

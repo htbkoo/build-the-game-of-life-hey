@@ -4,7 +4,8 @@ import {BoardState} from './App';
 import './css/BoardComponent.css';
 
 type BoardProps = {
-    board: BoardState
+    board: BoardState,
+    onCellClick: (coordinates: { x: number, y: number }) => void
 };
 
 const CLASS_NAMES = {

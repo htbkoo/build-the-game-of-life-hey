@@ -196,6 +196,28 @@ describe('App', function () {
                 assertBoardState(height, width, app.state('board'), getIsLiveAfter);
             }));
         });
+
+        describe('toggleCell', function () {
+            it('should have <TimeTicker> only when state.isPlaying is true', sinonTest(function (this: sinon.SinonSandbox) {
+                // given
+                const width = 30, height = 20, coors = {x: 2, y: 3};
+                const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
+
+                const app = createAppInstanceWithMockGame.call(this, width, height, 'toggleLiveAt', getIsLiveBefore, getIsLiveAfter, [coors]);
+
+                assertBoardState(height, width, app.state('board'), getIsLiveBefore);
+
+                // when
+                const board = app.find(Board);
+                let onCellClick = board.prop('onCellClick');
+                onCellClick(coors);
+
+                // then
+                assertBoardState(height, width, app.state('board'), getIsLiveAfter);
+            }));
+        });
+
+        //    TODO: add generation count
     });
 
     function shallowApp(initialDimension = {width: 30, height: 20}) {
@@ -208,14 +230,22 @@ describe('App', function () {
 
     // necessary for the signature
     // noinspection JSUnusedLocalSymbols
-    function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width = 1, height = 1, methodName?, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y, expectedArgs = []) {
+    function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width = 1, height = 1, methodName?, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y, expectedArgs: Array<any> = []) {
         let additionalMethods = {
             isLiveAt(coor) {
                 return getIsLive(coor);
             }
         };
         if (methodName) {
-            additionalMethods[methodName] = this.stub().withArgs(...expectedArgs).callsFake(() => getIsLive = getIsLiveAfter);
+            // Unfortunately, chained sinon stub does not work and the withArgs() is simply ignored
+            // maybe related reference: https://github.com/sinonjs/sinon/issues/176
+            let stub = this.stub();
+            if (expectedArgs.length > 0) {
+                stub.withArgs(...expectedArgs).callsFake(() => getIsLive = getIsLiveAfter);
+            } else {
+                stub.callsFake(() => getIsLive = getIsLiveAfter);
+            }
+            additionalMethods[methodName] = stub;
         }
 
         const mockGame = createMockGame(width, height, additionalMethods);

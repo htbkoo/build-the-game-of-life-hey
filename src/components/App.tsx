@@ -50,6 +50,7 @@ class App extends React.Component<AppProps, AppState> {
         this.resetGame = this.resetGame.bind(this);
         this.randomizeGame = this.randomizeGame.bind(this);
         this.togglePlaying = this.togglePlaying.bind(this);
+        this.toggleCellAt = this.toggleCellAt.bind(this);
     }
 
     private static newRandomizedGame(dimension): Game {
@@ -80,6 +81,10 @@ class App extends React.Component<AppProps, AppState> {
         });
     }
 
+    toggleCellAt(coordinates) {
+        this.updateGameBy('toggleLiveAt', [coordinates]);
+    }
+
     render() {
         let optionalTimeTicker = this.state.isPlaying
             ? (
@@ -96,7 +101,10 @@ class App extends React.Component<AppProps, AppState> {
                         <AppBar title="Hey's Game of Life (ReactJs + TypeScript)" className="App-Header-AppBar"/>
                     </div>
                     <div className="App-Body">
-                        <Board board={this.state.board}/>
+                        <Board
+                            board={this.state.board}
+                            onCellClick={this.toggleCellAt}
+                        />
                         {optionalTimeTicker}
                     </div>
                     <div className="App-Footer">
@@ -130,8 +138,8 @@ class App extends React.Component<AppProps, AppState> {
         );
     }
 
-    private updateGameBy(method) {
-        this.game[method]();
+    private updateGameBy(method, args: Array<any> = []) {
+        this.game[method](...args);
         this.setState({
             board: this.getBoardState()
         });
