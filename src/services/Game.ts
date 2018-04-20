@@ -45,4 +45,8 @@ export default class Game {
     randomize() {
         this._board = this._board.newRandomized();
     }
+
+    getNumGeneration() {
+        return 0;
+    }
 }

@@ -1,12 +1,12 @@
-import {sinonTest} from "../test-utils/sinonWithTest";
-import * as sinon from "sinon";
+import {sinonTest} from '../test-utils/sinonWithTest';
+import * as sinon from 'sinon';
 
 import Game from './Game';
-import Board from "./Board";
+import Board from './Board';
 
-describe("Game", function () {
-    describe("constructor", function () {
-        it("should take {width, height}, create Board accordingly and expose game.getWidth() and game.getHeight() accordingly", function () {
+describe('Game', function () {
+    describe('constructor', function () {
+        it('should take {width, height}, create Board accordingly and expose game.getWidth() and game.getHeight() accordingly', function () {
             // given
             const width = 20, height = 30;
 
@@ -19,8 +19,8 @@ describe("Game", function () {
         });
     });
 
-    describe("isLiveAt", function () {
-        it("should expose isLiveAt", function () {
+    describe('isLiveAt', function () {
+        it('should expose isLiveAt', function () {
             // given
             const width = 20, height = 30;
 
@@ -36,39 +36,57 @@ describe("Game", function () {
         });
     });
 
-    describe("proceed", function () {
-        it("should set game._board to board.evolve() upon game.proceed()", function () {
+    describe('proceed', function () {
+        it('should set game._board to board.evolve() upon game.proceed()', function () {
             // given
-            const mockNewBoard = Symbol("mockNewBoard");
+            const mockNewBoard = Symbol('mockNewBoard');
             const mockBoard = sinon.createStubInstance(Board);
             mockBoard.evolve = sinon.stub().returns(mockNewBoard);
 
             let game = Game.new({width: 1, height: 1});
-            game["_board"] = mockBoard;
+            game['_board'] = mockBoard;
 
             // when
             game.proceed();
 
             // then
-            expect(game["_board"]).toEqual(mockNewBoard);
+            expect(game['_board']).toEqual(mockNewBoard);
         });
     });
 
-    describe("randomize", function () {
-        it("should randomize the states on the board upon game.randomize()", sinonTest(function (this: sinon.SinonSandbox) {
+    describe('randomize', function () {
+        it('should randomize the states on the board upon game.randomize()', sinonTest(function (this: sinon.SinonSandbox) {
             // given
-            const mockNewBoard = Symbol("mockNewBoard");
+            const mockNewBoard = Symbol('mockNewBoard');
             const mockBoard = sinon.createStubInstance(Board);
             mockBoard.newRandomized = sinon.stub().returns(mockNewBoard);
 
             let game = Game.new({width: 1, height: 1});
-            game["_board"] = mockBoard;
+            game['_board'] = mockBoard;
 
             // when
             game.randomize();
 
             // then
-            expect(game["_board"]).toEqual(mockNewBoard);
+            expect(game['_board']).toEqual(mockNewBoard);
+        }));
+    });
+
+    describe('getNumGeneration', function () {
+        it('should return 0 for game.getNumGeneration() when newly created', sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const mockBoard = sinon.createStubInstance(Board);
+
+            const someDimension = {width: 1, height: 1};
+            this.stub(Board, 'newBlank').withArgs(someDimension).returns(mockBoard);
+
+            let game = Game.new(someDimension);
+
+            // when
+            let numGeneration = game.getNumGeneration();
+
+            // then
+            expect(numGeneration).toEqual(0);
         }));
     });
 });
