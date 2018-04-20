@@ -192,12 +192,40 @@ describe('Board', function () {
             expect(isSameAs).toEqual(true);
         });
 
+        it('should return false if the two larger boards of same size has all cell states', function () {
+            // given
+            const someDimension = {width: 3, height: 3};
+            const baseBoard = Board.newBlank(someDimension);
+            let board = baseBoard.withLiveAt({x: 1, y: 1, isLive: true}),
+                anotherBoard = baseBoard.withLiveAt({x: 1, y: 1, isLive: true});
+
+            // when
+            let isSameAs = board.isSameAs(anotherBoard);
+
+            // then
+            expect(isSameAs).toEqual(true);
+        });
+
         it('should return false if the two boards of same size has some different cell states', function () {
             // given
             const someDimension = {width: 1, height: 1};
             const baseBoard = Board.newBlank(someDimension);
             let board = baseBoard.withLiveAt({x: 0, y: 0, isLive: true}),
                 anotherBoard = baseBoard.withLiveAt({x: 0, y: 0, isLive: false});
+
+            // when
+            let isSameAs = board.isSameAs(anotherBoard);
+
+            // then
+            expect(isSameAs).toEqual(false);
+        });
+
+        it('should return false if the two larger boards of same size has some different cell states', function () {
+            // given
+            const someDimension = {width: 3, height: 3};
+            const baseBoard = Board.newBlank(someDimension);
+            let board = baseBoard.withLiveAt({x: 1, y: 1, isLive: true}),
+                anotherBoard = baseBoard.withLiveAt({x: 2, y: 2, isLive: true});
 
             // when
             let isSameAs = board.isSameAs(anotherBoard);
