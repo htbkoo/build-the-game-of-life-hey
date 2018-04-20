@@ -26,6 +26,10 @@ export default class Game {
         return this._board.getHeight();
     }
 
+    getNumGeneration() {
+        return 0;
+    }
+
     // mutators
     toggleLiveAt(coors: BoardCoordinates) {
         let toggledIsLive = !this.isLiveAt(coors);
@@ -44,9 +48,5 @@ export default class Game {
 
     randomize() {
         this._board = this._board.newRandomized();
-    }
-
-    getNumGeneration() {
-        return 0;
     }
 }
