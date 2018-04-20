@@ -1,11 +1,11 @@
-import {sinonTest} from "../test-utils/sinonWithTest";
-import * as sinon from "sinon";
+import {sinonTest} from '../test-utils/sinonWithTest';
+import * as sinon from 'sinon';
 
 import Board, {Cells} from './Board';
-import Cell from "./Cell";
-import randomObjectGenerator from "./utils/randomObjectGenerator";
+import Cell from './Cell';
+import randomObjectGenerator from './utils/randomObjectGenerator';
 
-describe("Board", function () {
+describe('Board', function () {
     describe('factory methods', function () {
         describe('newBlank', function () {
             describe('Valid cases', function () {
@@ -162,17 +162,23 @@ describe("Board", function () {
             expect(isSameAs).toEqual(true);
         });
 
-        it('should return false when comparing to a board with different dimension', function () {
-            // given
-            const someDimension = {width: 1, height: 1}, anotherDimension = {width: 2, height: 1};
-            let board = Board.newBlank(someDimension), anotherBoard = Board.newBlank(anotherDimension);
+        [
+            {width: 2, height: 1},
+            {width: 1, height: 2},
+            {width: 2, height: 2},
+        ].forEach(anotherDimension =>
+            it(`should return false when comparing to a board with different dimension=${JSON.stringify(anotherDimension)}`, function () {
+                // given
+                const someDimension = {width: 1, height: 1};
+                let board = Board.newBlank(someDimension), anotherBoard = Board.newBlank(anotherDimension);
 
-            // when
-            let isSameAs = board.isSameAs(anotherBoard);
+                // when
+                let isSameAs = board.isSameAs(anotherBoard);
 
-            // then
-            expect(isSameAs).toEqual(false);
-        });
+                // then
+                expect(isSameAs).toEqual(false);
+            })
+        );
     });
 
     describe('withLiveAt', function () {
@@ -221,10 +227,10 @@ describe("Board", function () {
     });
 
 
-    describe("newRandomized", function () {
-        it("should get a new randomized board from board.newRandomized", sinonTest(function (this: sinon.SinonSandbox) {
+    describe('newRandomized', function () {
+        it('should get a new randomized board from board.newRandomized', sinonTest(function (this: sinon.SinonSandbox) {
             // given
-            this.stub(randomObjectGenerator, "boolean")
+            this.stub(randomObjectGenerator, 'boolean')
                 .onFirstCall().returns(false)
                 .onSecondCall().returns(true)
                 .onThirdCall().returns(false)
