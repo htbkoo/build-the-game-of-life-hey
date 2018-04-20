@@ -37,13 +37,13 @@ describe('Game', function () {
     });
 
     describe('proceed', function () {
-        it('should set game._board to board.evolve() upon game.proceed()', function () {
+        it('should set game._board to board.evolve() upon game.proceed()', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const mockNewBoard = Symbol('mockNewBoard');
             const mockBoard = sinon.createStubInstance(Board);
             mockBoard.evolve = sinon.stub().returns(mockNewBoard);
 
-            let game = Game.new({width: 1, height: 1});
+            let game = newGame.call(this, {mockBoard});
             game['_board'] = mockBoard;
 
             // when
@@ -51,7 +51,7 @@ describe('Game', function () {
 
             // then
             expect(game['_board']).toEqual(mockNewBoard);
-        });
+        }));
     });
 
     describe('randomize', function () {
@@ -61,8 +61,7 @@ describe('Game', function () {
             const mockBoard = sinon.createStubInstance(Board);
             mockBoard.newRandomized = sinon.stub().returns(mockNewBoard);
 
-            let game = Game.new({width: 1, height: 1});
-            game['_board'] = mockBoard;
+            let game = newGame.call(this, {mockBoard});
 
             // when
             game.randomize();
