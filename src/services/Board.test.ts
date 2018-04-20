@@ -149,6 +149,20 @@ describe("Board", function () {
         });
     });
 
+    describe('isSameAs', function () {
+        it('should return true when comparing to the board itself', function () {
+            // given
+            const someDimension = {width: 1, height: 1};
+            let board = Board.newBlank(someDimension);
+
+            // when
+            let isSameAs = board.isSameAs(board);
+
+            // then
+            expect(isSameAs).toEqual(true);
+        });
+    });
+
     describe('withLiveAt', function () {
         it('should be able to set the cell to live by board.withLiveAt({x, y})', function () {
             // given

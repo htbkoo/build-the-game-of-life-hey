@@ -119,6 +119,10 @@ export default class Board {
     private getCell({x, y}: BoardCoordinates) {
         return this._cells[y][x];
     }
+
+    isSameAs(board: Board) {
+        return true;
+    }
 }
 
 function isPositive(num: number): boolean {
