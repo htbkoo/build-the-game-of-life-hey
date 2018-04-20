@@ -234,7 +234,7 @@ describe('App', function () {
 
     // necessary for the signature
     // noinspection JSUnusedLocalSymbols
-    const APP_INSTANCE_DEFAULT_PARAMS = {
+    const DEFAULT = {
         width: 1,
         height: 1,
         methodName: undefined,
@@ -243,11 +243,8 @@ describe('App', function () {
         getIsLiveAfter: ({x, y}) => x === y
     };
 
-    // necessary for the signature
-    // noinspection JSUnusedLocalSymbols
     function createAppInstanceWithMockGame(this: sinon.SinonSandbox,
-                                           {width = 1, height = 1, methodName = undefined, expectedArgs = [], getIsLive = (coors) => false, getIsLiveAfter = ({x, y}) => x === y}
-                                               = APP_INSTANCE_DEFAULT_PARAMS
+                                           {width = DEFAULT.width, height = DEFAULT.height, methodName = DEFAULT.methodName, expectedArgs = DEFAULT.expectedArgs, getIsLive = DEFAULT.getIsLive, getIsLiveAfter = DEFAULT.getIsLiveAfter} = DEFAULT
     ) {
         let additionalMethods = {
             isLiveAt(coors) {
