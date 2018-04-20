@@ -39,11 +39,12 @@ describe('App', function () {
         it('should have a new game and randomized and state.board.isLives according to the game state', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const width = 30, height = 20;
-            const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
+            const methodName = 'randomize';
+            const getIsLive = () => false, getIsLiveAfter = ({x, y}) => x === y;
 
             // when
-            const app = createAppInstanceWithMockGame.call(this, width, height, 'randomize', getIsLiveBefore, getIsLiveAfter);
-            const controlPanel = app.find(ControlPanel);
+            const app = createAppInstanceWithMockGame.call(this,
+                {width, height, methodName, getIsLive, getIsLiveAfter});
 
             // then
             assertBoardState(height, width, app.state('board'), getIsLiveAfter);
@@ -55,11 +56,13 @@ describe('App', function () {
             it('should call game.proceed() and set to next state when <ControlPanelComponent/>.props.onProceedClick()', sinonTest(function (this: sinon.SinonSandbox) {
                 // given
                 const width = 30, height = 20;
-                const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
+                const methodName = 'proceed';
+                const getIsLive = () => false, getIsLiveAfter = ({x, y}) => x === y;
 
-                const app = createAppInstanceWithMockGame.call(this, width, height, 'proceed', getIsLiveBefore, getIsLiveAfter);
+                const app = createAppInstanceWithMockGame.call(this,
+                    {width, height, methodName, getIsLive, getIsLiveAfter});
 
-                assertBoardState(height, width, app.state('board'), getIsLiveBefore);
+                assertBoardState(height, width, app.state('board'), getIsLive);
 
                 // when
                 const controlPanel = app.find(ControlPanel);
@@ -75,11 +78,13 @@ describe('App', function () {
             it('should call game.reset() and set to next state when <ControlPanelComponent/>.props.onResetClick()', sinonTest(function (this: sinon.SinonSandbox) {
                 // given
                 const width = 30, height = 20;
-                const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
+                const methodName = 'reset';
+                const getIsLive = () => false, getIsLiveAfter = ({x, y}) => x === y;
 
-                const app = createAppInstanceWithMockGame.call(this, width, height, 'reset', getIsLiveBefore, getIsLiveAfter);
+                const app = createAppInstanceWithMockGame.call(this,
+                    {width, height, methodName, getIsLive, getIsLiveAfter});
 
-                assertBoardState(height, width, app.state('board'), getIsLiveBefore);
+                assertBoardState(height, width, app.state('board'), getIsLive);
 
                 // when
                 const controlPanel = app.find(ControlPanel);
@@ -96,18 +101,18 @@ describe('App', function () {
                 // given
                 const width = 30, height = 20;
 
+                let initialized = false;
                 // necessary for the signature
                 // noinspection JSUnusedLocalSymbols
-                let initialized = false;
-                let getIsLive = (coor) => false;
+                let getIsLive = (coors) => false;
                 const randomize = () => {
                     if (initialized) {
                         getIsLive = ({x, y}) => x === y;
                     }
                 };
                 const mockGame = createMockGame(width, height, {
-                    isLiveAt(coor) {
-                        return getIsLive(coor);
+                    isLiveAt(coors) {
+                        return getIsLive(coors);
                     },
                     randomize
                 });
@@ -135,7 +140,8 @@ describe('App', function () {
             ].forEach(({fromState, toState}) =>
                 it(`should update state.isPlaying from ${fromState} to ${toState} when <ControlPanelComponent/>.props.onPlayToggle()`, sinonTest(function (this: sinon.SinonSandbox) {
                     // given
-                    const app = createAppInstanceWithMockGame.call(this);
+                    const app = createAppInstanceWithMockGame.call(this
+                        , {});
                     app.setState({isPlaying: fromState});
 
                     // when
@@ -150,7 +156,8 @@ describe('App', function () {
 
             it('should pass state.isPlaying to <ControlPanel/>.props.isPlaying', sinonTest(function (this: sinon.SinonSandbox) {
                 // given
-                const app = createAppInstanceWithMockGame.call(this);
+                const app = createAppInstanceWithMockGame.call(this
+                    , {});
                 const isPlaying = true;
                 app.setState({isPlaying});
 
@@ -165,7 +172,8 @@ describe('App', function () {
         describe('TimeTicker', function () {
             it('should have <TimeTicker> only when state.isPlaying is true', sinonTest(function (this: sinon.SinonSandbox) {
                 // given
-                const app = createAppInstanceWithMockGame.call(this);
+                const app = createAppInstanceWithMockGame.call(this
+                    , {});
                 expect(app.state('isPlaying')).toEqual(true);
                 expect(app.find(TimeTicker).length).toEqual(1);
 
@@ -180,9 +188,11 @@ describe('App', function () {
             it('pass <TimeTicker onTick={game.proceed}/>', sinonTest(function (this: sinon.SinonSandbox) {
                 // given
                 const width = 30, height = 20;
+                const methodName = 'proceed';
                 const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
 
-                const app = createAppInstanceWithMockGame.call(this, width, height, 'proceed', getIsLiveBefore, getIsLiveAfter);
+                const app = createAppInstanceWithMockGame.call(this,
+                    {width, height, methodName, getIsLiveBefore, getIsLiveAfter});
                 app.setState({isPlaying: true});
 
                 assertBoardState(height, width, app.state('board'), getIsLiveBefore);
@@ -201,9 +211,12 @@ describe('App', function () {
             it('should have <TimeTicker> only when state.isPlaying is true', sinonTest(function (this: sinon.SinonSandbox) {
                 // given
                 const width = 30, height = 20, coors = {x: 2, y: 3};
+                const methodName = 'toggleLiveAt', expectedArgs = [coors];
+
                 const getIsLiveBefore = () => false, getIsLiveAfter = ({x, y}) => x === y;
 
-                const app = createAppInstanceWithMockGame.call(this, width, height, 'toggleLiveAt', getIsLiveBefore, getIsLiveAfter, [coors]);
+                const app = createAppInstanceWithMockGame.call(this,
+                    {width, height, methodName, getIsLiveBefore, getIsLiveAfter, expectedArgs});
 
                 assertBoardState(height, width, app.state('board'), getIsLiveBefore);
 
@@ -230,10 +243,12 @@ describe('App', function () {
 
     // necessary for the signature
     // noinspection JSUnusedLocalSymbols
-    function createAppInstanceWithMockGame(this: sinon.SinonSandbox, width = 1, height = 1, methodName?, getIsLive = (coor) => false, getIsLiveAfter = ({x, y}) => x === y, expectedArgs: Array<any> = []) {
+    function createAppInstanceWithMockGame(this: sinon.SinonSandbox,
+                                           {width = 1, height = 1, methodName = undefined, expectedArgs = [], getIsLive = (coors) => false, getIsLiveAfter = ({x, y}) => x === y}
+    ) {
         let additionalMethods = {
-            isLiveAt(coor) {
-                return getIsLive(coor);
+            isLiveAt(coors) {
+                return getIsLive(coors);
             }
         };
         if (methodName) {
@@ -254,7 +269,7 @@ describe('App', function () {
         return shallowApp(withDimension(width, height));
     }
 
-    function assertBoardState(height: number, width: number, boardState: BoardState, getExpectedIsLive: (coor) => boolean) {
+    function assertBoardState(height: number, width: number, boardState: BoardState, getExpectedIsLive: (coors) => boolean) {
         for (let y = 0; y < height; ++y) {
             for (let x = 0; x < width; ++x) {
                 expect({x, y, isLive: boardState.isLives[y][x]}).toEqual({x, y, isLive: getExpectedIsLive({x, y})});
