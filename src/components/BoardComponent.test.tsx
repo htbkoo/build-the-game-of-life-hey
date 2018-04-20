@@ -18,7 +18,7 @@ describe('BoardComponent', function () {
             const board = {width, height, isLives};
 
             // when
-            let wrapper = shallow(<Board board={board} onCellClick={NO_OP}/>);
+            let wrapper = shallowBoard({board});
 
             // then
             expect(wrapper.find('table').length).toEqual(1);
@@ -42,7 +42,7 @@ describe('BoardComponent', function () {
             const board = {width, height, isLives};
 
             // when
-            let wrapper = shallow(<Board board={board} onCellClick={NO_OP}/>);
+            let wrapper = shallowBoard({board});
 
             // then
             let rows = wrapper.find('tr');
@@ -54,4 +54,8 @@ describe('BoardComponent', function () {
             );
         });
     });
+
+    function shallowBoard({board, onCellClick = NO_OP}) {
+        return shallow(<Board board={board} onCellClick={onCellClick}/>);
+    }
 });
