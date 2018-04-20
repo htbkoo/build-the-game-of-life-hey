@@ -12,8 +12,7 @@ describe('Game', function () {
             const mockBoard = sinon.createStubInstance(Board);
             mockBoard.evolve = sinon.stub().returns(mockNewBoard);
 
-            let game = newGame.call(this, {mockBoard});
-            game['_board'] = mockBoard;
+            const game = newGame.call(this, {mockBoard});
 
             // when
             game.proceed();
@@ -30,7 +29,7 @@ describe('Game', function () {
             const mockBoard = sinon.createStubInstance(Board);
             mockBoard.newRandomized = sinon.stub().returns(mockNewBoard);
 
-            let game = newGame.call(this, {mockBoard});
+            const game = newGame.call(this, {mockBoard});
 
             // when
             game.randomize();
