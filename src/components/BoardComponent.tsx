@@ -44,8 +44,8 @@ const Board = ({board, onCellClick}: BoardProps) => {
     function boardCell(isLivesCell, x, y) {
         let divClassName = isLivesCell ? CLASS_NAMES.IS_LIVE : '';
         return (
-            <td key={x}>
-                <div className={divClassName} onClick={() => onCellClick({x, y})}/>
+            <td key={x} onClick={() => onCellClick({x, y})}>
+                <div className={divClassName}/>
             </td>
         );
     }
