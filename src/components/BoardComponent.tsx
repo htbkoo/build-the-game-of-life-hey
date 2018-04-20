@@ -5,6 +5,7 @@ import './css/BoardComponent.css';
 
 type BoardProps = {
     board: BoardState,
+    // TODO: refactor coors type
     onCellClick: (coordinates: { x: number, y: number }) => void
 };
 
@@ -12,7 +13,7 @@ const CLASS_NAMES = {
     IS_LIVE: 'isLive'
 };
 
-const Board = ({board}: BoardProps) => {
+const Board = ({board, onCellClick}: BoardProps) => {
     return (
         <div className="Board">
             {boardTable()}
@@ -31,7 +32,7 @@ const Board = ({board}: BoardProps) => {
     }
 
     function boardRow(isLivesRow, y) {
-        let row = isLivesRow.map((isLivesCell, x) => boardCell(isLivesCell, x));
+        let row = isLivesRow.map((isLivesCell, x) => boardCell(isLivesCell, x, y));
         return (
             <tr key={y}>
                 {row}
@@ -39,11 +40,11 @@ const Board = ({board}: BoardProps) => {
         );
     }
 
-    function boardCell(isLivesCell, x) {
+    function boardCell(isLivesCell, x, y) {
         let divClassName = isLivesCell ? CLASS_NAMES.IS_LIVE : '';
         return (
             <td key={x}>
-                <div className={divClassName}/>
+                <div className={divClassName} onClick={() => onCellClick({x, y})}/>
             </td>
         );
     }
