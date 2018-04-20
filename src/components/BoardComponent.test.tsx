@@ -3,6 +3,7 @@ import {shallow} from 'enzyme';
 
 import Board from './BoardComponent';
 import {IsLivesState} from './App';
+import {NO_OP} from './utils/common';
 
 describe('BoardComponent', function () {
     describe('initialization', function () {
@@ -17,7 +18,7 @@ describe('BoardComponent', function () {
             const board = {width, height, isLives};
 
             // when
-            let wrapper = shallow(<Board board={board}/>);
+            let wrapper = shallowBoard({board});
 
             // then
             expect(wrapper.find('table').length).toEqual(1);
@@ -41,7 +42,7 @@ describe('BoardComponent', function () {
             const board = {width, height, isLives};
 
             // when
-            let wrapper = shallow(<Board board={board}/>);
+            let wrapper = shallowBoard({board});
 
             // then
             let rows = wrapper.find('tr');
@@ -53,4 +54,32 @@ describe('BoardComponent', function () {
             );
         });
     });
+
+    describe('onCellClick', function () {
+        it('should trigger props.onCellClick on td.div.onClick()', function () {
+            // given
+            const width = 20, height = 25,
+                isLives: IsLivesState = new Array(height).fill(0).map(() =>
+                    new Array(width).fill(0).map(() =>
+                        false
+                    )
+                );
+            const board = {width, height, isLives};
+            const spyOnCellClick = jest.fn();
+            const wrapper = shallowBoard({board, onCellClick: spyOnCellClick});
+            const target = {x: 10, y: 3};
+
+            // when
+            const cell = wrapper.find('tr').at(target.y).find('td').at(target.x).find('div');
+            cell.simulate('click');
+
+            // then
+            expect(spyOnCellClick.mock.calls.length).toEqual(1);
+            expect(spyOnCellClick.mock.calls[0][0]).toEqual(target);
+        });
+    });
+
+    function shallowBoard({board, onCellClick = NO_OP}) {
+        return shallow(<Board board={board} onCellClick={onCellClick}/>);
+    }
 });

@@ -1,12 +1,15 @@
 import * as React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
+
 import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
-
-import './css/App.css';
 import Game from '../services/Game';
 import TimeTicker from './TimeTickerComponent';
+import {BoardCoordinates} from '../services/Board';
+
+import './css/App.css';
+
 // To avoid the "TS7016: Could not find a declaration file for module" error
 // reference: https://stackoverflow.com/a/42505940
 // const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider');
@@ -42,7 +45,7 @@ class App extends React.Component<AppProps, AppState> {
         this.game = App.newRandomizedGame(props.initialDimension);
 
         this.state = {
-            isPlaying: false,
+            isPlaying: true,
             board: this.getBoardState()
         };
 
@@ -50,6 +53,7 @@ class App extends React.Component<AppProps, AppState> {
         this.resetGame = this.resetGame.bind(this);
         this.randomizeGame = this.randomizeGame.bind(this);
         this.togglePlaying = this.togglePlaying.bind(this);
+        this.toggleCellAt = this.toggleCellAt.bind(this);
     }
 
     private static newRandomizedGame(dimension): Game {
@@ -80,6 +84,10 @@ class App extends React.Component<AppProps, AppState> {
         });
     }
 
+    toggleCellAt(coordinates: BoardCoordinates) {
+        this.updateGameBy('toggleLiveAt', [coordinates]);
+    }
+
     render() {
         let optionalTimeTicker = this.state.isPlaying
             ? (
@@ -96,7 +104,10 @@ class App extends React.Component<AppProps, AppState> {
                         <AppBar title="Hey's Game of Life (ReactJs + TypeScript)" className="App-Header-AppBar"/>
                     </div>
                     <div className="App-Body">
-                        <Board board={this.state.board}/>
+                        <Board
+                            board={this.state.board}
+                            onCellClick={this.toggleCellAt}
+                        />
                         {optionalTimeTicker}
                     </div>
                     <div className="App-Footer">
@@ -130,8 +141,8 @@ class App extends React.Component<AppProps, AppState> {
         );
     }
 
-    private updateGameBy(method) {
-        this.game[method]();
+    private updateGameBy(method, args: Array<any> = []) {
+        this.game[method](...args);
         this.setState({
             board: this.getBoardState()
         });
