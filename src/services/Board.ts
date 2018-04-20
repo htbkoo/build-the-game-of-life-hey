@@ -121,7 +121,21 @@ export default class Board {
     }
 
     isSameAs(board: Board) {
-        return (this.getWidth() === board.getWidth()) && (this.getHeight() === board.getHeight());
+        const width = this.getWidth(), height = this.getHeight();
+        const areDimensionsSame = (width === board.getWidth()) && (height === board.getHeight());
+        if (areDimensionsSame) {
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const coors = {x, y};
+                    if (this.isLiveAt(coors) !== board.isLiveAt(coors)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
