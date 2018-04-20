@@ -1,15 +1,15 @@
-import Board, {BoardCoordinates} from "./Board";
+import Board, {BoardCoordinates, BoardDimension} from './Board';
 
 export default class Game {
     private _board: Board;
 
     // constructors
-    private constructor(dimension: { width: number; height: number }) {
+    private constructor(dimension: BoardDimension) {
         this._board = Board.newBlank(dimension);
     }
 
     // factory methods
-    static new(dimension: { width: number; height: number }): Game{
+    static new(dimension: BoardDimension): Game{
         return new Game(dimension);
     }
 

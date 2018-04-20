@@ -1,10 +1,11 @@
-import {checkArgument} from "precond";
+import {checkArgument} from 'precond';
 
-import Cell from "./Cell";
-import randomObjectGenerator from "./utils/randomObjectGenerator";
+import Cell from './Cell';
+import randomObjectGenerator from './utils/randomObjectGenerator';
 
 export type Cells = ReadonlyArray<ReadonlyArray<Cell>>; // Cells representation: upper-left = (0,0), first number is x which corresponds to the width
 export type BoardCoordinates = { x: number; y: number };
+export type BoardDimension = { width: number, height: number };
 
 export default class Board {
     private readonly _width: number;
@@ -18,7 +19,7 @@ export default class Board {
     }
 
     /* Factory methods */
-    static newBlank({width, height}: { width: number; height: number }): Board {
+    static newBlank({width, height}: BoardDimension): Board {
         checkArgument(isPositive(width), `Width (${width}) must be be positive`);
         checkArgument(isPositive(height), `Height (${height}) must be be positive`);
 
