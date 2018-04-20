@@ -202,7 +202,7 @@ describe('App', function () {
         });
 
         describe('toggleCell', function () {
-            it('should have <TimeTicker> only when state.isPlaying is true', sinonTest(function (this: sinon.SinonSandbox) {
+            it('should update game by toggleLiveAt(coors) when <Board/>.props.onCellClick(coors)', sinonTest(function (this: sinon.SinonSandbox) {
                 // given
                 const width = 30, height = 20, coors = {x: 2, y: 3};
                 const methodName = 'toggleLiveAt', expectedArgs = [coors];
