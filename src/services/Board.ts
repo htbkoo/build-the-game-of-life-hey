@@ -68,6 +68,28 @@ export default class Board {
         return count;
     }
 
+    isSameAs(board: Board) {
+        const width = this.getWidth(), height = this.getHeight();
+        const areDimensionsSame = (width === board.getWidth()) && (height === board.getHeight());
+        if (areDimensionsSame) {
+            return areAllCellIsLivesSame(this);
+        } else {
+            return false;
+        }
+
+        function areAllCellIsLivesSame(thisBoard): boolean{
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const coors = {x, y};
+                    if (thisBoard.isLiveAt(coors) !== board.isLiveAt(coors)) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+    }
+
     /* New Instance Getter with updated fields */
     withLiveAt({x, y, isLive}: { x: number; y: number, isLive: boolean }): Board {
         return Board.newFromCells({
@@ -118,24 +140,6 @@ export default class Board {
 
     private getCell({x, y}: BoardCoordinates) {
         return this._cells[y][x];
-    }
-
-    isSameAs(board: Board) {
-        const width = this.getWidth(), height = this.getHeight();
-        const areDimensionsSame = (width === board.getWidth()) && (height === board.getHeight());
-        if (areDimensionsSame) {
-            for (let y = 0; y < height; y++) {
-                for (let x = 0; x < width; x++) {
-                    const coors = {x, y};
-                    if (this.isLiveAt(coors) !== board.isLiveAt(coors)) {
-                        return false;
-                    }
-                }
-            }
-            return true;
-        } else {
-            return false;
-        }
     }
 }
 
