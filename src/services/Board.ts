@@ -121,7 +121,7 @@ export default class Board {
     }
 
     isSameAs(board: Board) {
-        return true;
+        return (this.getWidth() === board.getWidth()) && (this.getHeight() === board.getHeight());
     }
 }
 

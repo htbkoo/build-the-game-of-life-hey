@@ -161,6 +161,18 @@ describe("Board", function () {
             // then
             expect(isSameAs).toEqual(true);
         });
+
+        it('should return false when comparing to a board with different dimension', function () {
+            // given
+            const someDimension = {width: 1, height: 1}, anotherDimension = {width: 2, height: 1};
+            let board = Board.newBlank(someDimension), anotherBoard = Board.newBlank(anotherDimension);
+
+            // when
+            let isSameAs = board.isSameAs(anotherBoard);
+
+            // then
+            expect(isSameAs).toEqual(false);
+        });
     });
 
     describe('withLiveAt', function () {
