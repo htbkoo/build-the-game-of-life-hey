@@ -1,12 +1,15 @@
 import * as React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
+
 import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
-
-import './css/App.css';
 import Game from '../services/Game';
 import TimeTicker from './TimeTickerComponent';
+import {BoardCoordinates} from '../services/Board';
+
+import './css/App.css';
+
 // To avoid the "TS7016: Could not find a declaration file for module" error
 // reference: https://stackoverflow.com/a/42505940
 // const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider');
@@ -81,7 +84,7 @@ class App extends React.Component<AppProps, AppState> {
         });
     }
 
-    toggleCellAt(coordinates) {
+    toggleCellAt(coordinates: BoardCoordinates) {
         this.updateGameBy('toggleLiveAt', [coordinates]);
     }
 

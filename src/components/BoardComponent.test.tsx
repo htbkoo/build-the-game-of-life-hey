@@ -74,13 +74,6 @@ describe('BoardComponent', function () {
             cell.simulate('click');
 
             // then
-            // let rows = wrapper.find('tr');
-            // rows.forEach((row, y) =>
-            //     row.find('td div').forEach((cell, x) =>
-            //         expect({x, y, isLive: cell.hasClass('isLive')})
-            //             .toEqual({x, y, isLive: ((x === target.x) && (y === target.y))})
-            //     )
-            // );
             expect(spyOnCellClick.mock.calls.length).toEqual(1);
             expect(spyOnCellClick.mock.calls[0][0]).toEqual(target);
         });

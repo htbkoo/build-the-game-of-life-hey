@@ -1,12 +1,13 @@
 import * as React from 'react';
+
 import {BoardState} from './App';
+import {BoardCoordinates} from '../services/Board';
 
 import './css/BoardComponent.css';
 
 type BoardProps = {
     board: BoardState,
-    // TODO: refactor coors type
-    onCellClick: (coordinates: { x: number, y: number }) => void
+    onCellClick: (coordinates: BoardCoordinates) => void
 };
 
 const CLASS_NAMES = {
