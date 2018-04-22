@@ -57,5 +57,6 @@ export default class Game {
 
     randomize() {
         this._board = this._board.newRandomized();
+        this._numGen = INITIAL_NUMBER_OF_GENERATION;
     }
 }
