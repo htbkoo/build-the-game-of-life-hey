@@ -45,8 +45,11 @@ export default class Game {
     }
 
     proceed() {
-        this._board = this._board.evolve();
-        this._numGen++;
+        const newBoard = this._board.evolve();
+        if (!this._board.isSameAs(newBoard)) {
+            this._numGen++;
+        }
+        this._board = newBoard;
     }
 
     randomize() {

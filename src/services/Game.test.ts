@@ -51,11 +51,10 @@ describe('Game', function () {
             expect(numGeneration).toEqual(0);
         }));
 
-        it('should increase generation by 1 for game.getNumGeneration() board is not Same As board.proceed', sinonTest(function (this: sinon.SinonSandbox) {
+        it('should increase generation by 1 for game.getNumGeneration() when game.proceed and board is not SameAs board.proceed', sinonTest(function (this: sinon.SinonSandbox) {
             // given
             const mockBoard = sinon.createStubInstance(Board), newBoard = sinon.createStubInstance(Board);
-            mockBoard.isSameAs = sinon.stub();
-            mockBoard.isSameAs.withArgs(newBoard).returns(false);
+            mockBoard.isSameAs = sinon.stub().withArgs(newBoard).returns(false);
             const game = newGame.call(this, {mockBoard});
 
             const expectedInitialNumGeneration = 0;
@@ -67,6 +66,23 @@ describe('Game', function () {
 
             // then
             expect(numGeneration).toEqual(expectedInitialNumGeneration + 1);
+        }));
+
+        it('should not increase generation for game.getNumGeneration() when game.proceed and board isSameAs board.proceed', sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const mockBoard = sinon.createStubInstance(Board), newBoard = sinon.createStubInstance(Board);
+            mockBoard.isSameAs = sinon.stub().withArgs(newBoard).returns(true);
+            const game = newGame.call(this, {mockBoard});
+
+            const expectedInitialNumGeneration = 0;
+            expect(game.getNumGeneration()).toEqual(expectedInitialNumGeneration);
+
+            // when
+            game.proceed();
+            let numGeneration = game.getNumGeneration();
+
+            // then
+            expect(numGeneration).toEqual(expectedInitialNumGeneration);
         }));
 
         //    TODO: add more tests for different case to count generations / reset upon reset or randomize
