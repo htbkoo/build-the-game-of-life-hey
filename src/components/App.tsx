@@ -26,7 +26,8 @@ type AppState = {
 export type BoardState = {
     width: number,
     height: number,
-    isLives: IsLivesState
+    isLives: IsLivesState,
+    numGeneration: number
 };
 
 export type IsLivesState = ReadonlyArray<ReadonlyArray<boolean>>;
@@ -41,7 +42,7 @@ class App extends React.Component<AppProps, AppState> {
 
         this.state = {
             isPlaying: true,
-            board: this.getBoardState()
+            board: this.getBoardState(),
         };
 
         this.proceedGame = this.proceedGame.bind(this);
@@ -125,7 +126,8 @@ class App extends React.Component<AppProps, AppState> {
         return {
             width,
             height,
-            isLives: this.getIsLives(width, height)
+            isLives: this.getIsLives(width, height),
+            numGeneration: this.game.getNumGeneration()
         };
     }
 

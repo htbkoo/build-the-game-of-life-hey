@@ -49,6 +49,21 @@ describe('App', function () {
             // then
             assertBoardState(height, width, app.state('board'), getIsLiveAfter);
         }));
+
+        it('should have state.numGeneration from Game.getNumGeneration() when initialized', sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const expectedNumGeneration = 10;
+
+            const mockGame = sinon.createStubInstance(Game);
+            mockGame.getNumGeneration = sinon.stub().returns(expectedNumGeneration);
+            this.stub(Game, 'new').returns(mockGame);
+
+            // when
+            const app = shallowApp();
+
+            // then
+            expect(app.state('board').numGeneration).toEqual(expectedNumGeneration);
+        }));
     });
 
     describe('handlers', function () {
@@ -220,8 +235,6 @@ describe('App', function () {
                 assertBoardState(height, width, app.state('board'), getIsLiveAfter);
             }));
         });
-
-        //    TODO: add generation count
     });
 
     function shallowApp(initialDimension = {width: 30, height: 20}) {
