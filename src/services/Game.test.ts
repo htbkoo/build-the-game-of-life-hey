@@ -85,6 +85,21 @@ describe('Game', function () {
             expect(numGeneration).toEqual(expectedInitialNumGeneration);
         }));
 
+        it('should reset numGeneration to 0 for game.getNumGeneration() when game.reset', sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const game = newGame.call(this);
+            const givenNumGen = 1;
+            game._numGen = givenNumGen;
+            expect(game.getNumGeneration()).toEqual(givenNumGen);
+
+            // when
+            game.reset();
+            let numGeneration = game.getNumGeneration();
+
+            // then
+            expect(numGeneration).toEqual(0);
+        }));
+
         //    TODO: add more tests for different case to count generations / reset upon reset or randomize
 
     });

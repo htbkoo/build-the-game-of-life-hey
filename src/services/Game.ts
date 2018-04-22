@@ -42,6 +42,7 @@ export default class Game {
     reset() {
         let width = this._board.getWidth(), height = this._board.getHeight();
         this._board = Board.newBlank({width, height});
+        this._numGen = 0;
     }
 
     proceed() {
