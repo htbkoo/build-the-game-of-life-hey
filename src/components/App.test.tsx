@@ -49,6 +49,33 @@ describe('App', function () {
             // then
             assertBoardState(height, width, app.state('board'), getIsLiveAfter);
         }));
+
+        it('should have state.numGeneration from Game.getNumGeneration() when initialized', sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const expectedNumGeneration = 10;
+
+            const mockGame = sinon.createStubInstance(Game);
+            mockGame.getNumGeneration = sinon.stub().returns(expectedNumGeneration);
+            this.stub(Game, 'new').returns(mockGame);
+
+            // when
+            const app = shallowApp();
+
+            // then
+            expect(app.state('board').numGeneration).toEqual(expectedNumGeneration);
+        }));
+
+        it('should pass state.numGeneration to <ControlPanel/>', sinonTest(function (this: sinon.SinonSandbox) {
+            // given
+            const app = createAppInstanceWithMockGame.call(this);
+            const expectedNumGeneration = 5;
+
+            // when
+            app.setState({board: Object.assign({}, app.state('board'), {numGeneration: expectedNumGeneration})});
+
+            // then
+            expect(app.find(ControlPanel).prop('numGeneration')).toEqual(5);
+        }));
     });
 
     describe('handlers', function () {
@@ -220,8 +247,6 @@ describe('App', function () {
                 assertBoardState(height, width, app.state('board'), getIsLiveAfter);
             }));
         });
-
-        //    TODO: add generation count
     });
 
     function shallowApp(initialDimension = {width: 30, height: 20}) {

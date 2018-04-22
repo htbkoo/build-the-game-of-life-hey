@@ -30,7 +30,7 @@ export default class Game {
         return this._board.getHeight();
     }
 
-    getNumGeneration() {
+    getNumGeneration(): number {
         return this._numGen;
     }
 

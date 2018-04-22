@@ -70,17 +70,29 @@ describe('ControlPanelComponent', function () {
             let playbackControls = controlPanelWrapper.find(PlaybackControls);
 
             // then
-            expect(playbackControls.prop("isPlaying")).toBe(isPlaying);
+            expect(playbackControls.prop('isPlaying')).toBe(isPlaying);
+        });
+
+        it('should display props.numGeneration', function () {
+            // given
+            const numGeneration = 10;
+
+            // when
+            const controlPanelWrapper = createControlPanel({numGeneration});
+
+            // then
+            expect(controlPanelWrapper.find('.NumberOfGeneration').text()).toContain(numGeneration);
         });
     });
 
-    function createControlPanel({onProceedClick = NO_OP, onResetClick = NO_OP, onRandomizeClick = NO_OP, onPlayToggle = NO_OP, isPlaying = false}) {
+    function createControlPanel({onProceedClick = NO_OP, onResetClick = NO_OP, onRandomizeClick = NO_OP, onPlayToggle = NO_OP, isPlaying = false, numGeneration = 0}) {
         return shallow(<ControlPanel
             onProceedClick={onProceedClick}
             onResetClick={onResetClick}
             onRandomizeClick={onRandomizeClick}
             onPlayToggle={onPlayToggle}
             isPlaying={isPlaying}
+            numGeneration={numGeneration}
         />);
     }
 });

@@ -10,6 +10,13 @@
     justify-content: center;
 }
 
-.ControlPanel-InnerButton-Div{
+.ControlPanel-InnerButton-Div {
     margin-right: 10px;
+}
+
+.NumberOfGeneration {
+    background: lightgray;
+    padding: 10px;
+    border-radius: 5px;
+    border: darkgray 3px solid;
 }
