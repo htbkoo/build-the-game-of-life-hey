@@ -59,6 +59,10 @@ const ControlPanel = (props: ControlPanelProps) => (
                 onNext={props.onProceedClick}
             />
 
+            <div className="NumberOfGeneration">
+                Number of Generation: {props.numGeneration}
+            </div>
+
         </Paper>
     </div>
 );
