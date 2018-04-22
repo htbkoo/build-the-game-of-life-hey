@@ -26,6 +26,7 @@ type ControlPanelProps = {
     onRandomizeClick: Handler,
     onPlayToggle: Handler,
     isPlaying: boolean,
+    numGeneration: number
 };
 
 // IntelliJ bug - already imported with ES6 import state, still keep on asking to add ES5 style require statement thus suppressing

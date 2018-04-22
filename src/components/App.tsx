@@ -113,6 +113,7 @@ class App extends React.Component<AppProps, AppState> {
                             onRandomizeClick={this.randomizeGame}
                             onPlayToggle={this.togglePlaying}
                             isPlaying={this.state.isPlaying}
+                            numGeneration={this.state.board.numGeneration}
                         />
                     </div>
                 </div>

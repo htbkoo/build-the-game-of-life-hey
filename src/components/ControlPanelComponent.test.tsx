@@ -74,13 +74,14 @@ describe('ControlPanelComponent', function () {
         });
     });
 
-    function createControlPanel({onProceedClick = NO_OP, onResetClick = NO_OP, onRandomizeClick = NO_OP, onPlayToggle = NO_OP, isPlaying = false}) {
+    function createControlPanel({onProceedClick = NO_OP, onResetClick = NO_OP, onRandomizeClick = NO_OP, onPlayToggle = NO_OP, isPlaying = false, numGeneration = 0}) {
         return shallow(<ControlPanel
             onProceedClick={onProceedClick}
             onResetClick={onResetClick}
             onRandomizeClick={onRandomizeClick}
             onPlayToggle={onPlayToggle}
             isPlaying={isPlaying}
+            numGeneration={numGeneration}
         />);
     }
 });
