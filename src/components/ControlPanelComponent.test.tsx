@@ -70,7 +70,7 @@ describe('ControlPanelComponent', function () {
             let playbackControls = controlPanelWrapper.find(PlaybackControls);
 
             // then
-            expect(playbackControls.prop("isPlaying")).toBe(isPlaying);
+            expect(playbackControls.prop('isPlaying')).toBe(isPlaying);
         });
 
         it('should display props.numGeneration', function () {
