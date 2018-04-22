@@ -56,7 +56,7 @@ describe('BoardComponent', function () {
     });
 
     describe('onCellClick', function () {
-        it('should trigger props.onCellClick on td.div.onClick()', function () {
+        it('should trigger props.onCellClick on td.onClick()', function () {
             // given
             const width = 20, height = 25,
                 isLives: IsLivesState = new Array(height).fill(0).map(() =>
@@ -70,7 +70,7 @@ describe('BoardComponent', function () {
             const target = {x: 10, y: 3};
 
             // when
-            const cell = wrapper.find('tr').at(target.y).find('td').at(target.x).find('div');
+            const cell = wrapper.find('tr').at(target.y).find('td').at(target.x);
             cell.simulate('click');
 
             // then

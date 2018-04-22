@@ -6,7 +6,7 @@ import Board from './BoardComponent';
 import ControlPanel from './ControlPanelComponent';
 import Game from '../services/Game';
 import TimeTicker from './TimeTickerComponent';
-import {BoardCoordinates} from '../services/Board';
+import {BoardCoordinates, BoardDimension} from '../services/Board';
 
 import './css/App.css';
 
@@ -21,11 +21,6 @@ type AppProps = {
 type AppState = {
     isPlaying: boolean,
     board: BoardState
-};
-
-type BoardDimension = {
-    width: number,
-    height: number
 };
 
 export type BoardState = {
@@ -56,7 +51,7 @@ class App extends React.Component<AppProps, AppState> {
         this.toggleCellAt = this.toggleCellAt.bind(this);
     }
 
-    private static newRandomizedGame(dimension): Game {
+    private static newRandomizedGame(dimension: BoardDimension): Game {
         let game = Game.new(dimension);
         game.randomize();
         return game;

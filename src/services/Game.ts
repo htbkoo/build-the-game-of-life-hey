@@ -1,15 +1,19 @@
-import Board, {BoardCoordinates} from "./Board";
+import Board, {BoardCoordinates, BoardDimension} from './Board';
+
+const INITIAL_NUMBER_OF_GENERATION = 0;
 
 export default class Game {
     private _board: Board;
+    private _numGen: number;
 
     // constructors
-    private constructor(dimension: { width: number; height: number }) {
+    private constructor(dimension: BoardDimension) {
         this._board = Board.newBlank(dimension);
+        this._numGen = INITIAL_NUMBER_OF_GENERATION;
     }
 
     // factory methods
-    static new(dimension: { width: number; height: number }): Game{
+    static new(dimension: BoardDimension): Game {
         return new Game(dimension);
     }
 
@@ -26,6 +30,10 @@ export default class Game {
         return this._board.getHeight();
     }
 
+    getNumGeneration() {
+        return this._numGen;
+    }
+
     // mutators
     toggleLiveAt(coors: BoardCoordinates) {
         let toggledIsLive = !this.isLiveAt(coors);
@@ -36,13 +44,19 @@ export default class Game {
     reset() {
         let width = this._board.getWidth(), height = this._board.getHeight();
         this._board = Board.newBlank({width, height});
+        this._numGen = INITIAL_NUMBER_OF_GENERATION;
     }
 
     proceed() {
-        this._board = this._board.evolve();
+        const newBoard = this._board.evolve();
+        if (!this._board.isSameAs(newBoard)) {
+            this._numGen++;
+        }
+        this._board = newBoard;
     }
 
     randomize() {
         this._board = this._board.newRandomized();
+        this._numGen = INITIAL_NUMBER_OF_GENERATION;
     }
 }

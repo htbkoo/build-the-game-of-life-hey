@@ -1,11 +1,11 @@
-import {sinonTest} from "../test-utils/sinonWithTest";
-import * as sinon from "sinon";
+import {sinonTest} from '../test-utils/sinonWithTest';
+import * as sinon from 'sinon';
 
 import Board, {Cells} from './Board';
-import Cell from "./Cell";
-import randomObjectGenerator from "./utils/randomObjectGenerator";
+import Cell from './Cell';
+import randomObjectGenerator from './utils/randomObjectGenerator';
 
-describe("Board", function () {
+describe('Board', function () {
     describe('factory methods', function () {
         describe('newBlank', function () {
             describe('Valid cases', function () {
@@ -149,6 +149,92 @@ describe("Board", function () {
         });
     });
 
+    describe('isSameAs', function () {
+        it('should return true when comparing to the board itself', function () {
+            // given
+            const someDimension = {width: 1, height: 1};
+            let board = Board.newBlank(someDimension);
+
+            // when
+            let isSameAs = board.isSameAs(board);
+
+            // then
+            expect(isSameAs).toEqual(true);
+        });
+
+        [
+            {width: 2, height: 1},
+            {width: 1, height: 2},
+            {width: 2, height: 2},
+        ].forEach(anotherDimension =>
+            it(`should return false when comparing to a board with different dimension=${JSON.stringify(anotherDimension)}`, function () {
+                // given
+                const someDimension = {width: 1, height: 1};
+                let board = Board.newBlank(someDimension), anotherBoard = Board.newBlank(anotherDimension);
+
+                // when
+                let isSameAs = board.isSameAs(anotherBoard);
+
+                // then
+                expect(isSameAs).toEqual(false);
+            })
+        );
+
+        it('should return true if the two boards of same size has all same cell states', function () {
+            // given
+            const someDimension = {width: 1, height: 1};
+            let board = Board.newBlank(someDimension), anotherBoard = Board.newBlank(someDimension);
+
+            // when
+            let isSameAs = board.isSameAs(anotherBoard);
+
+            // then
+            expect(isSameAs).toEqual(true);
+        });
+
+        it('should return false if the two larger boards of same size has all cell states', function () {
+            // given
+            const someDimension = {width: 3, height: 3};
+            const baseBoard = Board.newBlank(someDimension);
+            let board = baseBoard.withLiveAt({x: 1, y: 1, isLive: true}),
+                anotherBoard = baseBoard.withLiveAt({x: 1, y: 1, isLive: true});
+
+            // when
+            let isSameAs = board.isSameAs(anotherBoard);
+
+            // then
+            expect(isSameAs).toEqual(true);
+        });
+
+        it('should return false if the two boards of same size has some different cell states', function () {
+            // given
+            const someDimension = {width: 1, height: 1};
+            const baseBoard = Board.newBlank(someDimension);
+            let board = baseBoard.withLiveAt({x: 0, y: 0, isLive: true}),
+                anotherBoard = baseBoard.withLiveAt({x: 0, y: 0, isLive: false});
+
+            // when
+            let isSameAs = board.isSameAs(anotherBoard);
+
+            // then
+            expect(isSameAs).toEqual(false);
+        });
+
+        it('should return false if the two larger boards of same size has some different cell states', function () {
+            // given
+            const someDimension = {width: 3, height: 3};
+            const baseBoard = Board.newBlank(someDimension);
+            let board = baseBoard.withLiveAt({x: 1, y: 1, isLive: true}),
+                anotherBoard = baseBoard.withLiveAt({x: 2, y: 2, isLive: true});
+
+            // when
+            let isSameAs = board.isSameAs(anotherBoard);
+
+            // then
+            expect(isSameAs).toEqual(false);
+        });
+    });
+
     describe('withLiveAt', function () {
         it('should be able to set the cell to live by board.withLiveAt({x, y})', function () {
             // given
@@ -195,10 +281,10 @@ describe("Board", function () {
     });
 
 
-    describe("newRandomized", function () {
-        it("should get a new randomized board from board.newRandomized", sinonTest(function (this: sinon.SinonSandbox) {
+    describe('newRandomized', function () {
+        it('should get a new randomized board from board.newRandomized', sinonTest(function (this: sinon.SinonSandbox) {
             // given
-            this.stub(randomObjectGenerator, "boolean")
+            this.stub(randomObjectGenerator, 'boolean')
                 .onFirstCall().returns(false)
                 .onSecondCall().returns(true)
                 .onThirdCall().returns(false)
