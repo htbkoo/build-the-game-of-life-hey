@@ -2,14 +2,16 @@ import Board, {BoardCoordinates, BoardDimension} from './Board';
 
 export default class Game {
     private _board: Board;
+    private _numGen: number;
 
     // constructors
     private constructor(dimension: BoardDimension) {
         this._board = Board.newBlank(dimension);
+        this._numGen = 0;
     }
 
     // factory methods
-    static new(dimension: BoardDimension): Game{
+    static new(dimension: BoardDimension): Game {
         return new Game(dimension);
     }
 
@@ -27,7 +29,7 @@ export default class Game {
     }
 
     getNumGeneration() {
-        return 0;
+        return this._numGen;
     }
 
     // mutators
@@ -44,6 +46,7 @@ export default class Game {
 
     proceed() {
         this._board = this._board.evolve();
+        this._numGen++;
     }
 
     randomize() {
