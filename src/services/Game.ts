@@ -1,5 +1,7 @@
 import Board, {BoardCoordinates, BoardDimension} from './Board';
 
+const INITIAL_NUMBER_OF_GENERATION = 0;
+
 export default class Game {
     private _board: Board;
     private _numGen: number;
@@ -7,7 +9,7 @@ export default class Game {
     // constructors
     private constructor(dimension: BoardDimension) {
         this._board = Board.newBlank(dimension);
-        this._numGen = 0;
+        this._numGen = INITIAL_NUMBER_OF_GENERATION;
     }
 
     // factory methods
@@ -42,7 +44,7 @@ export default class Game {
     reset() {
         let width = this._board.getWidth(), height = this._board.getHeight();
         this._board = Board.newBlank({width, height});
-        this._numGen = 0;
+        this._numGen = INITIAL_NUMBER_OF_GENERATION;
     }
 
     proceed() {
