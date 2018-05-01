@@ -3,7 +3,7 @@
 ### What is this repository for? ###
 
 * This is the repository of build-the-game-of-life-hey, an implementation of the "build-the-game-of-life" project under [FreeCodeCamp "Data Visualization Certification" - "React Projects"](https://www.freecodecamp.org/challenges/build-the-game-of-life)
-* (This create-react-app-ts app does not work on Codepen) ~~An instance would be deployed to CodePen:~~
+* (The create-react-app-ts app does not seem to work on Codepen) ~~An instance would be deployed to CodePen:~~
 * An instance would be deployed to Glitch: https://build-the-game-of-life-hey.glitch.me/
 
 ### How do I get set up? ###
