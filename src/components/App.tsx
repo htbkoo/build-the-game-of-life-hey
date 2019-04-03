@@ -7,6 +7,7 @@ import ControlPanel from './ControlPanelComponent';
 import Game from '../services/Game';
 import TimeTicker from './TimeTickerComponent';
 import {BoardCoordinates, BoardDimension} from '../services/Board';
+import GoogleAnalyticsManager from "../services/GoogleAnalyticsManager";
 
 import './css/App.css';
 
@@ -34,11 +35,13 @@ export type IsLivesState = ReadonlyArray<ReadonlyArray<boolean>>;
 
 class App extends React.Component<AppProps, AppState> {
     private readonly game: Game;
+    private readonly gAManager: GoogleAnalyticsManager = new GoogleAnalyticsManager();
 
     constructor(props) {
         super(props);
 
         this.game = App.newRandomizedGame(props.initialDimension);
+        this.gAManager.init();
 
         this.state = {
             isPlaying: true,
@@ -50,6 +53,11 @@ class App extends React.Component<AppProps, AppState> {
         this.randomizeGame = this.randomizeGame.bind(this);
         this.togglePlaying = this.togglePlaying.bind(this);
         this.toggleCellAt = this.toggleCellAt.bind(this);
+    }
+
+    componentDidMount(): void {
+        const path = window.location.pathname + window.location.search;
+        this.gAManager.pageview(path);
     }
 
     private static newRandomizedGame(dimension: BoardDimension): Game {

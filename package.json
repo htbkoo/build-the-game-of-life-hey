@@ -17,7 +17,7 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
+    "test": "cross-env REACT_APP_GOOGLE_ANALYTICS_TRACKING_ENABLED=false react-scripts-ts test --env=jsdom",
     "test-local": "cross-env CI=true react-scripts-ts test --env=jsdom",
     "test-local:unit": "cross-env CI=true react-scripts-ts test --testPathPattern=.*/src/.*.test.tsx?$",
     "eject": "react-scripts-ts eject",
