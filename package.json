@@ -12,6 +12,7 @@
     "react-player-controls": "^0.5.20",
     "react-scripts-ts": "2.14.0"
   },
+  "homepage": "https://htbkoo.github.io/build-the-game-of-life-hey",
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
