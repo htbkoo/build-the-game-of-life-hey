@@ -4,7 +4,7 @@
 
 * This is the repository of build-the-game-of-life-hey, an implementation of the "build-the-game-of-life" project under [FreeCodeCamp "Data Visualization Certification" - "React Projects"](https://www.freecodecamp.org/challenges/build-the-game-of-life)
 * (The create-react-app-ts app does not seem to work on Codepen) ~~An instance would be deployed to CodePen:~~
-* An instance would be deployed to Glitch: https://build-the-game-of-life-hey.glitch.me/
+* An instance would be deployed here as GitHub page: https://htbkoo.github.io/build-the-game-of-life-hey
 
 ### How do I get set up? ###
 
